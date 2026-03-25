@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>계약운임표 관리</title>
+<title>LOMAS 계약운임표 생성</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 * { box-sizing: border-box; }
 body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; background: #f5f6f8; color: #222; margin: 0; }
 
 /* ── 헤더 ── */
-.app-header { background: #2563eb; color: #fff; padding: 0 20px; display: flex; align-items: stretch; gap: 10px; height: 46px; }
+.app-header { background: #025F68; color: #fff; padding: 0 20px; display: flex; align-items: stretch; gap: 10px; height: 46px; }
 .app-header .logo { display:flex; align-items:center; gap:8px; font-size: 14px; font-weight: 600; padding-right: 4px; }
 .nav-tab {
   padding: 0 18px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; font-weight: 500;
@@ -33,20 +33,20 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 /* ── 버튼 ── */
 .btn { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; height: 32px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; background: #fff; color: #444; transition: all .15s; }
 .btn:hover { border-color: #999; }
-.btn-yellow { background: #FBBF24; color: #fff; border-color: #FBBF24; font-weight: 600; }
-.btn-yellow:hover { background: #F59E0B; border-color: #F59E0B; }
-.btn-yellow:disabled { background: #FDE68A; border-color: #FDE68A; cursor: not-allowed; }
-.btn-primary { background: #2563eb; color: #fff; border-color: #2563eb; }
-.btn-primary:hover { background: #1d4ed8; }
-.btn-success { background: #16a34a; color: #fff; border-color: #16a34a; }
-.btn-success:hover { background: #15803d; }
+.btn-yellow { background: #025F68; color: #fff; border-color: #025F68; font-weight: 600; }
+.btn-yellow:hover { background: #014d55; border-color: #014d55; }
+.btn-yellow:disabled { background: #67a8af; border-color: #67a8af; cursor: not-allowed; }
+.btn-primary { background: #025F68; color: #fff; border-color: #025F68; }
+.btn-primary:hover { background: #014d55; border-color: #014d55; }
+.btn-success { background: #025F68; color: #fff; border-color: #025F68; }
+.btn-success:hover { background: #014d55; border-color: #014d55; }
 .btn-link { background: none; border: none; color: #dc2626; font-size: 12px; cursor: pointer; padding: 0; height: auto; }
 .btn-link:hover { text-decoration: underline; }
 .btn-sm { padding: 3px 10px; font-size: 12px; height: 26px; }
 
 /* ── 태그 ── */
-.tag { display: inline-flex; align-items: center; gap: 4px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #1e40af; }
-.tag-rm { cursor: pointer; color: #93c5fd; font-size: 14px; line-height: 1; }
+.tag { display: inline-flex; align-items: center; gap: 4px; background: #e0f0f1; border: 1px solid #80bec3; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #025F68; }
+.tag-rm { cursor: pointer; color: #67a8af; font-size: 14px; line-height: 1; }
 .tag-rm:hover { color: #dc2626; }
 
 /* ── 폼 ── */
@@ -58,13 +58,13 @@ select.form-select {
   background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center;
   outline: none; height: 32px; cursor: pointer; appearance: none; width: 100%;
 }
-select.form-select:focus { border-color: #2563eb; }
+select.form-select:focus { border-color: #025F68; }
 input.form-input {
   border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px;
   font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px;
   height: 32px; outline: none; width: 100%;
 }
-input.form-input:focus { border-color: #2563eb; }
+input.form-input:focus { border-color: #025F68; }
 
 /* ── 커스텀 드롭다운 (체크박스) ── */
 .custom-dropdown { position: relative; width: 100%; }
@@ -74,16 +74,16 @@ input.form-input:focus { border-color: #2563eb; }
   font-size: 13px; color: #222; cursor: pointer; text-align: left; display: flex; align-items: center;
   position: relative; user-select: none;
 }
-.dropdown-trigger.open { border-color: #2563eb; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
+.dropdown-trigger.open { border-color: #025F68; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
 .dropdown-trigger .arrow { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #888; transition: transform .15s; }
 .dropdown-trigger.open .arrow { transform: translateY(-50%) rotate(180deg); }
 .dropdown-trigger .placeholder { color: #999; }
-.dropdown-panel { position: absolute; top: 100%; left: 0; right: 0; z-index: 100; background: #fff; border: 1px solid #2563eb; border-top: none; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+.dropdown-panel { position: absolute; top: 100%; left: 0; right: 0; z-index: 100; background: #fff; border: 1px solid #025F68; border-top: none; border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; max-height: 200px; overflow-y: auto; display: none; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
 .dropdown-panel.open { display: block; }
 .dropdown-all-row { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; position: sticky; top: 0; background: #f8f9fb; z-index: 1; }
 .dp-chk-label { display: flex; align-items: center; gap: 6px; padding: 6px 10px; cursor: pointer; font-size: 13px; }
 .dp-chk-label:hover { background: #f5f7ff; }
-.dp-chk-label input[type=checkbox] { accent-color: #2563eb; width: 14px; height: 14px; cursor: pointer; }
+.dp-chk-label input[type=checkbox] { accent-color: #025F68; width: 14px; height: 14px; cursor: pointer; }
 
 /* ── 모달 공통 ── */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding-top: 60px; }
@@ -101,32 +101,32 @@ input.form-input:focus { border-color: #2563eb; }
 
 .tab-group { display: flex; border-bottom: 1px solid #eee; flex-shrink: 0; }
 .tab-btn { flex: 1; padding: 9px 0; font-size: 13px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; border: none; border-bottom: 2px solid transparent; background: none; cursor: pointer; color: #888; margin-bottom: -1px; transition: all .15s; }
-.tab-btn.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
+.tab-btn.active { color: #025F68; border-bottom-color: #025F68; font-weight: 600; }
 .tab-btn:hover:not(.active) { color: #444; }
 
 .sido-grid { display: grid; grid-template-columns: 1fr 1fr; overflow-y: auto; flex: 1; padding: 4px 0; }
 .sido-item { padding: 9px 16px; cursor: pointer; font-size: 13px; display: flex; align-items: center; justify-content: space-between; transition: background .12s; }
 .sido-item:hover { background: #f0f4ff; }
-.sido-item.active { color: #2563eb; font-weight: 600; }
-.sido-item .check-icon { color: #2563eb; font-size: 14px; }
+.sido-item.active { color: #025F68; font-weight: 600; }
+.sido-item .check-icon { color: #025F68; font-size: 14px; }
 
 .breadcrumb { padding: 8px 16px; font-size: 12px; color: #888; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; display: flex; align-items: center; gap: 4px; }
-.breadcrumb .bc-link { color: #2563eb; cursor: pointer; }
+.breadcrumb .bc-link { color: #025F68; cursor: pointer; }
 .breadcrumb .bc-link:hover { text-decoration: underline; }
 
 .sigungu-grid { display: grid; grid-template-columns: 1fr 1fr; overflow-y: auto; flex: 1; padding: 4px 8px; }
 .sigungu-all-row { padding: 8px 16px; border-bottom: 1px solid #f0f0f0; flex-shrink: 0; }
 .chk-label { display: flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 4px; cursor: pointer; font-size: 13px; }
 .chk-label:hover { background: #f5f7ff; }
-.chk-label input[type=checkbox] { accent-color: #2563eb; width: 15px; height: 15px; cursor: pointer; }
-.chk-label.checked { color: #2563eb; font-weight: 500; }
+.chk-label input[type=checkbox] { accent-color: #025F68; width: 15px; height: 15px; cursor: pointer; }
+.chk-label.checked { color: #025F68; font-weight: 500; }
 
 .selected-header { padding: 8px 14px; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-.selected-header .count { color: #2563eb; font-size: 12px; font-weight: 600; }
+.selected-header .count { color: #025F68; font-size: 12px; font-weight: 600; }
 .selected-list { overflow-y: auto; flex: 1; padding: 4px; }
 .selected-item { display: flex; align-items: center; padding: 7px 10px; border-radius: 4px; gap: 6px; }
 .selected-item:hover { background: #fef2f2; }
-.selected-item input[type=checkbox] { accent-color: #2563eb; width: 15px; height: 15px; cursor: pointer; }
+.selected-item input[type=checkbox] { accent-color: #025F68; width: 15px; height: 15px; cursor: pointer; }
 .selected-item .item-label { flex: 1; font-size: 13px; }
 .empty-state-right { text-align: center; padding: 40px 16px; color: #bbb; font-size: 13px; }
 .empty-icon { font-size: 28px; margin-bottom: 6px; }
@@ -150,7 +150,7 @@ input.form-input:focus { border-color: #2563eb; }
 .fare-table tr:hover td { background: #f8faff; }
 .fare-input { width: 90px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: right; outline: none; background: transparent; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; }
 .fare-input:hover { border-color: #ccc; background: #fff; }
-.fare-input:focus { border-color: #2563eb; background: #fff; }
+.fare-input:focus { border-color: #025F68; background: #fff; }
 .empty-grid { text-align: center; padding: 40px; color: #aaa; font-size: 13px; }
 
 /* ── 코드 맵핑 테이블 ── */
@@ -162,17 +162,17 @@ input.form-input:focus { border-color: #2563eb; }
 .mapping-table tr:hover td { background: #f8faff; }
 .code-input { width: 80px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: center; outline: none; background: transparent; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; }
 .code-input:hover { border-color: #ccc; background: #fff; }
-.code-input:focus { border-color: #2563eb; background: #fff; }
-.code-input.has-value { background: #eff6ff; border-color: #bfdbfe; color: #1e40af; font-weight: 600; }
+.code-input:focus { border-color: #025F68; background: #fff; }
+.code-input.has-value { background: #e0f0f1; border-color: #80bec3; color: #025F68; font-weight: 600; }
 
 /* 필터 바 */
 .filter-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
 .filter-bar select { border: 1px solid #ccc; border-radius: 4px; padding: 5px 28px 5px 8px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; height: 32px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center; outline: none; cursor: pointer; appearance: none; }
-.filter-bar select:focus { border-color: #2563eb; }
+.filter-bar select:focus { border-color: #025F68; }
 .filter-bar input { border: 1px solid #ccc; border-radius: 4px; padding: 5px 8px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; height: 32px; outline: none; width: 140px; }
-.filter-bar input:focus { border-color: #2563eb; }
+.filter-bar input:focus { border-color: #025F68; }
 .mapped-count { font-size: 12px; color: #888; margin-left: auto; }
-.mapped-count span { color: #2563eb; font-weight: 600; }
+.mapped-count span { color: #025F68; font-weight: 600; }
 
 /* 배지 */
 .badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
@@ -188,18 +188,18 @@ input.form-input:focus { border-color: #2563eb; }
 
 <!-- ── 헤더 ── -->
 <header class="app-header">
-  <div class="logo">
+  <div class="logo" style="font-family: Arial, sans-serif; font-size:15px; font-weight:800; letter-spacing:0.05em">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h3l4 4v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    LOMAS 계약운임표 생성
+    LOMAS
   </div>
   <nav style="display:flex;gap:0;align-items:stretch;height:100%">
-    <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">계약운임표 관리</button>
+    <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">계약운임표 생성</button>
     <button class="nav-tab" id="nav-code" onclick="switchPage('code')">차량 코드 맵핑</button>
   </nav>
 </header>
 
 <!-- ════════════════════════════════════
-     PAGE 1: 계약운임표 관리
+     PAGE 1: 계약운임표 생성
 ════════════════════════════════════ -->
 <div class="page active" id="page-fare">
 <div class="container">
@@ -216,7 +216,7 @@ input.form-input:focus { border-color: #2563eb; }
         <select class="form-select" id="pickup-sigungu" style="width:130px" onchange="onPickupSigungu()"><option value="">선택</option></select>
       </div>
       <div id="pickup-result" style="display:none; margin-top:6px">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:4px 10px;font-size:13px;color:#1d4ed8;font-weight:500">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:#e0f0f1;border:1px solid #80bec3;border-radius:4px;padding:4px 10px;font-size:13px;color:#025F68;font-weight:500">
           <span id="pickup-text"></span>
         </span>
       </div>
