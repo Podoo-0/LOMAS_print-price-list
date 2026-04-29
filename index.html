@@ -262,8 +262,12 @@ input.form-input:focus { border-color: #025F68; }
   <div class="card">
     <div class="card-title">
       차량 코드 맵핑
-      <div style="display:flex;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center">
         <button class="btn btn-sm" onclick="clearAllCodes()" style="color:#dc2626;border-color:#fca5a5">전체 초기화</button>
+        <label class="btn btn-sm" style="cursor:pointer;background:#e0f0f1;border-color:#025F68;color:#025F68" title="LOMAS 차량단위관리에서 내보낸 JSON 파일을 불러옵니다">
+          ↑ JSON 불러오기
+          <input type="file" id="json-upload-input" accept=".json" style="display:none" onchange="loadVehicleJson(this)">
+        </label>
         <button class="btn btn-success btn-sm" onclick="saveCodesAlert()">저장</button>
       </div>
     </div>
@@ -305,7 +309,17 @@ input.form-input:focus { border-color: #025F68; }
       </table>
     </div>
     <div style="margin-top:8px;font-size:12px;color:#aaa">
-      * 코드 입력 후 계약운임표의 차량 헤더에 [코드번호] 형태로 자동 반영됩니다.
+      * 코드 입력 후 계약운임표의 차량 헤더에 [코드번호] 형태로 자동 반영됩니다.<br>
+      * <b style="color:#025F68">JSON 불러오기</b>: LOMAS 차량단위관리 페이지에서 확장프로그램으로 내보낸 JSON 파일을 업로드하면 코드가 자동 갱신됩니다.
+    </div>
+    <!-- 드래그&드롭 존 -->
+    <div id="json-dropzone"
+      style="margin-top:10px;border:2px dashed #ccc;border-radius:6px;padding:14px;text-align:center;font-size:12px;color:#aaa;transition:all .2s;cursor:pointer"
+      onclick="document.getElementById('json-upload-input').click()"
+      ondragover="event.preventDefault();this.style.borderColor='#025F68';this.style.background='#e0f0f1'"
+      ondragleave="this.style.borderColor='#ccc';this.style.background=''"
+      ondrop="handleJsonDrop(event)">
+      📂 여기에 JSON 파일을 드래그&드롭하거나 클릭하여 업로드
     </div>
   </div>
 </div>
@@ -536,6 +550,61 @@ function onCodeChange(input){
   const mappedTotal = TMS_UNITS.filter(u=>tmsCodeMap[u.unit]!=null && tmsCodeMap[u.unit]!=='').length;
   document.getElementById('mapped-count-label').innerHTML =
     `총 ${TMS_UNITS.length}개 중 <span>${mappedTotal}개</span> 코드 입력됨`;
+}
+
+/* ════════════════════════════════════
+   JSON 차량단위 불러오기
+════════════════════════════════════ */
+function loadVehicleJson(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => parseVehicleJson(e.target.result, file.name);
+  reader.readAsText(file);
+  input.value = ''; // 같은 파일 재업로드 허용
+}
+
+function handleJsonDrop(event) {
+  event.preventDefault();
+  const dz = document.getElementById('json-dropzone');
+  dz.style.borderColor = '#ccc';
+  dz.style.background = '';
+  const file = event.dataTransfer.files[0];
+  if (!file || !file.name.endsWith('.json')) {
+    alert('JSON 파일만 업로드 가능합니다.');
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = e => parseVehicleJson(e.target.result, file.name);
+  reader.readAsText(file);
+}
+
+function parseVehicleJson(text, fileName) {
+  try {
+    const data = JSON.parse(text);
+    if (!Array.isArray(data)) throw new Error('배열 형식이 아닙니다.');
+
+    let updated = 0, added = 0, skipped = 0;
+
+    data.forEach(item => {
+      // 허용 형식: {unitName, code} 또는 {unit, code} 또는 {name, tmsCode}
+      const unitName = item.unitName || item.unit || item.name;
+      const code = item.code ?? item.tmsCode ?? item.tms_code;
+      if (!unitName || code == null) { skipped++; return; }
+
+      const numCode = Number(code);
+      if (isNaN(numCode)) { skipped++; return; }
+
+      if (tmsCodeMap[unitName] !== undefined) updated++;
+      else added++;
+      tmsCodeMap[unitName] = numCode;
+    });
+
+    renderMappingTable();
+    alert(`✅ JSON 불러오기 완료\n\n파일: ${fileName}\n갱신: ${updated}개 / 신규: ${added}개 / 건너뜀: ${skipped}개`);
+  } catch (e) {
+    alert(`❌ JSON 파싱 오류\n\n${e.message}\n\n형식을 확인해주세요.\n예: [{"unitName":"1톤 카고/윙","code":168}, ...]`);
+  }
 }
 
 function clearAllCodes(){
