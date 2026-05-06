@@ -1,413 +1,856 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LOMAS 계약운임표 생성</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
-* { box-sizing: border-box; }
-body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; background: #f5f6f8; color: #222; margin: 0; }
-.app-header { background: #025F68; color: #fff; padding: 0 20px; display: flex; align-items: stretch; gap: 10px; height: 46px; }
-.app-header .logo { display:flex; align-items:center; gap:8px; font-size:14px; font-weight:600; padding-right:4px; }
-.nav-tab { padding:0 18px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; font-weight:500; background:none; border:none; border-bottom:3px solid transparent; color:rgba(255,255,255,.7); cursor:pointer; height:100%; transition:all .15s; margin-top:3px; }
-.nav-tab:hover { color:#fff; }
-.nav-tab.active { color:#fff; border-bottom-color:#fff; font-weight:600; }
-.btn-update { margin-left:auto; align-self:center; padding:5px 14px; background:rgba(255,255,255,0.15); border:1px solid rgba(255,255,255,0.4); border-radius:4px; color:#fff; font-size:12px; font-family:'Malgun Gothic',sans-serif; cursor:pointer; display:flex; align-items:center; gap:5px; transition:all .15s; white-space:nowrap; }
-.btn-update:hover { background:rgba(255,255,255,0.25); }
-.btn-update:disabled { opacity:0.5; cursor:not-allowed; }
-.update-status { font-size:11px; color:rgba(255,255,255,0.85); align-self:center; white-space:nowrap; }
-.page { display:none; }
-.page.active { display:block; }
-.container { max-width:1400px; margin:0 auto; padding:16px; }
-.top-row { display:flex; gap:12px; margin-bottom:12px; flex-wrap:wrap; }
-.card { background:#fff; border:1px solid #dde1e7; border-radius:6px; padding:14px 16px; }
-.card-title { font-size:12px; font-weight:600; color:#555; margin-bottom:10px; border-bottom:1px solid #eee; padding-bottom:8px; display:flex; align-items:center; justify-content:space-between; }
-.btn { font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; font-weight:500; padding:6px 16px; border-radius:4px; border:1px solid #ccc; cursor:pointer; height:32px; display:inline-flex; align-items:center; gap:4px; white-space:nowrap; background:#fff; color:#444; transition:all .15s; }
-.btn:hover { border-color:#999; }
-.btn-yellow { background:#025F68; color:#fff; border-color:#025F68; font-weight:600; }
-.btn-yellow:hover { background:#014d55; border-color:#014d55; }
-.btn-yellow:disabled { background:#67a8af; border-color:#67a8af; cursor:not-allowed; }
-.btn-primary { background:#025F68; color:#fff; border-color:#025F68; }
-.btn-primary:hover { background:#014d55; border-color:#014d55; }
-.btn-success { background:#025F68; color:#fff; border-color:#025F68; }
-.btn-success:hover { background:#014d55; border-color:#014d55; }
-.btn-link { background:none; border:none; color:#dc2626; font-size:12px; cursor:pointer; padding:0; height:auto; }
-.btn-link:hover { text-decoration:underline; }
-.btn-sm { padding:3px 10px; font-size:12px; height:26px; }
-.tag { display:inline-flex; align-items:center; gap:4px; background:#e0f0f1; border:1px solid #80bec3; border-radius:4px; padding:2px 8px; font-size:12px; color:#025F68; }
-.tag-rm { cursor:pointer; color:#67a8af; font-size:14px; line-height:1; }
-.tag-rm:hover { color:#dc2626; }
-.form-row { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-label.form-label { font-size:12px; color:#666; min-width:48px; }
-select.form-select { border:1px solid #ccc; border-radius:4px; padding:5px 28px 5px 8px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center; outline:none; height:32px; cursor:pointer; appearance:none; width:100%; }
-select.form-select:focus { border-color:#025F68; }
-.custom-dropdown { position:relative; width:100%; }
-.dropdown-trigger { width:100%; height:32px; border:1px solid #ccc; border-radius:4px; background:#fff; padding:0 28px 0 10px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; color:#222; cursor:pointer; text-align:left; display:flex; align-items:center; position:relative; user-select:none; }
-.dropdown-trigger.open { border-color:#025F68; border-bottom-left-radius:0; border-bottom-right-radius:0; }
-.dropdown-trigger .arrow { position:absolute; right:8px; top:50%; transform:translateY(-50%); width:0; height:0; border-left:5px solid transparent; border-right:5px solid transparent; border-top:5px solid #888; transition:transform .15s; }
-.dropdown-trigger.open .arrow { transform:translateY(-50%) rotate(180deg); }
-.dropdown-trigger .placeholder { color:#999; }
-.dropdown-panel { position:absolute; top:100%; left:0; right:0; z-index:100; background:#fff; border:1px solid #025F68; border-top:none; border-bottom-left-radius:4px; border-bottom-right-radius:4px; max-height:200px; overflow-y:auto; display:none; box-shadow:0 4px 12px rgba(0,0,0,.1); }
-.dropdown-panel.open { display:block; }
-.dropdown-all-row { padding:7px 10px; border-bottom:1px solid #f0f0f0; position:sticky; top:0; background:#f8f9fb; z-index:1; }
-.dp-chk-label { display:flex; align-items:center; gap:6px; padding:6px 10px; cursor:pointer; font-size:13px; }
-.dp-chk-label:hover { background:#f5f7ff; }
-.dp-chk-label input[type=checkbox] { accent-color:#025F68; width:14px; height:14px; cursor:pointer; }
-.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; display:none; align-items:flex-start; justify-content:center; padding-top:60px; }
-.modal-overlay.open { display:flex; }
-.modal-box { background:#fff; border-radius:8px; width:min(740px,96vw); max-height:80vh; box-shadow:0 8px 40px rgba(0,0,0,.22); display:flex; flex-direction:column; }
-.modal-head { padding:18px 22px 14px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
-.modal-head h2 { font-size:16px; font-weight:600; margin:0; }
-.modal-close-btn { cursor:pointer; color:#aaa; font-size:20px; line-height:1; border:none; background:none; }
-.modal-close-btn:hover { color:#444; }
-.modal-body { display:flex; flex:1; overflow:hidden; }
-.modal-left { width:55%; border-right:1px solid #eee; display:flex; flex-direction:column; overflow:hidden; }
-.modal-right { width:45%; display:flex; flex-direction:column; overflow:hidden; }
-.modal-section-title { font-size:12px; font-weight:600; color:#888; padding:10px 16px 6px; border-bottom:1px solid #f0f0f0; flex-shrink:0; }
-.modal-foot { padding:12px 20px; border-top:1px solid #eee; display:flex; justify-content:flex-end; gap:8px; flex-shrink:0; }
-.tab-group { display:flex; border-bottom:1px solid #eee; flex-shrink:0; }
-.tab-btn { flex:1; padding:9px 0; font-size:13px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; border:none; border-bottom:2px solid transparent; background:none; cursor:pointer; color:#888; margin-bottom:-1px; transition:all .15s; }
-.tab-btn.active { color:#025F68; border-bottom-color:#025F68; font-weight:600; }
-.tab-btn:hover:not(.active) { color:#444; }
-.sido-grid { display:grid; grid-template-columns:1fr 1fr; overflow-y:auto; flex:1; padding:4px 0; }
-.sido-item { padding:9px 16px; cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:space-between; transition:background .12s; }
-.sido-item:hover { background:#f0f4ff; }
-.sido-item.active { color:#025F68; font-weight:600; }
-.sido-item .check-icon { color:#025F68; font-size:14px; }
-.breadcrumb { padding:8px 16px; font-size:12px; color:#888; border-bottom:1px solid #f0f0f0; flex-shrink:0; display:flex; align-items:center; gap:4px; }
-.breadcrumb .bc-link { color:#025F68; cursor:pointer; }
-.breadcrumb .bc-link:hover { text-decoration:underline; }
-.sigungu-grid { display:grid; grid-template-columns:1fr 1fr; overflow-y:auto; flex:1; padding:4px 8px; }
-.sigungu-all-row { padding:8px 16px; border-bottom:1px solid #f0f0f0; flex-shrink:0; }
-.chk-label { display:flex; align-items:center; gap:6px; padding:7px 8px; border-radius:4px; cursor:pointer; font-size:13px; }
-.chk-label:hover { background:#f5f7ff; }
-.chk-label input[type=checkbox] { accent-color:#025F68; width:15px; height:15px; cursor:pointer; }
-.chk-label.checked { color:#025F68; font-weight:500; }
-.selected-header { padding:8px 14px; border-bottom:1px solid #f0f0f0; display:flex; align-items:center; gap:6px; flex-shrink:0; }
-.selected-header .count { color:#025F68; font-size:12px; font-weight:600; }
-.selected-list { overflow-y:auto; flex:1; padding:4px; }
-.selected-item { display:flex; align-items:center; padding:7px 10px; border-radius:4px; gap:6px; }
-.selected-item:hover { background:#fef2f2; }
-.selected-item input[type=checkbox] { accent-color:#025F68; width:15px; height:15px; cursor:pointer; }
-.selected-item .item-label { flex:1; font-size:13px; }
-.empty-state-right { text-align:center; padding:40px 16px; color:#bbb; font-size:13px; }
-.empty-icon { font-size:28px; margin-bottom:6px; }
-.select-btn-area { padding:12px 16px; border-top:1px solid #eee; flex-shrink:0; }
-.btn-select { width:100%; height:38px; background:#f0f0f0; border:1px solid #ddd; border-radius:4px; font-size:13px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; cursor:pointer; color:#555; }
-.btn-select:hover:not(:disabled) { background:#e0e0e0; }
-.btn-select:disabled { cursor:not-allowed; color:#bbb; }
-.vehicle-form { padding:16px; display:flex; flex-direction:column; gap:14px; overflow-y:auto; flex:1; }
-.vf-label { font-size:12px; font-weight:600; color:#444; margin-bottom:5px; }
-.vf-label .req { color:#ef4444; }
-.table-wrap { overflow-x:auto; border:1px solid #dde1e7; border-radius:6px; }
-.fare-table { border-collapse:collapse; width:100%; font-size:13px; }
-.fare-table th { background:#f8f9fb; padding:8px 12px; text-align:center; font-weight:600; color:#444; white-space:nowrap; border-bottom:1px solid #dde1e7; border-right:1px solid #eee; font-size:12px; }
-.fare-table th.left { text-align:left; min-width:110px; }
-.fare-table td { padding:5px 8px; border-bottom:1px solid #f0f0f0; border-right:1px solid #f0f0f0; text-align:center; }
-.fare-table td.left { text-align:left; padding-left:12px; color:#555; white-space:nowrap; }
-.fare-table tr:hover td { background:#f8faff; }
-.fare-input { width:90px; border:1px solid transparent; border-radius:4px; font-size:13px; padding:3px 6px; text-align:right; outline:none; background:transparent; font-family:'Malgun Gothic','맑은 고딕',sans-serif; }
-.fare-input:hover { border-color:#ccc; background:#fff; }
-.fare-input:focus { border-color:#025F68; background:#fff; }
-.empty-grid { text-align:center; padding:40px; color:#aaa; font-size:13px; }
-.mapping-table { border-collapse:collapse; width:100%; font-size:13px; }
-.mapping-table th { background:#f8f9fb; padding:8px 12px; text-align:left; font-weight:600; color:#444; border-bottom:2px solid #dde1e7; border-right:1px solid #eee; font-size:12px; white-space:nowrap; }
-.mapping-table th.center { text-align:center; }
-.mapping-table td { padding:5px 10px; border-bottom:1px solid #f0f0f0; border-right:1px solid #f5f5f5; vertical-align:middle; }
-.mapping-table td.center { text-align:center; }
-.mapping-table tr:hover td { background:#f8faff; }
-.code-input { width:80px; border:1px solid transparent; border-radius:4px; font-size:13px; padding:3px 6px; text-align:center; outline:none; background:transparent; font-family:'Malgun Gothic','맑은 고딕',sans-serif; }
-.code-input:hover { border-color:#ccc; background:#fff; }
-.code-input:focus { border-color:#025F68; background:#fff; }
-.code-input.has-value { background:#e0f0f1; border-color:#80bec3; color:#025F68; font-weight:600; }
-.filter-bar { display:flex; align-items:center; gap:10px; margin-bottom:12px; flex-wrap:wrap; }
-.filter-bar select { border:1px solid #ccc; border-radius:4px; padding:5px 28px 5px 8px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; height:32px; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center; outline:none; cursor:pointer; appearance:none; }
-.filter-bar select:focus { border-color:#025F68; }
-.filter-bar input { border:1px solid #ccc; border-radius:4px; padding:5px 8px; font-family:'Malgun Gothic','맑은 고딕',sans-serif; font-size:13px; height:32px; outline:none; width:140px; }
-.filter-bar input:focus { border-color:#025F68; }
-.mapped-count { font-size:12px; color:#888; margin-left:auto; }
-.mapped-count span { color:#025F68; font-weight:600; }
-.badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
-.badge-mapped { background:#dcfce7; color:#166534; }
-.badge-empty { background:#f3f4f6; color:#9ca3af; }
-.btn-reset { float:right; background:none; border:1px solid #ccc; border-radius:4px; font-size:11px; color:#888; cursor:pointer; padding:1px 7px; font-family:inherit; transition:all .15s; }
-.btn-reset:hover { border-color:#025F68; color:#025F68; background:#e0f0f1; }
-::-webkit-scrollbar { width:5px; height:5px; }
-::-webkit-scrollbar-track { background:transparent; }
-::-webkit-scrollbar-thumb { background:#ddd; border-radius:3px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Malgun Gothic', sans-serif; font-size: 13px; background: #f4f6f9; color: #333; }
+
+  /* ── 헤더 ── */
+  .header { background: #1a3c6e; color: #fff; padding: 0 20px; display: flex; align-items: center; height: 52px; gap: 16px; }
+  .header .logo { font-size: 18px; font-weight: 700; letter-spacing: 1px; flex-shrink: 0; }
+  .header .tabs { display: flex; gap: 4px; flex: 1; }
+  .header .tab-btn { background: transparent; border: none; color: rgba(255,255,255,0.7); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 13px; font-family: inherit; }
+  .header .tab-btn.active, .header .tab-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+  .header .update-wrap { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .header .update-status { font-size: 11px; color: rgba(255,255,255,0.6); }
+  .btn-update { background: #2ecc71; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-family: inherit; }
+  .btn-update:hover { background: #27ae60; }
+  .btn-update:disabled { background: #7f8c8d; cursor: not-allowed; }
+
+  /* ── 페이지 ── */
+  .page { display: none; padding: 16px 20px; }
+  .page.active { display: block; }
+
+  /* ── 카드 ── */
+  .card { background: #fff; border: 1px solid #dde1e7; border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; }
+  .card-title { font-size: 13px; font-weight: 700; color: #1a3c6e; margin-bottom: 10px; }
+
+  /* ── 버튼 공통 ── */
+  .btn { padding: 5px 12px; border-radius: 4px; border: none; cursor: pointer; font-size: 12px; font-family: inherit; }
+  .btn-primary { background: #1a3c6e; color: #fff; }
+  .btn-primary:hover { background: #16335d; }
+  .btn-danger { background: #e74c3c; color: #fff; }
+  .btn-danger:hover { background: #c0392b; }
+  .btn-secondary { background: #ecf0f1; color: #333; border: 1px solid #bdc3c7; }
+  .btn-secondary:hover { background: #dfe6e9; }
+  .btn-success { background: #27ae60; color: #fff; }
+  .btn-success:hover { background: #219a52; }
+
+  /* ── 상차지 카드 ── */
+  .pickup-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .pickup-row select { padding: 5px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; font-family: inherit; }
+
+  /* ── 태그 리스트 (하차지/차량) ── */
+  .tag-list { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; min-height: 28px; }
+  .tag { display: inline-flex; align-items: center; gap: 4px; background: #eaf0fb; border: 1px solid #afc3e8; color: #1a3c6e; padding: 3px 8px; border-radius: 14px; font-size: 12px; }
+  .tag .tag-del { cursor: pointer; color: #7f8c8d; font-size: 14px; line-height: 1; }
+  .tag .tag-del:hover { color: #e74c3c; }
+
+  /* ── 운임표 그리드 ── */
+  .table-wrap { overflow-x: auto; }
+  .fare-table { border-collapse: collapse; min-width: 400px; width: 100%; }
+  .fare-table th, .fare-table td { border: 1px solid #dde1e7; padding: 5px 8px; text-align: center; white-space: nowrap; font-size: 12px; }
+  .fare-table th { background: #f0f3f8; font-weight: 700; color: #1a3c6e; }
+  .fare-table td.left, .fare-table th.left { text-align: left; }
+  .fare-table .fare-input { width: 80px; border: none; text-align: right; font-size: 12px; font-family: inherit; background: transparent; }
+  .fare-table .fare-input:focus { outline: 1px solid #1a3c6e; border-radius: 2px; background: #fff; }
+  .fare-table tr:hover td { background: #f8f9ff; }
+
+  /* ── 모달 ── */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: #fff; border-radius: 10px; padding: 20px; min-width: 320px; max-width: 480px; width: 90%; max-height: 80vh; overflow-y: auto; }
+  .modal h3 { font-size: 15px; font-weight: 700; color: #1a3c6e; margin-bottom: 14px; }
+  .modal-row { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; flex-wrap: wrap; }
+  .modal-row label { font-size: 12px; color: #555; width: 60px; flex-shrink: 0; }
+  .modal-row select, .modal-row input { flex: 1; padding: 5px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; font-family: inherit; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
+  .vehicle-type-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+  .vtype-btn { padding: 5px 12px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; font-size: 12px; font-family: inherit; background: #f5f5f5; }
+  .vtype-btn.selected { background: #1a3c6e; color: #fff; border-color: #1a3c6e; }
+
+  /* ── 맵핑 페이지 ── */
+  .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .filter-bar select, .filter-bar input { padding: 5px 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px; font-family: inherit; }
+  .filter-bar input { width: 180px; }
+  .mapping-table { width: 100%; border-collapse: collapse; }
+  .mapping-table th, .mapping-table td { border: 1px solid #dde1e7; padding: 5px 8px; font-size: 12px; text-align: center; }
+  .mapping-table th { background: #f0f3f8; font-weight: 700; color: #1a3c6e; }
+  .mapping-table td.left { text-align: left; }
+  .mapping-table .tms-input { width: 90px; border: 1px solid #ccc; border-radius: 3px; padding: 3px 6px; font-size: 12px; font-family: inherit; text-align: center; }
+  .mapping-table .tms-input:focus { outline: 1px solid #1a3c6e; }
+  .mapping-table tr.mapped td { background: #f0fbf4; }
+  .mapping-table tr:hover td { background: #f8f9ff; }
+  .info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; color: #666; }
+  .actions-bar { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+  .badge { display: inline-block; background: #e74c3c; color: #fff; border-radius: 10px; padding: 1px 6px; font-size: 10px; margin-left: 4px; }
+  .badge.green { background: #27ae60; }
+
+  /* ── 반응형 ── */
+  @media (max-width: 600px) {
+    .header { flex-wrap: wrap; height: auto; padding: 8px 12px; gap: 8px; }
+    .page { padding: 10px 12px; }
+  }
 </style>
 </head>
 <body>
 
-<header class="app-header">
-  <div class="logo" style="font-family:Arial,sans-serif;font-size:15px;font-weight:800;letter-spacing:0.05em">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h3l4 4v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-    LOMAS
-  </div>
-  <nav style="display:flex;gap:0;align-items:stretch;height:100%">
-    <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">계약운임표 생성</button>
-    <button class="nav-tab" id="nav-code" onclick="switchPage('code')">차량 코드 맵핑</button>
+<!-- ══════════════════════════ 헤더 ══════════════════════════ -->
+<header class="header">
+  <div class="logo">LOMAS</div>
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="showPage('page-fare')">계약운임표 생성</button>
+    <button class="tab-btn" onclick="showPage('page-mapping')">차량 코드 맵핑</button>
   </nav>
-  <button class="btn-update" id="btn-update" onclick="updateFromSheets()">🔄 차량 업데이트</button>
-  <span class="update-status" id="update-status"></span>
+  <div class="update-wrap">
+    <span class="update-status" id="updateStatus">업데이트 필요</span>
+    <button class="btn-update" id="btnUpdate" onclick="updateFromSheets()">🔄 차량 업데이트</button>
+  </div>
 </header>
 
-<div class="page active" id="page-fare">
-<div class="container">
-  <div class="top-row">
-    <div class="card" style="flex:0 0 auto;min-width:240px">
-      <div class="card-title">상차지 <button class="btn-reset" onclick="resetPickup()">↺ 초기화</button></div>
-      <div class="form-row">
-        <label class="form-label">시/도</label>
-        <select class="form-select" id="pickup-sido" style="width:115px" onchange="onPickupSido()"><option value="">선택</option></select>
-      </div>
-      <div class="form-row">
-        <label class="form-label">시/군/구</label>
-        <select class="form-select" id="pickup-sigungu" style="width:130px" onchange="onPickupSigungu()"><option value="">선택</option></select>
-      </div>
-      <div id="pickup-result" style="display:none;margin-top:6px">
-        <span style="display:inline-flex;align-items:center;gap:6px;background:#e0f0f1;border:1px solid #80bec3;border-radius:4px;padding:4px 10px;font-size:13px;color:#025F68;font-weight:500">
-          <span id="pickup-text"></span>
-        </span>
-      </div>
-    </div>
-    <div class="card" style="flex:1;min-width:260px">
-      <div class="card-title">하차지 <button class="btn-reset" onclick="resetDropoff()">↺ 초기화</button></div>
-      <div class="form-row"><button class="btn btn-primary" onclick="openDropoffModal()">+ 하차지 추가</button></div>
-      <div id="dropoff-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
-    </div>
-    <div class="card" style="flex:1;min-width:260px">
-      <div class="card-title">차량</div>
-      <div class="form-row"><button class="btn btn-primary" onclick="openVehicleModal()">+ 차량 추가</button></div>
-      <div id="vehicle-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
-    </div>
-  </div>
+<!-- ══════════════════════════ PAGE 1: 계약운임표 생성 ══════════════════════════ -->
+<div id="page-fare" class="page active">
+
+  <!-- 상차지 -->
   <div class="card">
-    <div class="card-title">
-      운임표
-      <button class="btn btn-success btn-sm" onclick="downloadExcel()">↓ 엑셀 다운로드</button>
+    <div class="card-title">📍 상차지</div>
+    <div class="pickup-row">
+      <select id="pickupSido" onchange="onPickupSidoChange()">
+        <option value="">시/도 선택</option>
+      </select>
+      <select id="pickupSigungu" onchange="onPickupSigunguChange()">
+        <option value="">시/군/구 선택</option>
+      </select>
+      <span id="pickupDisplay" style="font-size:12px;color:#666;"></span>
     </div>
-    <div id="grid-area"><div class="empty-grid">상차지 · 하차지 · 차량을 선택하면 운임표가 생성됩니다.</div></div>
   </div>
-</div>
+
+  <!-- 하차지 -->
+  <div class="card">
+    <div class="card-title">🏁 하차지</div>
+    <div class="tag-list" id="dropoffTags"></div>
+    <button class="btn btn-secondary" onclick="openDropoffModal()">+ 하차지 추가</button>
+  </div>
+
+  <!-- 차량 -->
+  <div class="card">
+    <div class="card-title">🚚 차량</div>
+    <div class="tag-list" id="vehicleTags"></div>
+    <button class="btn btn-secondary" onclick="openVehicleModal()">+ 차량 추가</button>
+  </div>
+
+  <!-- 운임표 -->
+  <div class="card">
+    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>📋 운임표</span>
+      <button class="btn btn-success" onclick="downloadExcel()">⬇ 엑셀 다운로드</button>
+    </div>
+    <div id="fareGrid"><p style="color:#aaa;font-size:12px;">상차지·하차지·차량을 선택하면 운임표가 생성됩니다.</p></div>
+  </div>
 </div>
 
-<div class="page" id="page-code">
-<div class="container">
+<!-- ══════════════════════════ PAGE 2: 차량 코드 맵핑 ══════════════════════════ -->
+<div id="page-mapping" class="page">
   <div class="card">
-    <div class="card-title">
-      차량 코드 맵핑
-      <div style="display:flex;gap:8px;align-items:center">
-        <span id="mapping-update-time" style="font-size:11px;color:#aaa;font-weight:400"></span>
-        <button class="btn btn-sm" onclick="clearAllCodes()" style="color:#dc2626;border-color:#fca5a5">전체 초기화</button>
-        <button class="btn btn-success btn-sm" onclick="saveCodesAlert()">저장</button>
-      </div>
-    </div>
+    <div class="card-title">🗂 차량 코드 맵핑</div>
     <div class="filter-bar">
-      <select id="filter-type" onchange="renderMappingTable()"><option value="">전체 차종</option></select>
-      <select id="filter-spec" onchange="renderMappingTable()">
+      <select id="filterType" onchange="renderMappingTable()">
+        <option value="">전체 차종</option>
+      </select>
+      <select id="filterTemp" onchange="renderMappingTable()">
         <option value="">전체 특성</option>
         <option value="상온">상온</option>
         <option value="냉장">냉장</option>
         <option value="냉동(냉장포함)">냉동(냉장포함)</option>
         <option value="리프트">리프트</option>
       </select>
-      <select id="filter-mapped" onchange="renderMappingTable()">
+      <select id="filterMapped" onchange="renderMappingTable()">
         <option value="">전체</option>
-        <option value="mapped">코드 입력됨</option>
-        <option value="empty">미입력</option>
+        <option value="mapped">입력됨</option>
+        <option value="unmapped">미입력</option>
       </select>
-      <input type="text" id="filter-search" placeholder="단위명 검색..." oninput="renderMappingTable()">
-      <span class="mapped-count" id="mapped-count-label"></span>
+      <input type="text" id="filterSearch" placeholder="단위명 검색..." oninput="renderMappingTable()">
     </div>
-    <div class="table-wrap">
+    <div class="info-bar">
+      <span id="mappingInfo">차량 업데이트 후 표시됩니다.</span>
+      <span id="lastUpdated"></span>
+    </div>
+    <div style="overflow-x:auto;">
       <table class="mapping-table">
         <thead>
           <tr>
-            <th style="width:40px" class="center">#</th>
-            <th style="min-width:180px">단위명</th>
-            <th style="width:80px">차종</th>
-            <th style="width:80px">톤수</th>
-            <th style="width:100px">특성</th>
-            <th style="width:100px" class="center">TMS 코드</th>
+            <th>단위명</th>
+            <th>차종</th>
+            <th>톤수</th>
+            <th>특성</th>
+            <th>TMS코드</th>
           </tr>
         </thead>
-        <tbody id="mapping-tbody"></tbody>
+        <tbody id="mappingBody"></tbody>
       </table>
     </div>
-    <div style="margin-top:8px;font-size:12px;color:#aaa">
-      * 상단 <b style="color:#025F68">🔄 차량 업데이트</b> 버튼을 누르면 Google Sheets에서 최신 차량 데이터를 불러옵니다.
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- 하차지 모달 -->
-<div class="modal-overlay" id="dropoff-modal">
-  <div class="modal-box" style="height:580px">
-    <div class="modal-head"><h2>하차지 추가</h2><button class="modal-close-btn" onclick="closeDropoffModal()">✕</button></div>
-    <div class="modal-body">
-      <div class="modal-left">
-        <div class="modal-section-title">하차지 선택</div>
-        <div class="tab-group">
-          <button class="tab-btn active" id="dtab-sido" onclick="setDropoffTab('sido')">시/도 단위</button>
-          <button class="tab-btn" id="dtab-sigungu" onclick="setDropoffTab('sigungu')">시/군/구 단위</button>
-          <button class="tab-btn" id="dtab-eupmyeong" onclick="setDropoffTab('eupmyeong')">읍/면/동 단위</button>
-        </div>
-        <div class="breadcrumb" id="d-breadcrumb" style="display:none"></div>
-        <div id="d-sido-list" class="sido-grid"></div>
-        <div id="d-sigungu-all-row" class="sigungu-all-row" style="display:none">
-          <label class="chk-label"><input type="checkbox" id="d-sigungu-all-chk" onchange="toggleAllSigungu(this.checked)"> 전체 선택</label>
-        </div>
-        <div id="d-sigungu-list" class="sigungu-grid" style="display:none"></div>
-        <div class="select-btn-area"><button class="btn-select" id="d-select-btn" onclick="addToDropoffSelected()" disabled>선택하기</button></div>
-      </div>
-      <div class="modal-right">
-        <div class="modal-section-title">선택된 하차지</div>
-        <div class="selected-header">
-          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="d-sel-all-chk" onchange="toggleSelAllDropoff(this.checked)"> 전체 선택</label>
-          <span class="count" id="d-sel-count"></span>
-          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedDropoff()">삭제</button>
-        </div>
-        <div class="selected-list" id="d-selected-list">
-          <div class="empty-state-right"><div class="empty-icon">🔍</div>선택된 하차지가 없습니다.</div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeDropoffModal()">닫기</button>
-      <button class="btn btn-yellow" onclick="confirmDropoff()">하차지 추가하기</button>
+    <div class="actions-bar">
+      <button class="btn btn-danger" onclick="resetMapping()">전체 초기화</button>
+      <button class="btn btn-primary" onclick="saveMapping()">💾 저장</button>
     </div>
   </div>
 </div>
 
-<!-- 차량 모달 -->
-<div class="modal-overlay" id="vehicle-modal">
-  <div class="modal-box" style="height:540px">
-    <div class="modal-head"><h2>차량 추가</h2><button class="modal-close-btn" onclick="closeVehicleModal()">✕</button></div>
-    <div class="modal-body">
-      <div class="modal-left" style="overflow:visible;position:relative">
-        <div class="modal-section-title">차량 조합 선택</div>
-        <div class="vehicle-form" style="overflow:visible">
-          <div>
-            <div class="vf-label">차종 <span class="req">*</span></div>
-            <select class="form-select" id="v-type" onchange="onVehicleTypeChange()"><option value="">선택</option></select>
-          </div>
-          <div style="position:relative">
-            <div class="vf-label">차량 톤수 <span class="req">*</span></div>
-            <div class="custom-dropdown" id="ton-dropdown">
-              <div class="dropdown-trigger" id="ton-trigger" onclick="toggleDropdown('ton')">
-                <span id="ton-label" class="placeholder">차량 톤수 선택</span><span class="arrow"></span>
-              </div>
-              <div class="dropdown-panel" id="ton-panel">
-                <div class="dropdown-all-row"><label class="dp-chk-label"><input type="checkbox" id="ton-all-chk" onchange="toggleAllTons(this.checked)"> 전체 선택</label></div>
-                <div id="ton-list"></div>
-              </div>
-            </div>
-          </div>
-          <div style="position:relative">
-            <div class="vf-label">차량 특성</div>
-            <div class="custom-dropdown" id="spec-dropdown">
-              <div class="dropdown-trigger" id="spec-trigger" onclick="toggleDropdown('spec')">
-                <span id="spec-label" class="placeholder">차량 특성 선택</span><span class="arrow"></span>
-              </div>
-              <div class="dropdown-panel" id="spec-panel"><div id="spec-list"></div></div>
-            </div>
-          </div>
-        </div>
-        <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
-      </div>
-      <div class="modal-right">
-        <div class="modal-section-title">선택된 차량</div>
-        <div class="selected-header">
-          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="v-sel-all-chk" onchange="toggleSelAllVehicle(this.checked)"> 전체 선택</label>
-          <span class="count" id="v-sel-count"></span>
-          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedVehicle()">삭제</button>
-        </div>
-        <div class="selected-list" id="v-selected-list">
-          <div class="empty-state-right"><div class="empty-icon">🚛</div>선택된 차량이 없습니다.</div>
-        </div>
-      </div>
+<!-- ══════════════════════════ 하차지 모달 ══════════════════════════ -->
+<div class="modal-overlay" id="dropoffModal">
+  <div class="modal">
+    <h3>하차지 추가</h3>
+    <div class="modal-row">
+      <label>시/도</label>
+      <select id="dropoffSido" onchange="onDropoffSidoChange()">
+        <option value="">선택</option>
+      </select>
     </div>
-    <div class="modal-foot">
-      <button class="btn" onclick="closeVehicleModal()">닫기</button>
-      <button class="btn btn-yellow" onclick="confirmVehicle()">차량 추가하기</button>
+    <div class="modal-row">
+      <label>시/군/구</label>
+      <select id="dropoffSigungu">
+        <option value="">선택</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('dropoffModal')">취소</button>
+      <button class="btn btn-primary" onclick="addDropoff()">추가</button>
     </div>
   </div>
 </div>
 
+<!-- ══════════════════════════ 차량 모달 ══════════════════════════ -->
+<div class="modal-overlay" id="vehicleModal">
+  <div class="modal">
+    <h3>차량 추가</h3>
+    <div class="modal-row">
+      <label>차종</label>
+      <div class="vehicle-type-btns" id="vtypeBtns"></div>
+    </div>
+    <div class="modal-row" id="specRow" style="display:none;">
+      <label>세부</label>
+      <select id="vehicleSpec"></select>
+    </div>
+    <div id="vehiclePreview" style="font-size:12px;color:#555;margin-top:6px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModal('vehicleModal')">취소</button>
+      <button class="btn btn-primary" onclick="addVehicle()">추가</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
 <script>
-/* ════════════════════════════════════
-   Google Sheets 연동
-════════════════════════════════════ */
-const SHEETS_ID  = '1nn1FLy57tBRcjYWZUII5XgBZ0vPHF3yk-5pOCVaQCEI';
-const SHEETS_URL = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:json`;
+/* ════════════════════════════════════════
+   전역 상태
+════════════════════════════════════════ */
+let TMS_UNITS = [];          // Google Sheets에서 로드
+let tmsCodeMap = {};         // unitCode → TMS코드(vehicleUnitId)
+let LOMAS_MAP = {};          // displayName → {unitCode, label}
 
-// 컬럼: A=차량단위코드 B=단위명 C=차량종류 D=톤수 E=화물온도 F=설명 G=정렬 H=TMS코드
+const appState = {
+  pickup: null,              // { sido, sigungu, display }
+  dropoffs: [],              // [{ display }]
+  vehicles: [],              // [{ displayName, unitCode }]
+  fareMap: {}                // 'dropoff|vehicle' → 금액
+};
+
+const SHEETS_ID = '1nn1FLy57tBRcjYWZUII5XgBZ0vPHF3yk-5pOCVaQCEI';
+
+/* ════════════════════════════════════════
+   Google Sheets 업데이트
+════════════════════════════════════════ */
 async function updateFromSheets() {
-  const btn    = document.getElementById('btn-update');
-  const status = document.getElementById('update-status');
+  const btn = document.getElementById('btnUpdate');
+  const status = document.getElementById('updateStatus');
   btn.disabled = true;
-  btn.textContent = '⏳ 불러오는 중...';
+  btn.textContent = '⏳ 로딩 중...';
   status.textContent = '';
-  try {
-    const res   = await fetch(SHEETS_URL + '&t=' + Date.now());
-    const text  = await res.text();
-    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/);
-    if (!match) throw new Error('Sheets 응답 파싱 실패');
-    const json = JSON.parse(match[1]);
-    const rows = json.table.rows;
 
-    const newUnits   = [];
-    const newCodeMap = {};
-    const newLomasMap = {};
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:json`;
+    const res = await fetch(url);
+    const text = await res.text();
+    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/);
+    if (!match) throw new Error('응답 파싱 실패');
+    const data = JSON.parse(match[1]);
+    const rows = data.table.rows;
+
+    TMS_UNITS = [];
+    tmsCodeMap = {};
+    LOMAS_MAP = {};
 
     rows.forEach(row => {
-      const c        = row.c;
-      const unitName = c[1]?.v;
-      const type     = c[2]?.v;
-      const ton      = c[3]?.v;
-      const spec     = c[4]?.v;
-      const code     = c[7]?.v;
-      if (!unitName || !type || !ton || !spec) return;
+      const c = row.c;
+      const unitCode   = c[0]?.v ?? '';   // A: 차량단위코드
+      const unitName   = c[1]?.v ?? '';   // B: 단위명
+      const vType      = c[2]?.v ?? '';   // C: 차량종류
+      const tonnage    = c[3]?.v ?? '';   // D: 톤수
+      const cargoTemp  = c[4]?.v ?? '';   // E: 화물온도
+      const desc       = c[5]?.v ?? '';   // F: 설명
+      const sortOrder  = c[6]?.v ?? 0;    // G: 정렬
+      const tmsCode    = c[7]?.v ?? '';   // H: TMS코드
 
-      newUnits.push({ unit: unitName, type, ton, spec });
-      if (code != null) {
-        const num = Number(code);
-        newCodeMap[unitName]  = num;
-        newLomasMap[unitName] = `${unitName}[${num}]`;
+      if (!unitCode) return;
+
+      const unit = { unitCode, unitName, vType, tonnage, cargoTemp, desc, sortOrder, tmsCode };
+      TMS_UNITS.push(unit);
+
+      if (tmsCode) {
+        tmsCodeMap[unitCode] = tmsCode;
+        LOMAS_MAP[unitName] = { unitCode, label: buildLabel(unit) };
       }
     });
 
-    // 전역 데이터 갱신
-    TMS_UNITS  = newUnits;
-    tmsCodeMap = newCodeMap;
-    LOMAS_MAP  = newLomasMap;
+    // 정렬순 유지
+    TMS_UNITS.sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0));
 
-    // 차량 모달 차종 필터 갱신
+    // 맵핑 페이지 로컬스토리지 적용
+    loadSavedMapping();
+
+    // UI 재구성
     rebuildVehicleTypeFilter();
-    // 맵핑 테이블 필터 갱신
     rebuildMappingTypeFilter();
-    // 맵핑 테이블 재렌더
     renderMappingTable();
 
     const now = new Date().toLocaleString('ko-KR');
-    status.textContent = `✅ ${newUnits.length}개 · ${now}`;
-    document.getElementById('mapping-update-time').textContent = `최근 업데이트: ${now}`;
-    alert(`✅ 차량 업데이트 완료\n\n${newUnits.length}개 차량단위를 불러왔습니다.`);
-  } catch(e) {
-    status.textContent = '❌ 실패';
-    alert('❌ Google Sheets 불러오기 실패\n\n' + e.message);
+    status.textContent = `✅ ${TMS_UNITS.length}건 (${now})`;
+    document.getElementById('lastUpdated').textContent = `최근 업데이트: ${now}`;
+    document.getElementById('mappingInfo').textContent = `총 ${TMS_UNITS.length}건`;
+  } catch (e) {
+    status.textContent = '❌ 업데이트 실패';
+    alert('차량 데이터 로드 실패: ' + e.message);
   } finally {
     btn.disabled = false;
     btn.textContent = '🔄 차량 업데이트';
   }
 }
 
-/* ════════════════════════════════════
-   데이터 (초기 하드코딩 — Sheets 업데이트로 덮어씀)
-════════════════════════════════════ */
-const REGION = {
-  "강원특별자치도":["강릉시","고성군","동해시","삼척시","속초시","양구군","양양군","영월군","원주시","인제군","정선군","철원군","춘천시","태백시","평창군","홍천군","화천군","횡성군"],
-  "경기도":["가평군","고양시","고양시덕양구","고양시일산동구","고양시일산서구","과천시","광명시","광주시","구리시","군포시","김포시","남양주시","동두천시","부천시","부천시소사구","부천시오정구","부천시원미구","성남시","성남시분당구","성남시수정구","성남시중원구","수원시","수원시권선구","수원시영통구","수원시장안구
+function buildLabel(unit) {
+  const parts = [];
+  if (unit.vType)     parts.push(unit.vType);
+  if (unit.tonnage)   parts.push(unit.tonnage);
+  if (unit.cargoTemp) parts.push(unit.cargoTemp);
+  return parts.join(' ');
+}
+
+/* ════════════════════════════════════════
+   지역 데이터
+════════════════════════════════════════ */
+const SIDO_LIST = [
+  '서울','부산','대구','인천','광주','대전','울산','세종',
+  '경기','강원','충북','충남','전북','전남','경북','경남','제주'
+];
+
+const SIGUNGU_MAP = {
+  '서울': ['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],
+  '부산': ['강서구','금정구','기장군','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구'],
+  '대구': ['군위군','남구','달서구','달성군','동구','북구','서구','수성구','중구'],
+  '인천': ['강화군','계양구','남동구','동구','미추홀구','부평구','서구','연수구','옹진군','중구'],
+  '광주': ['광산구','남구','동구','북구','서구'],
+  '대전': ['대덕구','동구','서구','유성구','중구'],
+  '울산': ['남구','동구','북구','울주군','중구'],
+  '세종': ['세종시'],
+  '경기': ['가평군','고양시','과천시','광명시','광주시','구리시','군포시','김포시','남양주시','동두천시','부천시','성남시','수원시','시흥시','안산시','안성시','안양시','양주시','양평군','여주시','연천군','오산시','용인시','의왕시','의정부시','이천시','파주시','평택시','포천시','하남시','화성시'],
+  '강원': ['강릉시','고성군','동해시','삼척시','속초시','양구군','양양군','영월군','원주시','인제군','정선군','철원군','춘천시','태백시','평창군','홍천군','화천군','횡성군'],
+  '충북': ['괴산군','단양군','보은군','영동군','옥천군','음성군','제천시','증평군','진천군','청주시','충주시'],
+  '충남': ['계룡시','공주시','금산군','논산시','당진시','보령시','부여군','서산시','서천군','아산시','예산군','천안시','청양군','태안군','홍성군'],
+  '전북': ['고창군','군산시','김제시','남원시','무주군','부안군','순창군','완주군','익산시','임실군','장수군','전주시','정읍시','진안군'],
+  '전남': ['강진군','고흥군','곡성군','광양시','구례군','나주시','담양군','mokpo시','무안군','보성군','순천시','신안군','여수시','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군'],
+  '경북': ['경산시','경주시','고령군','구미시','군위군','김천시','문경시','봉화군','상주시','성주군','안동시','영덕군','영양군','영주시','영천시','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군','포항시'],
+  '경남': ['거제시','거창군','고성군','김해시','남해군','밀양시','산청군','양산시','의령군','진주시','창녕군','창원시','통영시','하동군','함안군','함양군','합천군'],
+  '제주': ['서귀포시','제주시']
+};
+/* ════════════════════════════════════════
+   탭 전환
+════════════════════════════════════════ */
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  const idx = pageId === 'page-fare' ? 0 : 1;
+  document.querySelectorAll('.tab-btn')[idx].classList.add('active');
+}
+
+/* ════════════════════════════════════════
+   상차지
+════════════════════════════════════════ */
+function initPickupSidos() {
+  const sel = document.getElementById('pickupSido');
+  SIDO_LIST.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+function initDropoffSidos() {
+  const sel = document.getElementById('dropoffSido');
+  sel.innerHTML = '<option value="">선택</option>';
+  SIDO_LIST.forEach(s => {
+    const opt = document.createElement('option');
+    opt.value = s; opt.textContent = s;
+    sel.appendChild(opt);
+  });
+}
+
+function onPickupSidoChange() {
+  const sido = document.getElementById('pickupSido').value;
+  const sg = document.getElementById('pickupSigungu');
+  sg.innerHTML = '<option value="">시/군/구 선택</option>';
+  if (sido && SIGUNGU_MAP[sido]) {
+    SIGUNGU_MAP[sido].forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      sg.appendChild(opt);
+    });
+  }
+  appState.pickup = null;
+  document.getElementById('pickupDisplay').textContent = '';
+  renderGrid();
+}
+
+function onPickupSigunguChange() {
+  const sido = document.getElementById('pickupSido').value;
+  const sigungu = document.getElementById('pickupSigungu').value;
+  if (sido && sigungu) {
+    appState.pickup = { sido, sigungu, display: `${sido} ${sigungu}` };
+    document.getElementById('pickupDisplay').textContent = `✔ ${sido} ${sigungu}`;
+  } else {
+    appState.pickup = null;
+    document.getElementById('pickupDisplay').textContent = '';
+  }
+  renderGrid();
+}
+
+/* ════════════════════════════════════════
+   하차지 모달
+════════════════════════════════════════ */
+function openDropoffModal() {
+  initDropoffSidos();
+  document.getElementById('dropoffSigungu').innerHTML = '<option value="">선택</option>';
+  openModal('dropoffModal');
+}
+
+function onDropoffSidoChange() {
+  const sido = document.getElementById('dropoffSido').value;
+  const sg = document.getElementById('dropoffSigungu');
+  sg.innerHTML = '<option value="">선택</option>';
+  if (sido && SIGUNGU_MAP[sido]) {
+    SIGUNGU_MAP[sido].forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s; opt.textContent = s;
+      sg.appendChild(opt);
+    });
+  }
+}
+
+function addDropoff() {
+  const sido = document.getElementById('dropoffSido').value;
+  const sigungu = document.getElementById('dropoffSigungu').value;
+  if (!sido || !sigungu) { alert('시/도와 시/군/구를 모두 선택해주세요.'); return; }
+  const display = `${sido} ${sigungu}`;
+  if (appState.dropoffs.find(d => d.display === display)) {
+    alert('이미 추가된 하차지입니다.'); return;
+  }
+  appState.dropoffs.push({ display });
+  closeModal('dropoffModal');
+  renderDropoffTags();
+  renderGrid();
+}
+
+function removeDropoff(display) {
+  appState.dropoffs = appState.dropoffs.filter(d => d.display !== display);
+  // 해당 하차지 운임 삭제
+  Object.keys(appState.fareMap).forEach(k => {
+    if (k.startsWith(display + '|')) delete appState.fareMap[k];
+  });
+  renderDropoffTags();
+  renderGrid();
+}
+
+function renderDropoffTags() {
+  const el = document.getElementById('dropoffTags');
+  el.innerHTML = appState.dropoffs.map(d =>
+    `<span class="tag">${d.display}<span class="tag-del" onclick="removeDropoff('${d.display}')">×</span></span>`
+  ).join('');
+}
+
+/* ════════════════════════════════════════
+   차량 모달
+════════════════════════════════════════ */
+function rebuildVehicleTypeFilter() {
+  const types = [...new Set(TMS_UNITS.map(u => u.vType).filter(Boolean))];
+  const btns = document.getElementById('vtypeBtns');
+  if (!btns) return;
+  btns.innerHTML = types.map(t =>
+    `<button class="vtype-btn" onclick="onVtypeSelect(this,'${t}')">${t}</button>`
+  ).join('');
+}
+
+function openVehicleModal() {
+  if (TMS_UNITS.length === 0) {
+    alert('먼저 "🔄 차량 업데이트" 버튼을 눌러 차량 데이터를 불러오세요.');
+    return;
+  }
+  rebuildVehicleTypeFilter();
+  document.getElementById('specRow').style.display = 'none';
+  document.getElementById('vehicleSpec').innerHTML = '';
+  document.getElementById('vehiclePreview').textContent = '';
+  document.querySelectorAll('.vtype-btn').forEach(b => b.classList.remove('selected'));
+  openModal('vehicleModal');
+}
+
+function onVtypeSelect(btn, type) {
+  document.querySelectorAll('.vtype-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  const specs = getVehicleSpecs(type);
+  const specRow = document.getElementById('specRow');
+  const specSel = document.getElementById('vehicleSpec');
+
+  if (specs.length > 0) {
+    specSel.innerHTML = specs.map(s =>
+      `<option value="${s.unitCode}">${s.label}</option>`
+    ).join('');
+    specRow.style.display = 'flex';
+    updateVehiclePreview();
+  } else {
+    specRow.style.display = 'none';
+    document.getElementById('vehiclePreview').textContent = '';
+  }
+}
+
+function getVehicleSpecs(type) {
+  return TMS_UNITS
+    .filter(u => u.vType === type)
+    .map(u => ({
+      unitCode: u.unitCode,
+      label: [u.tonnage, u.cargoTemp].filter(Boolean).join(' ') || u.unitName
+    }));
+}
+
+function updateVehiclePreview() {
+  const unitCode = document.getElementById('vehicleSpec').value;
+  const unit = TMS_UNITS.find(u => u.unitCode === unitCode);
+  if (unit) {
+    document.getElementById('vehiclePreview').textContent =
+      `단위명: ${unit.unitName}`;
+  }
+}
+
+function addVehicle() {
+  const selectedBtn = document.querySelector('.vtype-btn.selected');
+  if (!selectedBtn) { alert('차종을 선택해주세요.'); return; }
+
+  const specRow = document.getElementById('specRow');
+  let unitCode, displayName;
+
+  if (specRow.style.display !== 'none') {
+    unitCode = document.getElementById('vehicleSpec').value;
+    const unit = TMS_UNITS.find(u => u.unitCode === unitCode);
+    if (!unit) { alert('차량 정보를 찾을 수 없습니다.'); return; }
+    displayName = unit.unitName;
+  } else {
+    const type = selectedBtn.textContent;
+    const unit = TMS_UNITS.find(u => u.vType === type);
+    if (!unit) { alert('차량 정보를 찾을 수 없습니다.'); return; }
+    unitCode = unit.unitCode;
+    displayName = unit.unitName;
+  }
+
+  if (appState.vehicles.find(v => v.unitCode === unitCode)) {
+    alert('이미 추가된 차량입니다.'); return;
+  }
+
+  appState.vehicles.push({ displayName, unitCode });
+  closeModal('vehicleModal');
+  renderVehicleTags();
+  renderGrid();
+}
+
+function removeVehicle(unitCode) {
+  const v = appState.vehicles.find(v => v.unitCode === unitCode);
+  if (v) {
+    appState.vehicles = appState.vehicles.filter(v => v.unitCode !== unitCode);
+    Object.keys(appState.fareMap).forEach(k => {
+      if (k.endsWith('|' + v.displayName)) delete appState.fareMap[k];
+    });
+  }
+  renderVehicleTags();
+  renderGrid();
+}
+
+function renderVehicleTags() {
+  const el = document.getElementById('vehicleTags');
+  el.innerHTML = appState.vehicles.map(v =>
+    `<span class="tag">${v.displayName}<span class="tag-del" onclick="removeVehicle('${v.unitCode}')">×</span></span>`
+  ).join('');
+}
+
+/* ════════════════════════════════════════
+   운임표 렌더링
+════════════════════════════════════════ */
+function fareKey(dropoff, vehicleName) {
+  return dropoff + '|' + vehicleName;
+}
+
+function getLomasHeader(displayName) {
+  const info = LOMAS_MAP[displayName];
+  if (!info) return null;
+  const tmsCode = tmsCodeMap[info.unitCode];
+  if (!tmsCode) return null;
+  return `${displayName}[${tmsCode}]`;
+}
+
+function renderGrid() {
+  const area = document.getElementById('fareGrid');
+  const { pickup, dropoffs, vehicles } = appState;
+
+  if (!pickup || dropoffs.length === 0 || vehicles.length === 0) {
+    area.innerHTML = '<p style="color:#aaa;font-size:12px;">상차지·하차지·차량을 선택하면 운임표가 생성됩니다.</p>';
+    return;
+  }
+
+  let html = '<div class="table-wrap"><table class="fare-table"><thead><tr>';
+  html += '<th class="left">상차지역</th><th class="left">하차지역</th>';
+  vehicles.forEach(v => {
+    const lomasHeader = getLomasHeader(v.displayName);
+    const thLabel = lomasHeader
+      ? lomasHeader.replace(/\[(\d+)\]/, '<br><span style="font-size:10px;color:#888;">[$1]</span>')
+      : v.displayName;
+    html += `<th>${thLabel}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  dropoffs.forEach(d => {
+    html += `<tr>
+      <td class="left">${pickup.display}</td>
+      <td class="left">${d.display}</td>`;
+    vehicles.forEach(v => {
+      const key = fareKey(d.display, v.displayName);
+      const val = appState.fareMap[key] ?? '';
+      html += `<td><input class="fare-input" type="number" min="0" step="100"
+        value="${val}" data-key="${key}" onchange="onFareChange(this)"></td>`;
+    });
+    html += '</tr>';
+  });
+
+  html += '</tbody></table></div>';
+  area.innerHTML = html;
+}
+
+function onFareChange(input) {
+  const key = input.dataset.key;
+  const val = input.value.trim();
+  if (val === '') {
+    delete appState.fareMap[key];
+  } else {
+    appState.fareMap[key] = Number(val);
+  }
+}
+/* ════════════════════════════════════════
+   엑셀 다운로드
+════════════════════════════════════════ */
+function downloadExcel() {
+  const { pickup, dropoffs, vehicles } = appState;
+  if (!pickup || dropoffs.length === 0 || vehicles.length === 0) {
+    alert('상차지, 하차지, 차량을 모두 선택해주세요.');
+    return;
+  }
+
+  // SheetJS CDN 동적 로드
+  if (typeof XLSX === 'undefined') {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js';
+    script.onload = () => doDownloadExcel();
+    document.head.appendChild(script);
+  } else {
+    doDownloadExcel();
+  }
+}
+
+function doDownloadExcel() {
+  const { pickup, dropoffs, vehicles } = appState;
+
+  // 헤더행
+  const header = ['상차지역', '하차지역', ...vehicles.map(v => {
+    const info = LOMAS_MAP[v.displayName];
+    const tmsCode = info ? tmsCodeMap[info.unitCode] : null;
+    return tmsCode ? `${v.displayName}[${tmsCode}]` : v.displayName;
+  })];
+
+  // 데이터행
+  const rows = dropoffs.map(d => {
+    const row = [pickup.display, d.display];
+    vehicles.forEach(v => {
+      const key = fareKey(d.display, v.displayName);
+      row.push(appState.fareMap[key] ?? '');
+    });
+    return row;
+  });
+
+  const wsData = [header, ...rows];
+  const ws = XLSX.utils.aoa_to_sheet(wsData);
+
+  // 열 너비 설정
+  ws['!cols'] = [
+    { wch: 16 }, { wch: 16 },
+    ...vehicles.map(() => ({ wch: 14 }))
+  ];
+
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, ws, '계약운임표');
+
+  const now = new Date();
+  const stamp = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  XLSX.writeFile(wb, `계약운임표_${pickup.display}_${stamp}.xlsx`);
+}
+
+/* ════════════════════════════════════════
+   맵핑 페이지 — 타입 필터 재구성
+════════════════════════════════════════ */
+function rebuildMappingTypeFilter() {
+  const sel = document.getElementById('filterType');
+  if (!sel) return;
+  const types = [...new Set(TMS_UNITS.map(u => u.vType).filter(Boolean))];
+  const cur = sel.value;
+  sel.innerHTML = '<option value="">전체 차종</option>';
+  types.forEach(t => {
+    const opt = document.createElement('option');
+    opt.value = t; opt.textContent = t;
+    if (t === cur) opt.selected = true;
+    sel.appendChild(opt);
+  });
+}
+
+/* ════════════════════════════════════════
+   맵핑 페이지 — 테이블 렌더링
+════════════════════════════════════════ */
+function renderMappingTable() {
+  const typeFilter   = document.getElementById('filterType')?.value ?? '';
+  const tempFilter   = document.getElementById('filterTemp')?.value ?? '';
+  const mappedFilter = document.getElementById('filterMapped')?.value ?? '';
+  const searchFilter = (document.getElementById('filterSearch')?.value ?? '').trim().toLowerCase();
+
+  let filtered = TMS_UNITS.filter(u => {
+    if (typeFilter   && u.vType      !== typeFilter)   return false;
+    if (tempFilter   && u.cargoTemp  !== tempFilter)   return false;
+    if (searchFilter && !u.unitName.toLowerCase().includes(searchFilter)) return false;
+    const hasTms = !!tmsCodeMap[u.unitCode];
+    if (mappedFilter === 'mapped'   && !hasTms) return false;
+    if (mappedFilter === 'unmapped' &&  hasTms) return false;
+    return true;
+  });
+
+  const tbody = document.getElementById('mappingBody');
+  if (!tbody) return;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="color:#aaa;padding:16px;">표시할 항목이 없습니다.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(u => {
+    const tmsVal = tmsCodeMap[u.unitCode] ?? '';
+    const mapped = !!tmsVal;
+    return `<tr class="${mapped ? 'mapped' : ''}">
+      <td class="left">${u.unitName}</td>
+      <td>${u.vType || ''}</td>
+      <td>${u.tonnage || ''}</td>
+      <td>${u.cargoTemp || ''}</td>
+      <td><input class="tms-input" type="text" value="${tmsVal}"
+        data-unit="${u.unitCode}"
+        onchange="onTmsInputChange(this)"
+        placeholder="TMS코드"></td>
+    </tr>`;
+  }).join('');
+
+  // 맵핑 현황 업데이트
+  const totalMapped = TMS_UNITS.filter(u => !!tmsCodeMap[u.unitCode]).length;
+  document.getElementById('mappingInfo').textContent =
+    `총 ${TMS_UNITS.length}건 · 입력됨 ${totalMapped}건 · 미입력 ${TMS_UNITS.length - totalMapped}건`;
+}
+
+function onTmsInputChange(input) {
+  const unitCode = input.dataset.unit;
+  const val = input.value.trim();
+  if (val) {
+    tmsCodeMap[unitCode] = val;
+    const unit = TMS_UNITS.find(u => u.unitCode === unitCode);
+    if (unit) LOMAS_MAP[unit.unitName] = { unitCode, label: buildLabel(unit) };
+    input.closest('tr').classList.add('mapped');
+  } else {
+    delete tmsCodeMap[unitCode];
+    const unit = TMS_UNITS.find(u => u.unitCode === unitCode);
+    if (unit) delete LOMAS_MAP[unit.unitName];
+    input.closest('tr').classList.remove('mapped');
+  }
+  // 맵핑 현황 숫자 갱신
+  const totalMapped = TMS_UNITS.filter(u => !!tmsCodeMap[u.unitCode]).length;
+  document.getElementById('mappingInfo').textContent =
+    `총 ${TMS_UNITS.length}건 · 입력됨 ${totalMapped}건 · 미입력 ${TMS_UNITS.length - totalMapped}건`;
+}
+
+/* ════════════════════════════════════════
+   맵핑 저장 / 불러오기 / 초기화
+════════════════════════════════════════ */
+function saveMapping() {
+  localStorage.setItem('lomasTmsCodeMap', JSON.stringify(tmsCodeMap));
+  alert(`저장 완료 (${Object.keys(tmsCodeMap).length}건)`);
+}
+
+function loadSavedMapping() {
+  const saved = localStorage.getItem('lomasTmsCodeMap');
+  if (!saved) return;
+  try {
+    const map = JSON.parse(saved);
+    // Sheets 데이터가 이미 로드된 후 적용 (Sheets 값 우선)
+    Object.entries(map).forEach(([unitCode, tmsCode]) => {
+      if (!tmsCodeMap[unitCode] && tmsCode) {
+        tmsCodeMap[unitCode] = tmsCode;
+        const unit = TMS_UNITS.find(u => u.unitCode === unitCode);
+        if (unit) LOMAS_MAP[unit.unitName] = { unitCode, label: buildLabel(unit) };
+      }
+    });
+  } catch(e) {
+    console.warn('맵핑 로드 실패:', e);
+  }
+}
+
+function resetMapping() {
+  if (!confirm('모든 TMS코드 입력값을 초기화하시겠습니까?')) return;
+  tmsCodeMap = {};
+  LOMAS_MAP = {};
+  localStorage.removeItem('lomasTmsCodeMap');
+  renderMappingTable();
+}
+/* ════════════════════════════════════════
+   모달 유틸
+════════════════════════════════════════ */
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// 모달 외부(오버레이) 클릭 시 닫기
+document.addEventListener('click', function(e) {
+  if (e.target.classList.contains('modal-overlay')) {
+    e.target.classList.remove('open');
+  }
+});
+
+/* ════════════════════════════════════════
+   초기화
+════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  initPickupSidos();
+  initDropoffSidos();
+});
