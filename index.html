@@ -3,35 +3,35 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LOMAS ê³ì½ì´ìí ìì±</title>
+<title>LOMAS 계약운임표 생성</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
 * { box-sizing: border-box; }
-body { font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px; background: #f5f6f8; color: #222; margin: 0; }
+body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; background: #f5f6f8; color: #222; margin: 0; }
 
-/* ââ í¤ë ââ */
+/* ── 헤더 ── */
 .app-header { background: #025F68; color: #fff; padding: 0 20px; display: flex; align-items: stretch; gap: 10px; height: 46px; }
 .app-header .logo { display:flex; align-items:center; gap:8px; font-size: 14px; font-weight: 600; padding-right: 4px; }
 .nav-tab {
-  padding: 0 18px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px; font-weight: 500;
+  padding: 0 18px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; font-weight: 500;
   background: none; border: none; border-bottom: 3px solid transparent; color: rgba(255,255,255,.7);
   cursor: pointer; height: 100%; transition: all .15s; margin-top: 3px;
 }
 .nav-tab:hover { color: #fff; }
 .nav-tab.active { color: #fff; border-bottom-color: #fff; font-weight: 600; }
 
-/* ââ ë ì´ìì ââ */
+/* ── 레이아웃 ── */
 .page { display: none; }
 .page.active { display: block; }
 .container { max-width: 1400px; margin: 0 auto; padding: 16px; }
 .top-row { display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 
-/* ââ ì¹´ë ââ */
+/* ── 카드 ── */
 .card { background: #fff; border: 1px solid #dde1e7; border-radius: 6px; padding: 14px 16px; }
 .card-title { font-size: 12px; font-weight: 600; color: #555; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 8px; display:flex; align-items:center; justify-content:space-between; }
 
-/* ââ ë²í¼ ââ */
-.btn { font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; height: 32px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; background: #fff; color: #444; transition: all .15s; }
+/* ── 버튼 ── */
+.btn { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; font-weight: 500; padding: 6px 16px; border-radius: 4px; border: 1px solid #ccc; cursor: pointer; height: 32px; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; background: #fff; color: #444; transition: all .15s; }
 .btn:hover { border-color: #999; }
 .btn-yellow { background: #025F68; color: #fff; border-color: #025F68; font-weight: 600; }
 .btn-yellow:hover { background: #014d55; border-color: #014d55; }
@@ -44,33 +44,33 @@ body { font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; fo
 .btn-link:hover { text-decoration: underline; }
 .btn-sm { padding: 3px 10px; font-size: 12px; height: 26px; }
 
-/* ââ íê·¸ ââ */
+/* ── 태그 ── */
 .tag { display: inline-flex; align-items: center; gap: 4px; background: #e0f0f1; border: 1px solid #80bec3; border-radius: 4px; padding: 2px 8px; font-size: 12px; color: #025F68; }
 .tag-rm { cursor: pointer; color: #67a8af; font-size: 14px; line-height: 1; }
 .tag-rm:hover { color: #dc2626; }
 
-/* ââ í¼ ââ */
+/* ── 폼 ── */
 .form-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 label.form-label { font-size: 12px; color: #666; min-width: 48px; }
 select.form-select {
   border: 1px solid #ccc; border-radius: 4px; padding: 5px 28px 5px 8px;
-  font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px;
+  font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px;
   background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center;
   outline: none; height: 32px; cursor: pointer; appearance: none; width: 100%;
 }
 select.form-select:focus { border-color: #025F68; }
 input.form-input {
   border: 1px solid #ccc; border-radius: 4px; padding: 4px 8px;
-  font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px;
+  font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px;
   height: 32px; outline: none; width: 100%;
 }
 input.form-input:focus { border-color: #025F68; }
 
-/* ââ ì»¤ì¤í ëë¡­ë¤ì´ (ì²´í¬ë°ì¤) ââ */
+/* ── 커스텀 드롭다운 (체크박스) ── */
 .custom-dropdown { position: relative; width: 100%; }
 .dropdown-trigger {
   width: 100%; height: 32px; border: 1px solid #ccc; border-radius: 4px;
-  background: #fff; padding: 0 28px 0 10px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif;
+  background: #fff; padding: 0 28px 0 10px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
   font-size: 13px; color: #222; cursor: pointer; text-align: left; display: flex; align-items: center;
   position: relative; user-select: none;
 }
@@ -85,7 +85,7 @@ input.form-input:focus { border-color: #025F68; }
 .dp-chk-label:hover { background: #f5f7ff; }
 .dp-chk-label input[type=checkbox] { accent-color: #025F68; width: 14px; height: 14px; cursor: pointer; }
 
-/* ââ ëª¨ë¬ ê³µíµ ââ */
+/* ── 모달 공통 ── */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 200; display: none; align-items: flex-start; justify-content: center; padding-top: 60px; }
 .modal-overlay.open { display: flex; }
 .modal-box { background: #fff; border-radius: 8px; width: min(740px, 96vw); max-height: 80vh; box-shadow: 0 8px 40px rgba(0,0,0,.22); display: flex; flex-direction: column; }
@@ -100,7 +100,7 @@ input.form-input:focus { border-color: #025F68; }
 .modal-foot { padding: 12px 20px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 8px; flex-shrink: 0; }
 
 .tab-group { display: flex; border-bottom: 1px solid #eee; flex-shrink: 0; }
-.tab-btn { flex: 1; padding: 9px 0; font-size: 13px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; border: none; border-bottom: 2px solid transparent; background: none; cursor: pointer; color: #888; margin-bottom: -1px; transition: all .15s; }
+.tab-btn { flex: 1; padding: 9px 0; font-size: 13px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; border: none; border-bottom: 2px solid transparent; background: none; cursor: pointer; color: #888; margin-bottom: -1px; transition: all .15s; }
 .tab-btn.active { color: #025F68; border-bottom-color: #025F68; font-weight: 600; }
 .tab-btn:hover:not(.active) { color: #444; }
 
@@ -132,7 +132,7 @@ input.form-input:focus { border-color: #025F68; }
 .empty-icon { font-size: 28px; margin-bottom: 6px; }
 
 .select-btn-area { padding: 12px 16px; border-top: 1px solid #eee; flex-shrink: 0; }
-.btn-select { width: 100%; height: 38px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; cursor: pointer; color: #555; }
+.btn-select { width: 100%; height: 38px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; cursor: pointer; color: #555; }
 .btn-select:hover:not(:disabled) { background: #e0e0e0; }
 .btn-select:disabled { cursor: not-allowed; color: #bbb; }
 
@@ -140,7 +140,7 @@ input.form-input:focus { border-color: #025F68; }
 .vf-label { font-size: 12px; font-weight: 600; color: #444; margin-bottom: 5px; }
 .vf-label .req { color: #ef4444; }
 
-/* ââ ì´ì ê·¸ë¦¬ë ââ */
+/* ── 운임 그리드 ── */
 .table-wrap { overflow-x: auto; border: 1px solid #dde1e7; border-radius: 6px; }
 .fare-table { border-collapse: collapse; width: 100%; font-size: 13px; }
 .fare-table th { background: #f8f9fb; padding: 8px 12px; text-align: center; font-weight: 600; color: #444; white-space: nowrap; border-bottom: 1px solid #dde1e7; border-right: 1px solid #eee; font-size: 12px; }
@@ -148,33 +148,33 @@ input.form-input:focus { border-color: #025F68; }
 .fare-table td { padding: 5px 8px; border-bottom: 1px solid #f0f0f0; border-right: 1px solid #f0f0f0; text-align: center; }
 .fare-table td.left { text-align: left; padding-left: 12px; color: #555; white-space: nowrap; }
 .fare-table tr:hover td { background: #f8faff; }
-.fare-input { width: 90px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: right; outline: none; background: transparent; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; }
+.fare-input { width: 90px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: right; outline: none; background: transparent; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; }
 .fare-input:hover { border-color: #ccc; background: #fff; }
 .fare-input:focus { border-color: #025F68; background: #fff; }
 .empty-grid { text-align: center; padding: 40px; color: #aaa; font-size: 13px; }
 
-/* ââ ì½ë ë§µí íì´ë¸ ââ */
+/* ── 코드 맵핑 테이블 ── */
 .mapping-table { border-collapse: collapse; width: 100%; font-size: 13px; }
 .mapping-table th { background: #f8f9fb; padding: 8px 12px; text-align: left; font-weight: 600; color: #444; border-bottom: 2px solid #dde1e7; border-right: 1px solid #eee; font-size: 12px; white-space: nowrap; }
 .mapping-table th.center { text-align: center; }
 .mapping-table td { padding: 5px 10px; border-bottom: 1px solid #f0f0f0; border-right: 1px solid #f5f5f5; vertical-align: middle; }
 .mapping-table td.center { text-align: center; }
 .mapping-table tr:hover td { background: #f8faff; }
-.code-input { width: 80px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: center; outline: none; background: transparent; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; }
+.code-input { width: 80px; border: 1px solid transparent; border-radius: 4px; font-size: 13px; padding: 3px 6px; text-align: center; outline: none; background: transparent; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; }
 .code-input:hover { border-color: #ccc; background: #fff; }
 .code-input:focus { border-color: #025F68; background: #fff; }
 .code-input.has-value { background: #e0f0f1; border-color: #80bec3; color: #025F68; font-weight: 600; }
 
-/* íí° ë° */
+/* 필터 바 */
 .filter-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
-.filter-bar select { border: 1px solid #ccc; border-radius: 4px; padding: 5px 28px 5px 8px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px; height: 32px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center; outline: none; cursor: pointer; appearance: none; }
+.filter-bar select { border: 1px solid #ccc; border-radius: 4px; padding: 5px 28px 5px 8px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; height: 32px; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23888' d='M5 7L0 2h10z'/%3E%3C/svg%3E") no-repeat right 8px center; outline: none; cursor: pointer; appearance: none; }
 .filter-bar select:focus { border-color: #025F68; }
-.filter-bar input { border: 1px solid #ccc; border-radius: 4px; padding: 5px 8px; font-family: 'Malgun Gothic', 'ë§ì ê³ ë', sans-serif; font-size: 13px; height: 32px; outline: none; width: 140px; }
+.filter-bar input { border: 1px solid #ccc; border-radius: 4px; padding: 5px 8px; font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13px; height: 32px; outline: none; width: 140px; }
 .filter-bar input:focus { border-color: #025F68; }
 .mapped-count { font-size: 12px; color: #888; margin-left: auto; }
 .mapped-count span { color: #025F68; font-weight: 600; }
 
-/* ë°°ì§ */
+/* 배지 */
 .badge { display:inline-block; padding:1px 7px; border-radius:10px; font-size:11px; font-weight:600; }
 .badge-mapped { background:#dcfce7; color:#166534; }
 .badge-empty { background:#f3f4f6; color:#9ca3af; }
@@ -188,34 +188,34 @@ input.form-input:focus { border-color: #025F68; }
 </head>
 <body>
 
-<!-- ââ í¤ë ââ -->
+<!-- ── 헤더 ── -->
 <header class="app-header">
   <div class="logo" style="font-family: Arial, sans-serif; font-size:15px; font-weight:800; letter-spacing:0.05em">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h3l4 4v4h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
     LOMAS
   </div>
   <nav style="display:flex;gap:0;align-items:stretch;height:100%">
-    <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">ê³ì½ì´ìí ìì±</button>
-    <button class="nav-tab" id="nav-code" onclick="switchPage('code')">ì°¨ë ì½ë ë§µí</button>
+    <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">계약운임표 생성</button>
+    <button class="nav-tab" id="nav-code" onclick="switchPage('code')">차량 코드 맵핑</button>
   </nav>
 </header>
 
-<!-- ââââââââââââââââââââââââââââââââââââ
-     PAGE 1: ê³ì½ì´ìí ìì±
-ââââââââââââââââââââââââââââââââââââ -->
+<!-- ════════════════════════════════════
+     PAGE 1: 계약운임표 생성
+════════════════════════════════════ -->
 <div class="page active" id="page-fare">
 <div class="container">
   <div class="top-row">
-    <!-- ìì°¨ì§ -->
+    <!-- 상차지 -->
     <div class="card" style="flex:0 0 auto; min-width:240px">
-      <div class="card-title">ìì°¨ì§ <button class="btn-reset" onclick="resetPickup()" title="ì´ê¸°í">âº ì´ê¸°í</button></div>
+      <div class="card-title">상차지 <button class="btn-reset" onclick="resetPickup()" title="초기화">↺ 초기화</button></div>
       <div class="form-row">
-        <label class="form-label">ì/ë</label>
-        <select class="form-select" id="pickup-sido" style="width:115px" onchange="onPickupSido()"><option value="">ì í</option></select>
+        <label class="form-label">시/도</label>
+        <select class="form-select" id="pickup-sido" style="width:115px" onchange="onPickupSido()"><option value="">선택</option></select>
       </div>
       <div class="form-row">
-        <label class="form-label">ì/êµ°/êµ¬</label>
-        <select class="form-select" id="pickup-sigungu" style="width:130px" onchange="onPickupSigungu()"><option value="">ì í</option></select>
+        <label class="form-label">시/군/구</label>
+        <select class="form-select" id="pickup-sigungu" style="width:130px" onchange="onPickupSigungu()"><option value="">선택</option></select>
       </div>
       <div id="pickup-result" style="display:none; margin-top:6px">
         <span style="display:inline-flex;align-items:center;gap:6px;background:#e0f0f1;border:1px solid #80bec3;border-radius:4px;padding:4px 10px;font-size:13px;color:#025F68;font-weight:500">
@@ -223,73 +223,73 @@ input.form-input:focus { border-color: #025F68; }
         </span>
       </div>
     </div>
-    <!-- íì°¨ì§ -->
+    <!-- 하차지 -->
     <div class="card" style="flex:1; min-width:260px">
-      <div class="card-title">íì°¨ì§ <button class="btn-reset" onclick="resetDropoff()" title="ì´ê¸°í">âº ì´ê¸°í</button></div>
+      <div class="card-title">하차지 <button class="btn-reset" onclick="resetDropoff()" title="초기화">↺ 초기화</button></div>
       <div class="form-row">
-        <button class="btn btn-primary" onclick="openDropoffModal()">+ íì°¨ì§ ì¶ê°</button>
+        <button class="btn btn-primary" onclick="openDropoffModal()">+ 하차지 추가</button>
       </div>
       <div id="dropoff-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
     </div>
-    <!-- ì°¨ë -->
+    <!-- 차량 -->
     <div class="card" style="flex:1; min-width:260px">
-      <div class="card-title">ì°¨ë</div>
+      <div class="card-title">차량</div>
       <div class="form-row">
-        <button class="btn btn-primary" onclick="openVehicleModal()">+ ì°¨ë ì¶ê°</button>
+        <button class="btn btn-primary" onclick="openVehicleModal()">+ 차량 추가</button>
       </div>
       <div id="vehicle-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
     </div>
   </div>
 
-  <!-- ì´ìí -->
+  <!-- 운임표 -->
   <div class="card">
     <div class="card-title">
-      ì´ìí
-      <button class="btn btn-success btn-sm" onclick="downloadExcel()">â ìì ë¤ì´ë¡ë</button>
+      운임표
+      <button class="btn btn-success btn-sm" onclick="downloadExcel()">↓ 엑셀 다운로드</button>
     </div>
     <div id="grid-area">
-      <div class="empty-grid">ìì°¨ì§ Â· íì°¨ì§ Â· ì°¨ëì ì ííë©´ ì´ìíê° ìì±ë©ëë¤.</div>
+      <div class="empty-grid">상차지 · 하차지 · 차량을 선택하면 운임표가 생성됩니다.</div>
     </div>
   </div>
 </div>
 </div>
 
-<!-- ââââââââââââââââââââââââââââââââââââ
-     PAGE 2: ì°¨ë ì½ë ë§µí
-ââââââââââââââââââââââââââââââââââââ -->
+<!-- ════════════════════════════════════
+     PAGE 2: 차량 코드 맵핑
+════════════════════════════════════ -->
 <div class="page" id="page-code">
 <div class="container">
   <div class="card">
     <div class="card-title">
-      ì°¨ë ì½ë ë§µí
+      차량 코드 맵핑
       <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn btn-sm" onclick="clearAllCodes()" style="color:#dc2626;border-color:#fca5a5">ì ì²´ ì´ê¸°í</button>
-        <label class="btn btn-sm" style="cursor:pointer;background:#e0f0f1;border-color:#025F68;color:#025F68" title="LOMAS ì°¨ëë¨ìê´ë¦¬ìì ë´ë³´ë¸ JSON íì¼ì ë¶ë¬ìµëë¤">
-          â JSON ë¶ë¬ì¤ê¸°
+        <button class="btn btn-sm" onclick="clearAllCodes()" style="color:#dc2626;border-color:#fca5a5">전체 초기화</button>
+        <label class="btn btn-sm" style="cursor:pointer;background:#e0f0f1;border-color:#025F68;color:#025F68" title="LOMAS 차량단위관리에서 내보낸 JSON 파일을 불러옵니다">
+          ↑ JSON 불러오기
           <input type="file" id="json-upload-input" accept=".json" style="display:none" onchange="loadVehicleJson(this)">
         </label>
-        <button class="btn btn-success btn-sm" onclick="saveCodesAlert()">ì ì¥</button>
+        <button class="btn btn-success btn-sm" onclick="saveCodesAlert()">저장</button>
       </div>
     </div>
 
-    <!-- íí° -->
+    <!-- 필터 -->
     <div class="filter-bar">
       <select id="filter-type" onchange="renderMappingTable()">
-        <option value="">ì ì²´ ì°¨ì¢</option>
+        <option value="">전체 차종</option>
       </select>
       <select id="filter-spec" onchange="renderMappingTable()">
-        <option value="">ì ì²´ í¹ì±</option>
-        <option value="ìì¨">ìì¨</option>
-        <option value="ëì¥">ëì¥</option>
-        <option value="ëë(ëì¥í¬í¨)">ëë(ëì¥í¬í¨)</option>
-        <option value="ë¦¬íí¸">ë¦¬íí¸</option>
+        <option value="">전체 특성</option>
+        <option value="상온">상온</option>
+        <option value="냉장">냉장</option>
+        <option value="냉동(냉장포함)">냉동(냉장포함)</option>
+        <option value="리프트">리프트</option>
       </select>
       <select id="filter-mapped" onchange="renderMappingTable()">
-        <option value="">ì ì²´</option>
-        <option value="mapped">ì½ë ìë ¥ë¨</option>
-        <option value="empty">ë¯¸ìë ¥</option>
+        <option value="">전체</option>
+        <option value="mapped">코드 입력됨</option>
+        <option value="empty">미입력</option>
       </select>
-      <input type="text" id="filter-search" placeholder="ë¨ìëª ê²ì..." oninput="renderMappingTable()" style="border:1px solid #ccc;border-radius:4px;padding:4px 8px;height:32px;outline:none;width:160px">
+      <input type="text" id="filter-search" placeholder="단위명 검색..." oninput="renderMappingTable()" style="border:1px solid #ccc;border-radius:4px;padding:4px 8px;height:32px;outline:none;width:160px">
       <span class="mapped-count" id="mapped-count-label"></span>
     </div>
 
@@ -298,182 +298,182 @@ input.form-input:focus { border-color: #025F68; }
         <thead>
           <tr>
             <th style="width:40px" class="center">#</th>
-            <th style="min-width:180px">ë¨ìëª (TMS íìëª)</th>
-            <th style="width:80px">ì°¨ì¢</th>
-            <th style="width:80px">í¤ì</th>
-            <th style="width:100px">í¹ì±</th>
-            <th style="width:100px" class="center">TMS ì½ë</th>
+            <th style="min-width:180px">단위명 (TMS 표시명)</th>
+            <th style="width:80px">차종</th>
+            <th style="width:80px">톤수</th>
+            <th style="width:100px">특성</th>
+            <th style="width:100px" class="center">TMS 코드</th>
           </tr>
         </thead>
         <tbody id="mapping-tbody"></tbody>
       </table>
     </div>
     <div style="margin-top:8px;font-size:12px;color:#aaa">
-      * ì½ë ìë ¥ í ê³ì½ì´ìíì ì°¨ë í¤ëì [ì½ëë²í¸] ííë¡ ìë ë°ìë©ëë¤.<br>
-      * <b style="color:#025F68">JSON ë¶ë¬ì¤ê¸°</b>: LOMAS ì°¨ëë¨ìê´ë¦¬ íì´ì§ìì íì¥íë¡ê·¸ë¨ì¼ë¡ ë´ë³´ë¸ JSON íì¼ì ìë¡ëíë©´ ì½ëê° ìë ê°±ì ë©ëë¤.
+      * 코드 입력 후 계약운임표의 차량 헤더에 [코드번호] 형태로 자동 반영됩니다.<br>
+      * <b style="color:#025F68">JSON 불러오기</b>: LOMAS 차량단위관리 페이지에서 확장프로그램으로 내보낸 JSON 파일을 업로드하면 코드가 자동 갱신됩니다.
     </div>
-    <!-- ëëê·¸&ëë¡­ ì¡´ -->
+    <!-- 드래그&드롭 존 -->
     <div id="json-dropzone"
       style="margin-top:10px;border:2px dashed #ccc;border-radius:6px;padding:14px;text-align:center;font-size:12px;color:#aaa;transition:all .2s;cursor:pointer"
       onclick="document.getElementById('json-upload-input').click()"
       ondragover="event.preventDefault();this.style.borderColor='#025F68';this.style.background='#e0f0f1'"
       ondragleave="this.style.borderColor='#ccc';this.style.background=''"
       ondrop="handleJsonDrop(event)">
-      ð ì¬ê¸°ì JSON íì¼ì ëëê·¸&ëë¡­íê±°ë í´ë¦­íì¬ ìë¡ë
+      📂 여기에 JSON 파일을 드래그&드롭하거나 클릭하여 업로드
     </div>
   </div>
 </div>
 </div>
 
-<!-- ââ íì°¨ì§ ëª¨ë¬ ââ -->
+<!-- ══ 하차지 모달 ══ -->
 <div class="modal-overlay" id="dropoff-modal">
   <div class="modal-box" style="height:580px">
-    <div class="modal-head"><h2>íì°¨ì§ ì¶ê°</h2><button class="modal-close-btn" onclick="closeDropoffModal()">â</button></div>
+    <div class="modal-head"><h2>하차지 추가</h2><button class="modal-close-btn" onclick="closeDropoffModal()">✕</button></div>
     <div class="modal-body">
       <div class="modal-left">
-        <div class="modal-section-title">íì°¨ì§ ì í</div>
+        <div class="modal-section-title">하차지 선택</div>
         <div class="tab-group">
-          <button class="tab-btn active" id="dtab-sido" onclick="setDropoffTab('sido')">ì/ë ë¨ì</button>
-          <button class="tab-btn" id="dtab-sigungu" onclick="setDropoffTab('sigungu')">ì/êµ°/êµ¬ ë¨ì</button>
-          <button class="tab-btn" id="dtab-eupmyeong" onclick="setDropoffTab('eupmyeong')">ì/ë©´/ë ë¨ì</button>
+          <button class="tab-btn active" id="dtab-sido" onclick="setDropoffTab('sido')">시/도 단위</button>
+          <button class="tab-btn" id="dtab-sigungu" onclick="setDropoffTab('sigungu')">시/군/구 단위</button>
+          <button class="tab-btn" id="dtab-eupmyeong" onclick="setDropoffTab('eupmyeong')">읍/면/동 단위</button>
         </div>
         <div class="breadcrumb" id="d-breadcrumb" style="display:none"></div>
         <div id="d-sido-list" class="sido-grid"></div>
         <div id="d-sigungu-all-row" class="sigungu-all-row" style="display:none">
-          <label class="chk-label"><input type="checkbox" id="d-sigungu-all-chk" onchange="toggleAllSigungu(this.checked)"> ì ì²´ ì í</label>
+          <label class="chk-label"><input type="checkbox" id="d-sigungu-all-chk" onchange="toggleAllSigungu(this.checked)"> 전체 선택</label>
         </div>
         <div id="d-sigungu-list" class="sigungu-grid" style="display:none"></div>
-        <div class="select-btn-area"><button class="btn-select" id="d-select-btn" onclick="addToDropoffSelected()" disabled>ì ííê¸°</button></div>
+        <div class="select-btn-area"><button class="btn-select" id="d-select-btn" onclick="addToDropoffSelected()" disabled>선택하기</button></div>
       </div>
       <div class="modal-right">
-        <div class="modal-section-title">ì íë íì°¨ì§</div>
+        <div class="modal-section-title">선택된 하차지</div>
         <div class="selected-header">
-          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="d-sel-all-chk" onchange="toggleSelAllDropoff(this.checked)"> ì ì²´ ì í</label>
+          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="d-sel-all-chk" onchange="toggleSelAllDropoff(this.checked)"> 전체 선택</label>
           <span class="count" id="d-sel-count"></span>
-          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedDropoff()">ì­ì </button>
+          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedDropoff()">삭제</button>
         </div>
         <div class="selected-list" id="d-selected-list">
-          <div class="empty-state-right"><div class="empty-icon">ð</div>ì íë íì°¨ì§ê° ììµëë¤.</div>
+          <div class="empty-state-right"><div class="empty-icon">🔍</div>선택된 하차지가 없습니다.</div>
         </div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn" onclick="closeDropoffModal()">ë«ê¸°</button>
-      <button class="btn btn-yellow" onclick="confirmDropoff()">íì°¨ì§ ì¶ê°íê¸°</button>
+      <button class="btn" onclick="closeDropoffModal()">닫기</button>
+      <button class="btn btn-yellow" onclick="confirmDropoff()">하차지 추가하기</button>
     </div>
   </div>
 </div>
 
-<!-- ââ ì°¨ë ëª¨ë¬ ââ -->
+<!-- ══ 차량 모달 ══ -->
 <div class="modal-overlay" id="vehicle-modal">
   <div class="modal-box" style="height:540px">
-    <div class="modal-head"><h2>ì°¨ë ì¶ê°</h2><button class="modal-close-btn" onclick="closeVehicleModal()">â</button></div>
+    <div class="modal-head"><h2>차량 추가</h2><button class="modal-close-btn" onclick="closeVehicleModal()">✕</button></div>
     <div class="modal-body">
       <div class="modal-left" style="overflow:visible;position:relative">
-        <div class="modal-section-title">ì°¨ë ì¡°í© ì í</div>
+        <div class="modal-section-title">차량 조합 선택</div>
         <div class="vehicle-form" style="overflow:visible">
           <div>
-            <div class="vf-label">ì°¨ì¢ <span class="req">*</span></div>
-            <select class="form-select" id="v-type" onchange="onVehicleTypeChange()"><option value="">ì í</option></select>
+            <div class="vf-label">차종 <span class="req">*</span></div>
+            <select class="form-select" id="v-type" onchange="onVehicleTypeChange()"><option value="">선택</option></select>
           </div>
           <div style="position:relative">
-            <div class="vf-label">ì°¨ë í¤ì <span class="req">*</span></div>
+            <div class="vf-label">차량 톤수 <span class="req">*</span></div>
             <div class="custom-dropdown" id="ton-dropdown">
               <div class="dropdown-trigger" id="ton-trigger" onclick="toggleDropdown('ton')">
-                <span id="ton-label" class="placeholder">ì°¨ë í¤ì ì í</span><span class="arrow"></span>
+                <span id="ton-label" class="placeholder">차량 톤수 선택</span><span class="arrow"></span>
               </div>
               <div class="dropdown-panel" id="ton-panel">
-                <div class="dropdown-all-row"><label class="dp-chk-label"><input type="checkbox" id="ton-all-chk" onchange="toggleAllTons(this.checked)"> ì ì²´ ì í</label></div>
+                <div class="dropdown-all-row"><label class="dp-chk-label"><input type="checkbox" id="ton-all-chk" onchange="toggleAllTons(this.checked)"> 전체 선택</label></div>
                 <div id="ton-list"></div>
               </div>
             </div>
           </div>
           <div style="position:relative">
-            <div class="vf-label">ì°¨ë í¹ì±</div>
+            <div class="vf-label">차량 특성</div>
             <div class="custom-dropdown" id="spec-dropdown">
               <div class="dropdown-trigger" id="spec-trigger" onclick="toggleDropdown('spec')">
-                <span id="spec-label" class="placeholder">ì°¨ë í¹ì± ì í</span><span class="arrow"></span>
+                <span id="spec-label" class="placeholder">차량 특성 선택</span><span class="arrow"></span>
               </div>
               <div class="dropdown-panel" id="spec-panel"><div id="spec-list"></div></div>
             </div>
           </div>
         </div>
-        <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>ì ííê¸°</button></div>
+        <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
       </div>
       <div class="modal-right">
-        <div class="modal-section-title">ì íë ì°¨ë</div>
+        <div class="modal-section-title">선택된 차량</div>
         <div class="selected-header">
-          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="v-sel-all-chk" onchange="toggleSelAllVehicle(this.checked)"> ì ì²´ ì í</label>
+          <label class="chk-label" style="padding:0;gap:6px"><input type="checkbox" id="v-sel-all-chk" onchange="toggleSelAllVehicle(this.checked)"> 전체 선택</label>
           <span class="count" id="v-sel-count"></span>
-          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedVehicle()">ì­ì </button>
+          <button class="btn-link" style="margin-left:auto" onclick="deleteCheckedVehicle()">삭제</button>
         </div>
         <div class="selected-list" id="v-selected-list">
-          <div class="empty-state-right"><div class="empty-icon">ð</div>ì íë ì°¨ëì´ ììµëë¤.</div>
+          <div class="empty-state-right"><div class="empty-icon">🚛</div>선택된 차량이 없습니다.</div>
         </div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn" onclick="closeVehicleModal()">ë«ê¸°</button>
-      <button class="btn btn-yellow" onclick="confirmVehicle()">ì°¨ë ì¶ê°íê¸°</button>
+      <button class="btn" onclick="closeVehicleModal()">닫기</button>
+      <button class="btn btn-yellow" onclick="confirmVehicle()">차량 추가하기</button>
     </div>
   </div>
 </div>
 
 <script>
-/* ââââââââââââââââââââââââââââââââââââ
-   ë°ì´í°
-ââââââââââââââââââââââââââââââââââââ */
-/* REGION: TMS ì£¼ì ì²´ê³ ê¸°ì¤ (ì/ë íë¤ì, ì/êµ°/êµ¬ TMS íê¸° ê·¸ëë¡) */
+/* ════════════════════════════════════
+   데이터
+════════════════════════════════════ */
+/* REGION: TMS 주소 체계 기준 (시/도 풀네임, 시/군/구 TMS 표기 그대로) */
 const REGION = {
-  "ê°ìí¹ë³ìì¹ë":["ê°ë¦ì","ê³ ì±êµ°","ëí´ì","ì¼ì²ì","ìì´ì","ìêµ¬êµ°","ììêµ°","ììêµ°","ìì£¼ì","ì¸ì êµ°","ì ì êµ°","ì² ìêµ°","ì¶ì²ì","íë°±ì","íì°½êµ°","íì²êµ°","íì²êµ°","í¡ì±êµ°"],
-  "ê²½ê¸°ë":["ê°íêµ°","ê³ ìì","ê³ ììëìêµ¬","ê³ ììì¼ì°ëêµ¬","ê³ ììì¼ì°ìêµ¬","ê³¼ì²ì","ê´ëªì","ê´ì£¼ì","êµ¬ë¦¬ì","êµ°í¬ì","ê¹í¬ì","ë¨ìì£¼ì","ëëì²ì","ë¶ì²ì","ë¶ì²ììì¬êµ¬","ë¶ì²ìì¤ì êµ¬","ë¶ì²ììë¯¸êµ¬","ì±ë¨ì","ì±ë¨ìë¶ë¹êµ¬","ì±ë¨ììì êµ¬","ì±ë¨ìì¤ìêµ¬","ììì","ìììê¶ì êµ¬","ììììíµêµ¬","ìììì¥ìêµ¬","ìììíë¬êµ¬","ìí¥ì","ìì°ì","ìì°ìë¨ìêµ¬","ìì°ììë¡êµ¬","ìì±ì","ììì","ìììëìêµ¬","ìììë§ìêµ¬","ìì£¼ì","ìíêµ°","ì¬ì£¼ì","ì°ì²êµ°","ì¤ì°ì","ì©ì¸ì","ì©ì¸ìê¸°í¥êµ¬","ì©ì¸ììì§êµ¬","ì©ì¸ìì²ì¸êµ¬","ììì","ìì ë¶ì","ì´ì²ì","íì£¼ì","ííì","í¬ì²ì","íë¨ì","íì±ì"],
-  "ê²½ìë¨ë":["ê±°ì ì","ê±°ì°½êµ°","ê³ ì±êµ°","ê¹í´ì","ë¨í´êµ°","ë°ìì","ì¬ì²ì","ì°ì²­êµ°","ìì°ì","ìë ¹êµ°","ì§ì£¼ì","ì°½ëêµ°","ì°½ìì","ì°½ììë§ì°í©í¬êµ¬","ì°½ììë§ì°íìêµ¬","ì°½ììì±ì°êµ¬","ì°½ìììì°½êµ¬","ì°½ììì§í´êµ¬","íµìì","íëêµ°","í¨ìêµ°","í¨ìêµ°","í©ì²êµ°"],
-  "ê²½ìë¶ë":["ê²½ì°ì","ê²½ì£¼ì","ê³ ë ¹êµ°","êµ¬ë¯¸ì","ê¹ì²ì","ë¬¸ê²½ì","ë´íêµ°","ìì£¼ì","ì±ì£¼êµ°","ìëì","ìëêµ°","ììêµ°","ìì£¼ì","ìì²ì","ìì²êµ°","ì¸ë¦êµ°","ì¸ì§êµ°","ìì±êµ°","ì²­ëêµ°","ì²­ì¡êµ°","ì¹ ê³¡êµ°","í¬í­ì","í¬í­ìë¨êµ¬","í¬í­ìë¶êµ¬"],
-  "ê´ì£¼ê´ì­ì":["ê´ì°êµ¬","ë¨êµ¬","ëêµ¬","ë¶êµ¬","ìêµ¬"],
-  "ëêµ¬ê´ì­ì":["êµ°ìêµ°","ë¨êµ¬","ë¬ìêµ¬","ë¬ì±êµ°","ëêµ¬","ë¶êµ¬","ìêµ¬","ìì±êµ¬","ì¤êµ¬"],
-  "ëì ê´ì­ì":["ëëêµ¬","ëêµ¬","ìêµ¬","ì ì±êµ¬","ì¤êµ¬"],
-  "ë¶ì°ê´ì­ì":["ê°ìêµ¬","ê¸ì êµ¬","ê¸°ì¥êµ°","ë¨êµ¬","ëêµ¬","ëëêµ¬","ë¶ì°ì§êµ¬","ë¶êµ¬","ì¬ìêµ¬","ì¬íêµ¬","ìêµ¬","ììêµ¬","ì°ì êµ¬","ìëêµ¬","ì¤êµ¬","í´ì´ëêµ¬"],
-  "ìì¸í¹ë³ì":["ê°ë¨êµ¬","ê°ëêµ¬","ê°ë¶êµ¬","ê°ìêµ¬","ê´ìêµ¬","ê´ì§êµ¬","êµ¬ë¡êµ¬","ê¸ì²êµ¬","ë¸ìêµ¬","ëë´êµ¬","ëëë¬¸êµ¬","ëìêµ¬","ë§í¬êµ¬","ìëë¬¸êµ¬","ìì´êµ¬","ì±ëêµ¬","ì±ë¶êµ¬","ì¡íêµ¬","ìì²êµ¬","ìë±í¬êµ¬","ì©ì°êµ¬","ìíêµ¬","ì¢ë¡êµ¬","ì¤êµ¬","ì¤ëêµ¬"],
-  "ì¸ì¢í¹ë³ìì¹ì":["ì¸ì¢ì"],
-  "ì¸ì°ê´ì­ì":["ë¨êµ¬","ëêµ¬","ë¶êµ¬","ì¸ì£¼êµ°","ì¤êµ¬"],
-  "ì¸ì²ê´ì­ì":["ê°íêµ°","ê³ìêµ¬","ë¨ëêµ¬","ëêµ¬","ë¯¸ì¶íêµ¬","ë¶íêµ¬","ìêµ¬","ì°ìêµ¬","ì¹ì§êµ°","ì¤êµ¬"],
-  "ì ë¼ë¨ë":["ê°ì§êµ°","ê³ í¥êµ°","ê³¡ì±êµ°","ê´ìì","êµ¬ë¡êµ°","ëì£¼ì","ë´ìêµ°","ëª©í¬ì","ë¬´ìêµ°","ë³´ì±êµ°","ìì²ì","ì ìêµ°","ì¬ìì","ìê´êµ°","ììêµ°","ìëêµ°","ì¥ì±êµ°","ì¥í¥êµ°","ì§ëêµ°","í¨íêµ°","í´ë¨êµ°","íìêµ°"],
-  "ì ë¶í¹ë³ìì¹ë":["ê³ ì°½êµ°","êµ°ì°ì","ê¹ì ì","ë¨ìì","ë¬´ì£¼êµ°","ë¶ìêµ°","ìì°½êµ°","ìì£¼êµ°","ìµì°ì","ìì¤êµ°","ì¥ìêµ°","ì ì£¼ì","ì ì£¼ìëì§êµ¬","ì ì£¼ììì°êµ¬","ì ìì","ì§ìêµ°"],
-  "ì ì£¼í¹ë³ìì¹ë":["ìê·í¬ì","ì ì£¼ì"],
-  "ì¶©ì²­ë¨ë":["ê³ë£¡ì","ê³µì£¼ì","ê¸ì°êµ°","ë¼ì°ì","ë¹ì§ì","ë³´ë ¹ì","ë¶ì¬êµ°","ìì°ì","ìì²êµ°","ìì°ì","ìì°êµ°","ì²ìì","ì²ììëë¨êµ¬","ì²ìììë¶êµ¬","ì²­ìêµ°","íìêµ°","íì±êµ°"],
-  "ì¶©ì²­ë¶ë":["ê´´ì°êµ°","ë¨ìêµ°","ë³´ìêµ°","ìëêµ°","ì¥ì²êµ°","ìì±êµ°","ì ì²ì","ì¦íêµ°","ì§ì²êµ°","ì²­ì£¼ì","ì²­ì£¼ììë¹êµ¬","ì²­ì£¼ìììêµ¬","ì²­ì£¼ìì²­ìêµ¬","ì²­ì£¼ìí¥ëêµ¬","ì¶©ì£¼ì"]
+  "강원특별자치도":["강릉시","고성군","동해시","삼척시","속초시","양구군","양양군","영월군","원주시","인제군","정선군","철원군","춘천시","태백시","평창군","홍천군","화천군","횡성군"],
+  "경기도":["가평군","고양시","고양시덕양구","고양시일산동구","고양시일산서구","과천시","광명시","광주시","구리시","군포시","김포시","남양주시","동두천시","부천시","부천시소사구","부천시오정구","부천시원미구","성남시","성남시분당구","성남시수정구","성남시중원구","수원시","수원시권선구","수원시영통구","수원시장안구","수원시팔달구","시흥시","안산시","안산시단원구","안산시상록구","안성시","안양시","안양시동안구","안양시만안구","양주시","양평군","여주시","연천군","오산시","용인시","용인시기흥구","용인시수지구","용인시처인구","의왕시","의정부시","이천시","파주시","평택시","포천시","하남시","화성시"],
+  "경상남도":["거제시","거창군","고성군","김해시","남해군","밀양시","사천시","산청군","양산시","의령군","진주시","창녕군","창원시","창원시마산합포구","창원시마산회원구","창원시성산구","창원시의창구","창원시진해구","통영시","하동군","함안군","함양군","합천군"],
+  "경상북도":["경산시","경주시","고령군","구미시","김천시","문경시","봉화군","상주시","성주군","안동시","영덕군","영양군","영주시","영천시","예천군","울릉군","울진군","의성군","청도군","청송군","칠곡군","포항시","포항시남구","포항시북구"],
+  "광주광역시":["광산구","남구","동구","북구","서구"],
+  "대구광역시":["군위군","남구","달서구","달성군","동구","북구","서구","수성구","중구"],
+  "대전광역시":["대덕구","동구","서구","유성구","중구"],
+  "부산광역시":["강서구","금정구","기장군","남구","동구","동래구","부산진구","북구","사상구","사하구","서구","수영구","연제구","영도구","중구","해운대구"],
+  "서울특별시":["강남구","강동구","강북구","강서구","관악구","광진구","구로구","금천구","노원구","도봉구","동대문구","동작구","마포구","서대문구","서초구","성동구","성북구","송파구","양천구","영등포구","용산구","은평구","종로구","중구","중랑구"],
+  "세종특별자치시":["세종시"],
+  "울산광역시":["남구","동구","북구","울주군","중구"],
+  "인천광역시":["강화군","계양구","남동구","동구","미추홀구","부평구","서구","연수구","옹진군","중구"],
+  "전라남도":["강진군","고흥군","곡성군","광양시","구례군","나주시","담양군","목포시","무안군","보성군","순천시","신안군","여수시","영광군","영암군","완도군","장성군","장흥군","진도군","함평군","해남군","화순군"],
+  "전북특별자치도":["고창군","군산시","김제시","남원시","무주군","부안군","순창군","완주군","익산시","임실군","장수군","전주시","전주시덕진구","전주시완산구","정읍시","진안군"],
+  "제주특별자치도":["서귀포시","제주시"],
+  "충청남도":["계룡시","공주시","금산군","논산시","당진시","보령시","부여군","서산시","서천군","아산시","예산군","천안시","천안시동남구","천안시서북구","청양군","태안군","홍성군"],
+  "충청북도":["괴산군","단양군","보은군","영동군","옥천군","음성군","제천시","증평군","진천군","청주시","청주시상당구","청주시서원구","청주시청원구","청주시흥덕구","충주시"]
 };
 
-const MID_TONS = ["1í¤","1.4í¤","2.5í¤","3.5í¤","5í¤","5í¤íë¬ì¤","5í¤ì¶","8í¤","9.5í¤","11í¤","14í¤","18í¤","22í¤","25í¤"];
+const MID_TONS = ["1톤","1.4톤","2.5톤","3.5톤","5톤","5톤플러스","5톤축","8톤","9.5톤","11톤","14톤","18톤","22톤","25톤"];
 const VEHICLE_SPECS = {
-  "ë¤ë§ì¤":   { tons:["0.3í¤"],                           specs:["ë¦¬íí¸ë ìì"] },
-  "ë¼ë³´":     { tons:["0.5í¤"],                           specs:["ë¦¬íí¸"] },
-  "ì¹´ê³ /ì":  { tons:MID_TONS,                            specs:["ë¦¬íí¸"] },
-  "ì¹´ê³ ":     { tons:MID_TONS,                            specs:["ë¦¬íí¸"] },
-  "ìë°ë":   { tons:MID_TONS,                            specs:["ëì¥","ëë(ëì¥í¬í¨)","ë¦¬íí¸"] },
-  "í":       { tons:MID_TONS,                            specs:["ëì¥","ëë(ëì¥í¬í¨)","ë¦¬íí¸"] },
-  "ë°©íµì°¨":   { tons:["18í¤","22í¤","25í¤"],               specs:[] },
-  "í¸ë ì¼ë¬": { tons:["18í¤","22í¤","25í¤","20ft","40ft"], specs:["ëì¥","ëë(ëì¥í¬í¨)","ë¦¬íí¸"] },
+  "다마스":   { tons:["0.3톤"],                           specs:["리프트는 없음"] },
+  "라보":     { tons:["0.5톤"],                           specs:["리프트"] },
+  "카고/윙":  { tons:MID_TONS,                            specs:["리프트"] },
+  "카고":     { tons:MID_TONS,                            specs:["리프트"] },
+  "윙바디":   { tons:MID_TONS,                            specs:["냉장","냉동(냉장포함)","리프트"] },
+  "탑":       { tons:MID_TONS,                            specs:["냉장","냉동(냉장포함)","리프트"] },
+  "방통차":   { tons:["18톤","22톤","25톤"],               specs:[] },
+  "트레일러": { tons:["18톤","22톤","25톤","20ft","40ft"], specs:["냉장","냉동(냉장포함)","리프트"] },
 };
 
-/* TMS ì°¨ë ë¨ì ë§ì¤í° ë°ì´í° (194ê°) */
-const TMS_UNITS = [{"unit":"0.3í¤ ë¤ë§ì¤","type":"ë¤ë§ì¤","ton":"0.3í¤","spec":"ìì¨"},{"unit":"0.5í¤ ë¼ë³´","type":"ë¼ë³´","ton":"0.5í¤","spec":"ìì¨"},{"unit":"0.5í¤ ë¼ë³´ ë¦¬íí¸","type":"ë¼ë³´","ton":"0.5í¤","spec":"ë¦¬íí¸"},{"unit":"1í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"1í¤","spec":"ìì¨"},{"unit":"1í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"1í¤","spec":"ë¦¬íí¸"},{"unit":"1.4í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"1.4í¤","spec":"ìì¨"},{"unit":"1.4í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"1.4í¤","spec":"ë¦¬íí¸"},{"unit":"2.5í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"2.5í¤","spec":"ìì¨"},{"unit":"2.5í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"2.5í¤","spec":"ë¦¬íí¸"},{"unit":"3.5í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"3.5í¤","spec":"ìì¨"},{"unit":"3.5í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"3.5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"5í¤","spec":"ìì¨"},{"unit":"5í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤íë¬ì¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"5í¤íë¬ì¤","spec":"ìì¨"},{"unit":"5í¤íë¬ì¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"5í¤íë¬ì¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ì¶ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"5í¤ì¶","spec":"ìì¨"},{"unit":"5í¤ì¶ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"5í¤ì¶","spec":"ë¦¬íí¸"},{"unit":"8í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"8í¤","spec":"ìì¨"},{"unit":"8í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"8í¤","spec":"ë¦¬íí¸"},{"unit":"9.5í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"9.5í¤","spec":"ìì¨"},{"unit":"9.5í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"9.5í¤","spec":"ë¦¬íí¸"},{"unit":"11í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"11í¤","spec":"ìì¨"},{"unit":"11í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"11í¤","spec":"ë¦¬íí¸"},{"unit":"14í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"14í¤","spec":"ìì¨"},{"unit":"14í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"14í¤","spec":"ë¦¬íí¸"},{"unit":"18í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"18í¤","spec":"ìì¨"},{"unit":"18í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"18í¤","spec":"ë¦¬íí¸"},{"unit":"22í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"22í¤","spec":"ìì¨"},{"unit":"22í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"22í¤","spec":"ë¦¬íí¸"},{"unit":"25í¤ ì¹´ê³ /ì","type":"ì¹´ê³ /ì","ton":"25í¤","spec":"ìì¨"},{"unit":"25í¤ ì¹´ê³ /ì ë¦¬íí¸","type":"ì¹´ê³ /ì","ton":"25í¤","spec":"ë¦¬íí¸"},{"unit":"1í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"1í¤","spec":"ìì¨"},{"unit":"1í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"1í¤","spec":"ë¦¬íí¸"},{"unit":"1.4í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"1.4í¤","spec":"ìì¨"},{"unit":"1.4í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"1.4í¤","spec":"ë¦¬íí¸"},{"unit":"2.5í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"2.5í¤","spec":"ìì¨"},{"unit":"2.5í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"2.5í¤","spec":"ë¦¬íí¸"},{"unit":"3.5í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"3.5í¤","spec":"ìì¨"},{"unit":"3.5í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"3.5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"5í¤","spec":"ìì¨"},{"unit":"5í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤íë¬ì¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"5í¤íë¬ì¤","spec":"ìì¨"},{"unit":"5í¤íë¬ì¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"5í¤íë¬ì¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ì¶ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"5í¤ì¶","spec":"ìì¨"},{"unit":"5í¤ì¶ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"5í¤ì¶","spec":"ë¦¬íí¸"},{"unit":"8í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"8í¤","spec":"ìì¨"},{"unit":"8í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"8í¤","spec":"ë¦¬íí¸"},{"unit":"9.5í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"9.5í¤","spec":"ìì¨"},{"unit":"9.5í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"9.5í¤","spec":"ë¦¬íí¸"},{"unit":"11í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"11í¤","spec":"ìì¨"},{"unit":"11í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"11í¤","spec":"ë¦¬íí¸"},{"unit":"14í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"14í¤","spec":"ìì¨"},{"unit":"14í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"14í¤","spec":"ë¦¬íí¸"},{"unit":"18í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"18í¤","spec":"ìì¨"},{"unit":"18í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"18í¤","spec":"ë¦¬íí¸"},{"unit":"22í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"22í¤","spec":"ìì¨"},{"unit":"22í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"22í¤","spec":"ë¦¬íí¸"},{"unit":"25í¤ ì¹´ê³ ","type":"ì¹´ê³ ","ton":"25í¤","spec":"ìì¨"},{"unit":"25í¤ ì¹´ê³  ë¦¬íí¸","type":"ì¹´ê³ ","ton":"25í¤","spec":"ë¦¬íí¸"},{"unit":"1í¤ ìë°ë","type":"ìë°ë","ton":"1í¤","spec":"ìì¨"},{"unit":"1í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"1í¤","spec":"ëì¥"},{"unit":"1í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"1í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"1í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"1í¤","spec":"ë¦¬íí¸"},{"unit":"1.4í¤ ìë°ë","type":"ìë°ë","ton":"1.4í¤","spec":"ìì¨"},{"unit":"1.4í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"1.4í¤","spec":"ëì¥"},{"unit":"1.4í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"1.4í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"1.4í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"1.4í¤","spec":"ë¦¬íí¸"},{"unit":"2.5í¤ ìë°ë","type":"ìë°ë","ton":"2.5í¤","spec":"ìì¨"},{"unit":"2.5í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"2.5í¤","spec":"ëì¥"},{"unit":"2.5í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"2.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"2.5í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"2.5í¤","spec":"ë¦¬íí¸"},{"unit":"3.5í¤ ìë°ë","type":"ìë°ë","ton":"3.5í¤","spec":"ìì¨"},{"unit":"3.5í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"3.5í¤","spec":"ëì¥"},{"unit":"3.5í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"3.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"3.5í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"3.5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ ìë°ë","type":"ìë°ë","ton":"5í¤","spec":"ìì¨"},{"unit":"5í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"5í¤","spec":"ëì¥"},{"unit":"5í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤íë¬ì¤ ìë°ë","type":"ìë°ë","ton":"5í¤íë¬ì¤","spec":"ìì¨"},{"unit":"5í¤íë¬ì¤ ìë°ë ëì¥","type":"ìë°ë","ton":"5í¤íë¬ì¤","spec":"ëì¥"},{"unit":"5í¤íë¬ì¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"5í¤íë¬ì¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤íë¬ì¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"5í¤íë¬ì¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ì¶ ìë°ë","type":"ìë°ë","ton":"5í¤ì¶","spec":"ìì¨"},{"unit":"5í¤ì¶ ìë°ë ëì¥","type":"ìë°ë","ton":"5í¤ì¶","spec":"ëì¥"},{"unit":"5í¤ì¶ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"5í¤ì¶","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤ì¶ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"5í¤ì¶","spec":"ë¦¬íí¸"},{"unit":"8í¤ ìë°ë","type":"ìë°ë","ton":"8í¤","spec":"ìì¨"},{"unit":"8í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"8í¤","spec":"ëì¥"},{"unit":"8í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"8í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"8í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"8í¤","spec":"ë¦¬íí¸"},{"unit":"9.5í¤ ìë°ë","type":"ìë°ë","ton":"9.5í¤","spec":"ìì¨"},{"unit":"9.5í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"9.5í¤","spec":"ëì¥"},{"unit":"9.5í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"9.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"9.5í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"9.5í¤","spec":"ë¦¬íí¸"},{"unit":"11í¤ ìë°ë","type":"ìë°ë","ton":"11í¤","spec":"ìì¨"},{"unit":"11í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"11í¤","spec":"ëì¥"},{"unit":"11í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"11í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"11í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"11í¤","spec":"ë¦¬íí¸"},{"unit":"14í¤ ìë°ë","type":"ìë°ë","ton":"14í¤","spec":"ìì¨"},{"unit":"14í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"14í¤","spec":"ëì¥"},{"unit":"14í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"14í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"14í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"14í¤","spec":"ë¦¬íí¸"},{"unit":"18í¤ ìë°ë","type":"ìë°ë","ton":"18í¤","spec":"ìì¨"},{"unit":"18í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"18í¤","spec":"ëì¥"},{"unit":"18í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"18í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"18í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"18í¤","spec":"ë¦¬íí¸"},{"unit":"22í¤ ìë°ë","type":"ìë°ë","ton":"22í¤","spec":"ìì¨"},{"unit":"22í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"22í¤","spec":"ëì¥"},{"unit":"22í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"22í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"22í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"22í¤","spec":"ë¦¬íí¸"},{"unit":"25í¤ ìë°ë","type":"ìë°ë","ton":"25í¤","spec":"ìì¨"},{"unit":"25í¤ ìë°ë ëì¥","type":"ìë°ë","ton":"25í¤","spec":"ëì¥"},{"unit":"25í¤ ìë°ë ëë(ëì¥í¬í¨)","type":"ìë°ë","ton":"25í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"25í¤ ìë°ë ë¦¬íí¸","type":"ìë°ë","ton":"25í¤","spec":"ë¦¬íí¸"},{"unit":"1í¤ í","type":"í","ton":"1í¤","spec":"ìì¨"},{"unit":"1í¤ í ëì¥","type":"í","ton":"1í¤","spec":"ëì¥"},{"unit":"1í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"1í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"1í¤ í ë¦¬íí¸","type":"í","ton":"1í¤","spec":"ë¦¬íí¸"},{"unit":"1.4í¤ í","type":"í","ton":"1.4í¤","spec":"ìì¨"},{"unit":"1.4í¤ í ëì¥","type":"í","ton":"1.4í¤","spec":"ëì¥"},{"unit":"1.4í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"1.4í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"1.4í¤ í ë¦¬íí¸","type":"í","ton":"1.4í¤","spec":"ë¦¬íí¸"},{"unit":"2.5í¤ í","type":"í","ton":"2.5í¤","spec":"ìì¨"},{"unit":"2.5í¤ í ëì¥","type":"í","ton":"2.5í¤","spec":"ëì¥"},{"unit":"2.5í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"2.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"2.5í¤ í ë¦¬íí¸","type":"í","ton":"2.5í¤","spec":"ë¦¬íí¸"},{"unit":"3.5í¤ í","type":"í","ton":"3.5í¤","spec":"ìì¨"},{"unit":"3.5í¤ í ëì¥","type":"í","ton":"3.5í¤","spec":"ëì¥"},{"unit":"3.5í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"3.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"3.5í¤ í ë¦¬íí¸","type":"í","ton":"3.5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ í","type":"í","ton":"5í¤","spec":"ìì¨"},{"unit":"5í¤ í ëì¥","type":"í","ton":"5í¤","spec":"ëì¥"},{"unit":"5í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤ í ë¦¬íí¸","type":"í","ton":"5í¤","spec":"ë¦¬íí¸"},{"unit":"5í¤íë¬ì¤ í","type":"í","ton":"5í¤íë¬ì¤","spec":"ìì¨"},{"unit":"5í¤íë¬ì¤ í ëì¥","type":"í","ton":"5í¤íë¬ì¤","spec":"ëì¥"},{"unit":"5í¤íë¬ì¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"5í¤íë¬ì¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤íë¬ì¤ í ë¦¬íí¸","type":"í","ton":"5í¤íë¬ì¤","spec":"ë¦¬íí¸"},{"unit":"5í¤ì¶ í","type":"í","ton":"5í¤ì¶","spec":"ìì¨"},{"unit":"5í¤ì¶ í ëì¥","type":"í","ton":"5í¤ì¶","spec":"ëì¥"},{"unit":"5í¤ì¶ í ëë(ëì¥í¬í¨)","type":"í","ton":"5í¤ì¶","spec":"ëë(ëì¥í¬í¨)"},{"unit":"5í¤ì¶ í ë¦¬íí¸","type":"í","ton":"5í¤ì¶","spec":"ë¦¬íí¸"},{"unit":"8í¤ í","type":"í","ton":"8í¤","spec":"ìì¨"},{"unit":"8í¤ í ëì¥","type":"í","ton":"8í¤","spec":"ëì¥"},{"unit":"8í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"8í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"8í¤ í ë¦¬íí¸","type":"í","ton":"8í¤","spec":"ë¦¬íí¸"},{"unit":"9.5í¤ í","type":"í","ton":"9.5í¤","spec":"ìì¨"},{"unit":"9.5í¤ í ëì¥","type":"í","ton":"9.5í¤","spec":"ëì¥"},{"unit":"9.5í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"9.5í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"9.5í¤ í ë¦¬íí¸","type":"í","ton":"9.5í¤","spec":"ë¦¬íí¸"},{"unit":"11í¤ í","type":"í","ton":"11í¤","spec":"ìì¨"},{"unit":"11í¤ í ëì¥","type":"í","ton":"11í¤","spec":"ëì¥"},{"unit":"11í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"11í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"11í¤ í ë¦¬íí¸","type":"í","ton":"11í¤","spec":"ë¦¬íí¸"},{"unit":"14í¤ í","type":"í","ton":"14í¤","spec":"ìì¨"},{"unit":"14í¤ í ëì¥","type":"í","ton":"14í¤","spec":"ëì¥"},{"unit":"14í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"14í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"14í¤ í ë¦¬íí¸","type":"í","ton":"14í¤","spec":"ë¦¬íí¸"},{"unit":"18í¤ í","type":"í","ton":"18í¤","spec":"ìì¨"},{"unit":"18í¤ í ëì¥","type":"í","ton":"18í¤","spec":"ëì¥"},{"unit":"18í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"18í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"18í¤ í ë¦¬íí¸","type":"í","ton":"18í¤","spec":"ë¦¬íí¸"},{"unit":"22í¤ í","type":"í","ton":"22í¤","spec":"ìì¨"},{"unit":"22í¤ í ëì¥","type":"í","ton":"22í¤","spec":"ëì¥"},{"unit":"22í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"22í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"22í¤ í ë¦¬íí¸","type":"í","ton":"22í¤","spec":"ë¦¬íí¸"},{"unit":"25í¤ í","type":"í","ton":"25í¤","spec":"ìì¨"},{"unit":"25í¤ í ëì¥","type":"í","ton":"25í¤","spec":"ëì¥"},{"unit":"25í¤ í ëë(ëì¥í¬í¨)","type":"í","ton":"25í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"25í¤ í ë¦¬íí¸","type":"í","ton":"25í¤","spec":"ë¦¬íí¸"},{"unit":"18í¤ ë°©íµì°¨","type":"ë°©íµì°¨","ton":"18í¤","spec":"ìì¨"},{"unit":"22í¤ ë°©íµì°¨","type":"ë°©íµì°¨","ton":"22í¤","spec":"ìì¨"},{"unit":"25í¤ ë°©íµì°¨","type":"ë°©íµì°¨","ton":"25í¤","spec":"ìì¨"},{"unit":"18í¤ í¸ë ì¼ë¬","type":"í¸ë ì¼ë¬","ton":"18í¤","spec":"ìì¨"},{"unit":"18í¤ í¸ë ì¼ë¬ ëì¥","type":"í¸ë ì¼ë¬","ton":"18í¤","spec":"ëì¥"},{"unit":"18í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)","type":"í¸ë ì¼ë¬","ton":"18í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"18í¤ í¸ë ì¼ë¬ ë¦¬íí¸","type":"í¸ë ì¼ë¬","ton":"18í¤","spec":"ë¦¬íí¸"},{"unit":"22í¤ í¸ë ì¼ë¬","type":"í¸ë ì¼ë¬","ton":"22í¤","spec":"ìì¨"},{"unit":"22í¤ í¸ë ì¼ë¬ ëì¥","type":"í¸ë ì¼ë¬","ton":"22í¤","spec":"ëì¥"},{"unit":"22í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)","type":"í¸ë ì¼ë¬","ton":"22í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"22í¤ í¸ë ì¼ë¬ ë¦¬íí¸","type":"í¸ë ì¼ë¬","ton":"22í¤","spec":"ë¦¬íí¸"},{"unit":"25í¤ í¸ë ì¼ë¬","type":"í¸ë ì¼ë¬","ton":"25í¤","spec":"ìì¨"},{"unit":"25í¤ í¸ë ì¼ë¬ ëì¥","type":"í¸ë ì¼ë¬","ton":"25í¤","spec":"ëì¥"},{"unit":"25í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)","type":"í¸ë ì¼ë¬","ton":"25í¤","spec":"ëë(ëì¥í¬í¨)"},{"unit":"25í¤ í¸ë ì¼ë¬ ë¦¬íí¸","type":"í¸ë ì¼ë¬","ton":"25í¤","spec":"ë¦¬íí¸"},{"unit":"20ft í¸ë ì¼ë¬","type":"í¸ë ì¼ë¬","ton":"20ft","spec":"ìì¨"},{"unit":"20ft í¸ë ì¼ë¬ ëì¥","type":"í¸ë ì¼ë¬","ton":"20ft","spec":"ëì¥"},{"unit":"20ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)","type":"í¸ë ì¼ë¬","ton":"20ft","spec":"ëë(ëì¥í¬í¨)"},{"unit":"20ft í¸ë ì¼ë¬ ë¦¬íí¸","type":"í¸ë ì¼ë¬","ton":"20ft","spec":"ë¦¬íí¸"},{"unit":"40ft í¸ë ì¼ë¬","type":"í¸ë ì¼ë¬","ton":"40ft","spec":"ìì¨"},{"unit":"40ft í¸ë ì¼ë¬ ëì¥","type":"í¸ë ì¼ë¬","ton":"40ft","spec":"ëì¥"},{"unit":"40ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)","type":"í¸ë ì¼ë¬","ton":"40ft","spec":"ëë(ëì¥í¬í¨)"},{"unit":"40ft í¸ë ì¼ë¬ ë¦¬íí¸","type":"í¸ë ì¼ë¬","ton":"40ft","spec":"ë¦¬íí¸"}];
+/* TMS 차량 단위 마스터 데이터 (194개) */
+const TMS_UNITS = [{"unit":"0.3톤 다마스","type":"다마스","ton":"0.3톤","spec":"상온"},{"unit":"0.5톤 라보","type":"라보","ton":"0.5톤","spec":"상온"},{"unit":"0.5톤 라보 리프트","type":"라보","ton":"0.5톤","spec":"리프트"},{"unit":"1톤 카고/윙","type":"카고/윙","ton":"1톤","spec":"상온"},{"unit":"1톤 카고/윙 리프트","type":"카고/윙","ton":"1톤","spec":"리프트"},{"unit":"1.4톤 카고/윙","type":"카고/윙","ton":"1.4톤","spec":"상온"},{"unit":"1.4톤 카고/윙 리프트","type":"카고/윙","ton":"1.4톤","spec":"리프트"},{"unit":"2.5톤 카고/윙","type":"카고/윙","ton":"2.5톤","spec":"상온"},{"unit":"2.5톤 카고/윙 리프트","type":"카고/윙","ton":"2.5톤","spec":"리프트"},{"unit":"3.5톤 카고/윙","type":"카고/윙","ton":"3.5톤","spec":"상온"},{"unit":"3.5톤 카고/윙 리프트","type":"카고/윙","ton":"3.5톤","spec":"리프트"},{"unit":"5톤 카고/윙","type":"카고/윙","ton":"5톤","spec":"상온"},{"unit":"5톤 카고/윙 리프트","type":"카고/윙","ton":"5톤","spec":"리프트"},{"unit":"5톤플러스 카고/윙","type":"카고/윙","ton":"5톤플러스","spec":"상온"},{"unit":"5톤플러스 카고/윙 리프트","type":"카고/윙","ton":"5톤플러스","spec":"리프트"},{"unit":"5톤축 카고/윙","type":"카고/윙","ton":"5톤축","spec":"상온"},{"unit":"5톤축 카고/윙 리프트","type":"카고/윙","ton":"5톤축","spec":"리프트"},{"unit":"8톤 카고/윙","type":"카고/윙","ton":"8톤","spec":"상온"},{"unit":"8톤 카고/윙 리프트","type":"카고/윙","ton":"8톤","spec":"리프트"},{"unit":"9.5톤 카고/윙","type":"카고/윙","ton":"9.5톤","spec":"상온"},{"unit":"9.5톤 카고/윙 리프트","type":"카고/윙","ton":"9.5톤","spec":"리프트"},{"unit":"11톤 카고/윙","type":"카고/윙","ton":"11톤","spec":"상온"},{"unit":"11톤 카고/윙 리프트","type":"카고/윙","ton":"11톤","spec":"리프트"},{"unit":"14톤 카고/윙","type":"카고/윙","ton":"14톤","spec":"상온"},{"unit":"14톤 카고/윙 리프트","type":"카고/윙","ton":"14톤","spec":"리프트"},{"unit":"18톤 카고/윙","type":"카고/윙","ton":"18톤","spec":"상온"},{"unit":"18톤 카고/윙 리프트","type":"카고/윙","ton":"18톤","spec":"리프트"},{"unit":"22톤 카고/윙","type":"카고/윙","ton":"22톤","spec":"상온"},{"unit":"22톤 카고/윙 리프트","type":"카고/윙","ton":"22톤","spec":"리프트"},{"unit":"25톤 카고/윙","type":"카고/윙","ton":"25톤","spec":"상온"},{"unit":"25톤 카고/윙 리프트","type":"카고/윙","ton":"25톤","spec":"리프트"},{"unit":"1톤 카고","type":"카고","ton":"1톤","spec":"상온"},{"unit":"1톤 카고 리프트","type":"카고","ton":"1톤","spec":"리프트"},{"unit":"1.4톤 카고","type":"카고","ton":"1.4톤","spec":"상온"},{"unit":"1.4톤 카고 리프트","type":"카고","ton":"1.4톤","spec":"리프트"},{"unit":"2.5톤 카고","type":"카고","ton":"2.5톤","spec":"상온"},{"unit":"2.5톤 카고 리프트","type":"카고","ton":"2.5톤","spec":"리프트"},{"unit":"3.5톤 카고","type":"카고","ton":"3.5톤","spec":"상온"},{"unit":"3.5톤 카고 리프트","type":"카고","ton":"3.5톤","spec":"리프트"},{"unit":"5톤 카고","type":"카고","ton":"5톤","spec":"상온"},{"unit":"5톤 카고 리프트","type":"카고","ton":"5톤","spec":"리프트"},{"unit":"5톤플러스 카고","type":"카고","ton":"5톤플러스","spec":"상온"},{"unit":"5톤플러스 카고 리프트","type":"카고","ton":"5톤플러스","spec":"리프트"},{"unit":"5톤축 카고","type":"카고","ton":"5톤축","spec":"상온"},{"unit":"5톤축 카고 리프트","type":"카고","ton":"5톤축","spec":"리프트"},{"unit":"8톤 카고","type":"카고","ton":"8톤","spec":"상온"},{"unit":"8톤 카고 리프트","type":"카고","ton":"8톤","spec":"리프트"},{"unit":"9.5톤 카고","type":"카고","ton":"9.5톤","spec":"상온"},{"unit":"9.5톤 카고 리프트","type":"카고","ton":"9.5톤","spec":"리프트"},{"unit":"11톤 카고","type":"카고","ton":"11톤","spec":"상온"},{"unit":"11톤 카고 리프트","type":"카고","ton":"11톤","spec":"리프트"},{"unit":"14톤 카고","type":"카고","ton":"14톤","spec":"상온"},{"unit":"14톤 카고 리프트","type":"카고","ton":"14톤","spec":"리프트"},{"unit":"18톤 카고","type":"카고","ton":"18톤","spec":"상온"},{"unit":"18톤 카고 리프트","type":"카고","ton":"18톤","spec":"리프트"},{"unit":"22톤 카고","type":"카고","ton":"22톤","spec":"상온"},{"unit":"22톤 카고 리프트","type":"카고","ton":"22톤","spec":"리프트"},{"unit":"25톤 카고","type":"카고","ton":"25톤","spec":"상온"},{"unit":"25톤 카고 리프트","type":"카고","ton":"25톤","spec":"리프트"},{"unit":"1톤 윙바디","type":"윙바디","ton":"1톤","spec":"상온"},{"unit":"1톤 윙바디 냉장","type":"윙바디","ton":"1톤","spec":"냉장"},{"unit":"1톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"1톤","spec":"냉동(냉장포함)"},{"unit":"1톤 윙바디 리프트","type":"윙바디","ton":"1톤","spec":"리프트"},{"unit":"1.4톤 윙바디","type":"윙바디","ton":"1.4톤","spec":"상온"},{"unit":"1.4톤 윙바디 냉장","type":"윙바디","ton":"1.4톤","spec":"냉장"},{"unit":"1.4톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"1.4톤","spec":"냉동(냉장포함)"},{"unit":"1.4톤 윙바디 리프트","type":"윙바디","ton":"1.4톤","spec":"리프트"},{"unit":"2.5톤 윙바디","type":"윙바디","ton":"2.5톤","spec":"상온"},{"unit":"2.5톤 윙바디 냉장","type":"윙바디","ton":"2.5톤","spec":"냉장"},{"unit":"2.5톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"2.5톤","spec":"냉동(냉장포함)"},{"unit":"2.5톤 윙바디 리프트","type":"윙바디","ton":"2.5톤","spec":"리프트"},{"unit":"3.5톤 윙바디","type":"윙바디","ton":"3.5톤","spec":"상온"},{"unit":"3.5톤 윙바디 냉장","type":"윙바디","ton":"3.5톤","spec":"냉장"},{"unit":"3.5톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"3.5톤","spec":"냉동(냉장포함)"},{"unit":"3.5톤 윙바디 리프트","type":"윙바디","ton":"3.5톤","spec":"리프트"},{"unit":"5톤 윙바디","type":"윙바디","ton":"5톤","spec":"상온"},{"unit":"5톤 윙바디 냉장","type":"윙바디","ton":"5톤","spec":"냉장"},{"unit":"5톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"5톤","spec":"냉동(냉장포함)"},{"unit":"5톤 윙바디 리프트","type":"윙바디","ton":"5톤","spec":"리프트"},{"unit":"5톤플러스 윙바디","type":"윙바디","ton":"5톤플러스","spec":"상온"},{"unit":"5톤플러스 윙바디 냉장","type":"윙바디","ton":"5톤플러스","spec":"냉장"},{"unit":"5톤플러스 윙바디 냉동(냉장포함)","type":"윙바디","ton":"5톤플러스","spec":"냉동(냉장포함)"},{"unit":"5톤플러스 윙바디 리프트","type":"윙바디","ton":"5톤플러스","spec":"리프트"},{"unit":"5톤축 윙바디","type":"윙바디","ton":"5톤축","spec":"상온"},{"unit":"5톤축 윙바디 냉장","type":"윙바디","ton":"5톤축","spec":"냉장"},{"unit":"5톤축 윙바디 냉동(냉장포함)","type":"윙바디","ton":"5톤축","spec":"냉동(냉장포함)"},{"unit":"5톤축 윙바디 리프트","type":"윙바디","ton":"5톤축","spec":"리프트"},{"unit":"8톤 윙바디","type":"윙바디","ton":"8톤","spec":"상온"},{"unit":"8톤 윙바디 냉장","type":"윙바디","ton":"8톤","spec":"냉장"},{"unit":"8톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"8톤","spec":"냉동(냉장포함)"},{"unit":"8톤 윙바디 리프트","type":"윙바디","ton":"8톤","spec":"리프트"},{"unit":"9.5톤 윙바디","type":"윙바디","ton":"9.5톤","spec":"상온"},{"unit":"9.5톤 윙바디 냉장","type":"윙바디","ton":"9.5톤","spec":"냉장"},{"unit":"9.5톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"9.5톤","spec":"냉동(냉장포함)"},{"unit":"9.5톤 윙바디 리프트","type":"윙바디","ton":"9.5톤","spec":"리프트"},{"unit":"11톤 윙바디","type":"윙바디","ton":"11톤","spec":"상온"},{"unit":"11톤 윙바디 냉장","type":"윙바디","ton":"11톤","spec":"냉장"},{"unit":"11톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"11톤","spec":"냉동(냉장포함)"},{"unit":"11톤 윙바디 리프트","type":"윙바디","ton":"11톤","spec":"리프트"},{"unit":"14톤 윙바디","type":"윙바디","ton":"14톤","spec":"상온"},{"unit":"14톤 윙바디 냉장","type":"윙바디","ton":"14톤","spec":"냉장"},{"unit":"14톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"14톤","spec":"냉동(냉장포함)"},{"unit":"14톤 윙바디 리프트","type":"윙바디","ton":"14톤","spec":"리프트"},{"unit":"18톤 윙바디","type":"윙바디","ton":"18톤","spec":"상온"},{"unit":"18톤 윙바디 냉장","type":"윙바디","ton":"18톤","spec":"냉장"},{"unit":"18톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"18톤","spec":"냉동(냉장포함)"},{"unit":"18톤 윙바디 리프트","type":"윙바디","ton":"18톤","spec":"리프트"},{"unit":"22톤 윙바디","type":"윙바디","ton":"22톤","spec":"상온"},{"unit":"22톤 윙바디 냉장","type":"윙바디","ton":"22톤","spec":"냉장"},{"unit":"22톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"22톤","spec":"냉동(냉장포함)"},{"unit":"22톤 윙바디 리프트","type":"윙바디","ton":"22톤","spec":"리프트"},{"unit":"25톤 윙바디","type":"윙바디","ton":"25톤","spec":"상온"},{"unit":"25톤 윙바디 냉장","type":"윙바디","ton":"25톤","spec":"냉장"},{"unit":"25톤 윙바디 냉동(냉장포함)","type":"윙바디","ton":"25톤","spec":"냉동(냉장포함)"},{"unit":"25톤 윙바디 리프트","type":"윙바디","ton":"25톤","spec":"리프트"},{"unit":"1톤 탑","type":"탑","ton":"1톤","spec":"상온"},{"unit":"1톤 탑 냉장","type":"탑","ton":"1톤","spec":"냉장"},{"unit":"1톤 탑 냉동(냉장포함)","type":"탑","ton":"1톤","spec":"냉동(냉장포함)"},{"unit":"1톤 탑 리프트","type":"탑","ton":"1톤","spec":"리프트"},{"unit":"1.4톤 탑","type":"탑","ton":"1.4톤","spec":"상온"},{"unit":"1.4톤 탑 냉장","type":"탑","ton":"1.4톤","spec":"냉장"},{"unit":"1.4톤 탑 냉동(냉장포함)","type":"탑","ton":"1.4톤","spec":"냉동(냉장포함)"},{"unit":"1.4톤 탑 리프트","type":"탑","ton":"1.4톤","spec":"리프트"},{"unit":"2.5톤 탑","type":"탑","ton":"2.5톤","spec":"상온"},{"unit":"2.5톤 탑 냉장","type":"탑","ton":"2.5톤","spec":"냉장"},{"unit":"2.5톤 탑 냉동(냉장포함)","type":"탑","ton":"2.5톤","spec":"냉동(냉장포함)"},{"unit":"2.5톤 탑 리프트","type":"탑","ton":"2.5톤","spec":"리프트"},{"unit":"3.5톤 탑","type":"탑","ton":"3.5톤","spec":"상온"},{"unit":"3.5톤 탑 냉장","type":"탑","ton":"3.5톤","spec":"냉장"},{"unit":"3.5톤 탑 냉동(냉장포함)","type":"탑","ton":"3.5톤","spec":"냉동(냉장포함)"},{"unit":"3.5톤 탑 리프트","type":"탑","ton":"3.5톤","spec":"리프트"},{"unit":"5톤 탑","type":"탑","ton":"5톤","spec":"상온"},{"unit":"5톤 탑 냉장","type":"탑","ton":"5톤","spec":"냉장"},{"unit":"5톤 탑 냉동(냉장포함)","type":"탑","ton":"5톤","spec":"냉동(냉장포함)"},{"unit":"5톤 탑 리프트","type":"탑","ton":"5톤","spec":"리프트"},{"unit":"5톤플러스 탑","type":"탑","ton":"5톤플러스","spec":"상온"},{"unit":"5톤플러스 탑 냉장","type":"탑","ton":"5톤플러스","spec":"냉장"},{"unit":"5톤플러스 탑 냉동(냉장포함)","type":"탑","ton":"5톤플러스","spec":"냉동(냉장포함)"},{"unit":"5톤플러스 탑 리프트","type":"탑","ton":"5톤플러스","spec":"리프트"},{"unit":"5톤축 탑","type":"탑","ton":"5톤축","spec":"상온"},{"unit":"5톤축 탑 냉장","type":"탑","ton":"5톤축","spec":"냉장"},{"unit":"5톤축 탑 냉동(냉장포함)","type":"탑","ton":"5톤축","spec":"냉동(냉장포함)"},{"unit":"5톤축 탑 리프트","type":"탑","ton":"5톤축","spec":"리프트"},{"unit":"8톤 탑","type":"탑","ton":"8톤","spec":"상온"},{"unit":"8톤 탑 냉장","type":"탑","ton":"8톤","spec":"냉장"},{"unit":"8톤 탑 냉동(냉장포함)","type":"탑","ton":"8톤","spec":"냉동(냉장포함)"},{"unit":"8톤 탑 리프트","type":"탑","ton":"8톤","spec":"리프트"},{"unit":"9.5톤 탑","type":"탑","ton":"9.5톤","spec":"상온"},{"unit":"9.5톤 탑 냉장","type":"탑","ton":"9.5톤","spec":"냉장"},{"unit":"9.5톤 탑 냉동(냉장포함)","type":"탑","ton":"9.5톤","spec":"냉동(냉장포함)"},{"unit":"9.5톤 탑 리프트","type":"탑","ton":"9.5톤","spec":"리프트"},{"unit":"11톤 탑","type":"탑","ton":"11톤","spec":"상온"},{"unit":"11톤 탑 냉장","type":"탑","ton":"11톤","spec":"냉장"},{"unit":"11톤 탑 냉동(냉장포함)","type":"탑","ton":"11톤","spec":"냉동(냉장포함)"},{"unit":"11톤 탑 리프트","type":"탑","ton":"11톤","spec":"리프트"},{"unit":"14톤 탑","type":"탑","ton":"14톤","spec":"상온"},{"unit":"14톤 탑 냉장","type":"탑","ton":"14톤","spec":"냉장"},{"unit":"14톤 탑 냉동(냉장포함)","type":"탑","ton":"14톤","spec":"냉동(냉장포함)"},{"unit":"14톤 탑 리프트","type":"탑","ton":"14톤","spec":"리프트"},{"unit":"18톤 탑","type":"탑","ton":"18톤","spec":"상온"},{"unit":"18톤 탑 냉장","type":"탑","ton":"18톤","spec":"냉장"},{"unit":"18톤 탑 냉동(냉장포함)","type":"탑","ton":"18톤","spec":"냉동(냉장포함)"},{"unit":"18톤 탑 리프트","type":"탑","ton":"18톤","spec":"리프트"},{"unit":"22톤 탑","type":"탑","ton":"22톤","spec":"상온"},{"unit":"22톤 탑 냉장","type":"탑","ton":"22톤","spec":"냉장"},{"unit":"22톤 탑 냉동(냉장포함)","type":"탑","ton":"22톤","spec":"냉동(냉장포함)"},{"unit":"22톤 탑 리프트","type":"탑","ton":"22톤","spec":"리프트"},{"unit":"25톤 탑","type":"탑","ton":"25톤","spec":"상온"},{"unit":"25톤 탑 냉장","type":"탑","ton":"25톤","spec":"냉장"},{"unit":"25톤 탑 냉동(냉장포함)","type":"탑","ton":"25톤","spec":"냉동(냉장포함)"},{"unit":"25톤 탑 리프트","type":"탑","ton":"25톤","spec":"리프트"},{"unit":"18톤 방통차","type":"방통차","ton":"18톤","spec":"상온"},{"unit":"22톤 방통차","type":"방통차","ton":"22톤","spec":"상온"},{"unit":"25톤 방통차","type":"방통차","ton":"25톤","spec":"상온"},{"unit":"18톤 트레일러","type":"트레일러","ton":"18톤","spec":"상온"},{"unit":"18톤 트레일러 냉장","type":"트레일러","ton":"18톤","spec":"냉장"},{"unit":"18톤 트레일러 냉동(냉장포함)","type":"트레일러","ton":"18톤","spec":"냉동(냉장포함)"},{"unit":"18톤 트레일러 리프트","type":"트레일러","ton":"18톤","spec":"리프트"},{"unit":"22톤 트레일러","type":"트레일러","ton":"22톤","spec":"상온"},{"unit":"22톤 트레일러 냉장","type":"트레일러","ton":"22톤","spec":"냉장"},{"unit":"22톤 트레일러 냉동(냉장포함)","type":"트레일러","ton":"22톤","spec":"냉동(냉장포함)"},{"unit":"22톤 트레일러 리프트","type":"트레일러","ton":"22톤","spec":"리프트"},{"unit":"25톤 트레일러","type":"트레일러","ton":"25톤","spec":"상온"},{"unit":"25톤 트레일러 냉장","type":"트레일러","ton":"25톤","spec":"냉장"},{"unit":"25톤 트레일러 냉동(냉장포함)","type":"트레일러","ton":"25톤","spec":"냉동(냉장포함)"},{"unit":"25톤 트레일러 리프트","type":"트레일러","ton":"25톤","spec":"리프트"},{"unit":"20ft 트레일러","type":"트레일러","ton":"20ft","spec":"상온"},{"unit":"20ft 트레일러 냉장","type":"트레일러","ton":"20ft","spec":"냉장"},{"unit":"20ft 트레일러 냉동(냉장포함)","type":"트레일러","ton":"20ft","spec":"냉동(냉장포함)"},{"unit":"20ft 트레일러 리프트","type":"트레일러","ton":"20ft","spec":"리프트"},{"unit":"40ft 트레일러","type":"트레일러","ton":"40ft","spec":"상온"},{"unit":"40ft 트레일러 냉장","type":"트레일러","ton":"40ft","spec":"냉장"},{"unit":"40ft 트레일러 냉동(냉장포함)","type":"트레일러","ton":"40ft","spec":"냉동(냉장포함)"},{"unit":"40ft 트레일러 리프트","type":"트레일러","ton":"40ft","spec":"리프트"}];
 
-/* TMS ì½ë ë§µ: unit â code (ì«ì or null) */
-/* TMS ì½ë ë§µ â LOMAS ë¨ê°í ê¸°ì¤ 165~358 ì¬ì  ìë ¥ */
-let tmsCodeMap = {"0.3í¤ ë¤ë§ì¤":165,"0.5í¤ ë¼ë³´":166,"0.5í¤ ë¼ë³´ ë¦¬íí¸":167,"1í¤ ì¹´ê³ /ì":168,"1í¤ ì¹´ê³ /ì ë¦¬íí¸":169,"1.4í¤ ì¹´ê³ /ì":170,"1.4í¤ ì¹´ê³ /ì ë¦¬íí¸":171,"2.5í¤ ì¹´ê³ /ì":172,"2.5í¤ ì¹´ê³ /ì ë¦¬íí¸":173,"3.5í¤ ì¹´ê³ /ì":174,"3.5í¤ ì¹´ê³ /ì ë¦¬íí¸":175,"5í¤ ì¹´ê³ /ì":176,"5í¤ ì¹´ê³ /ì ë¦¬íí¸":177,"5í¤íë¬ì¤ ì¹´ê³ /ì":178,"5í¤íë¬ì¤ ì¹´ê³ /ì ë¦¬íí¸":179,"5í¤ì¶ ì¹´ê³ /ì":180,"5í¤ì¶ ì¹´ê³ /ì ë¦¬íí¸":181,"8í¤ ì¹´ê³ /ì":182,"8í¤ ì¹´ê³ /ì ë¦¬íí¸":183,"9.5í¤ ì¹´ê³ /ì":184,"9.5í¤ ì¹´ê³ /ì ë¦¬íí¸":185,"11í¤ ì¹´ê³ /ì":186,"11í¤ ì¹´ê³ /ì ë¦¬íí¸":187,"14í¤ ì¹´ê³ /ì":188,"14í¤ ì¹´ê³ /ì ë¦¬íí¸":189,"18í¤ ì¹´ê³ /ì":190,"18í¤ ì¹´ê³ /ì ë¦¬íí¸":191,"22í¤ ì¹´ê³ /ì":192,"22í¤ ì¹´ê³ /ì ë¦¬íí¸":193,"25í¤ ì¹´ê³ /ì":194,"25í¤ ì¹´ê³ /ì ë¦¬íí¸":195,"1í¤ ì¹´ê³ ":196,"1í¤ ì¹´ê³  ë¦¬íí¸":197,"1.4í¤ ì¹´ê³ ":198,"1.4í¤ ì¹´ê³  ë¦¬íí¸":199,"2.5í¤ ì¹´ê³ ":200,"2.5í¤ ì¹´ê³  ë¦¬íí¸":201,"3.5í¤ ì¹´ê³ ":202,"3.5í¤ ì¹´ê³  ë¦¬íí¸":203,"5í¤ ì¹´ê³ ":204,"5í¤ ì¹´ê³  ë¦¬íí¸":205,"5í¤íë¬ì¤ ì¹´ê³ ":206,"5í¤íë¬ì¤ ì¹´ê³  ë¦¬íí¸":207,"5í¤ì¶ ì¹´ê³ ":208,"5í¤ì¶ ì¹´ê³  ë¦¬íí¸":209,"8í¤ ì¹´ê³ ":210,"8í¤ ì¹´ê³  ë¦¬íí¸":211,"9.5í¤ ì¹´ê³ ":212,"9.5í¤ ì¹´ê³  ë¦¬íí¸":213,"11í¤ ì¹´ê³ ":214,"11í¤ ì¹´ê³  ë¦¬íí¸":215,"14í¤ ì¹´ê³ ":216,"14í¤ ì¹´ê³  ë¦¬íí¸":217,"18í¤ ì¹´ê³ ":218,"18í¤ ì¹´ê³  ë¦¬íí¸":219,"22í¤ ì¹´ê³ ":220,"22í¤ ì¹´ê³  ë¦¬íí¸":221,"25í¤ ì¹´ê³ ":222,"25í¤ ì¹´ê³  ë¦¬íí¸":223,"1í¤ ìë°ë":224,"1í¤ ìë°ë ëì¥":225,"1í¤ ìë°ë ëë(ëì¥í¬í¨)":226,"1í¤ ìë°ë ë¦¬íí¸":227,"1.4í¤ ìë°ë":228,"1.4í¤ ìë°ë ëì¥":229,"1.4í¤ ìë°ë ëë(ëì¥í¬í¨)":230,"1.4í¤ ìë°ë ë¦¬íí¸":231,"2.5í¤ ìë°ë":232,"2.5í¤ ìë°ë ëì¥":233,"2.5í¤ ìë°ë ëë(ëì¥í¬í¨)":234,"2.5í¤ ìë°ë ë¦¬íí¸":235,"3.5í¤ ìë°ë":236,"3.5í¤ ìë°ë ëì¥":237,"3.5í¤ ìë°ë ëë(ëì¥í¬í¨)":238,"3.5í¤ ìë°ë ë¦¬íí¸":239,"5í¤ ìë°ë":240,"5í¤ ìë°ë ëì¥":241,"5í¤ ìë°ë ëë(ëì¥í¬í¨)":242,"5í¤ ìë°ë ë¦¬íí¸":243,"5í¤íë¬ì¤ ìë°ë":244,"5í¤íë¬ì¤ ìë°ë ëì¥":245,"5í¤íë¬ì¤ ìë°ë ëë(ëì¥í¬í¨)":246,"5í¤íë¬ì¤ ìë°ë ë¦¬íí¸":247,"5í¤ì¶ ìë°ë":248,"5í¤ì¶ ìë°ë ëì¥":249,"5í¤ì¶ ìë°ë ëë(ëì¥í¬í¨)":250,"5í¤ì¶ ìë°ë ë¦¬íí¸":251,"8í¤ ìë°ë":252,"8í¤ ìë°ë ëì¥":253,"8í¤ ìë°ë ëë(ëì¥í¬í¨)":254,"8í¤ ìë°ë ë¦¬íí¸":255,"9.5í¤ ìë°ë":256,"9.5í¤ ìë°ë ëì¥":257,"9.5í¤ ìë°ë ëë(ëì¥í¬í¨)":258,"9.5í¤ ìë°ë ë¦¬íí¸":259,"11í¤ ìë°ë":260,"11í¤ ìë°ë ëì¥":261,"11í¤ ìë°ë ëë(ëì¥í¬í¨)":262,"11í¤ ìë°ë ë¦¬íí¸":263,"14í¤ ìë°ë":264,"14í¤ ìë°ë ëì¥":265,"14í¤ ìë°ë ëë(ëì¥í¬í¨)":266,"14í¤ ìë°ë ë¦¬íí¸":267,"18í¤ ìë°ë":268,"18í¤ ìë°ë ëì¥":269,"18í¤ ìë°ë ëë(ëì¥í¬í¨)":270,"18í¤ ìë°ë ë¦¬íí¸":271,"22í¤ ìë°ë":272,"22í¤ ìë°ë ëì¥":273,"22í¤ ìë°ë ëë(ëì¥í¬í¨)":274,"22í¤ ìë°ë ë¦¬íí¸":275,"25í¤ ìë°ë":276,"25í¤ ìë°ë ëì¥":277,"25í¤ ìë°ë ëë(ëì¥í¬í¨)":278,"25í¤ ìë°ë ë¦¬íí¸":279,"1í¤ í":280,"1í¤ í ëì¥":281,"1í¤ í ëë(ëì¥í¬í¨)":282,"1í¤ í ë¦¬íí¸":283,"1.4í¤ í":284,"1.4í¤ í ëì¥":285,"1.4í¤ í ëë(ëì¥í¬í¨)":286,"1.4í¤ í ë¦¬íí¸":287,"2.5í¤ í":288,"2.5í¤ í ëì¥":289,"2.5í¤ í ëë(ëì¥í¬í¨)":290,"2.5í¤ í ë¦¬íí¸":291,"3.5í¤ í":292,"3.5í¤ í ëì¥":293,"3.5í¤ í ëë(ëì¥í¬í¨)":294,"3.5í¤ í ë¦¬íí¸":295,"5í¤ í":296,"5í¤ í ëì¥":297,"5í¤ í ëë(ëì¥í¬í¨)":298,"5í¤ í ë¦¬íí¸":299,"5í¤íë¬ì¤ í":300,"5í¤íë¬ì¤ í ëì¥":301,"5í¤íë¬ì¤ í ëë(ëì¥í¬í¨)":302,"5í¤íë¬ì¤ í ë¦¬íí¸":303,"5í¤ì¶ í":304,"5í¤ì¶ í ëì¥":305,"5í¤ì¶ í ëë(ëì¥í¬í¨)":306,"5í¤ì¶ í ë¦¬íí¸":307,"8í¤ í":308,"8í¤ í ëì¥":309,"8í¤ í ëë(ëì¥í¬í¨)":310,"8í¤ í ë¦¬íí¸":311,"9.5í¤ í":312,"9.5í¤ í ëì¥":313,"9.5í¤ í ëë(ëì¥í¬í¨)":314,"9.5í¤ í ë¦¬íí¸":315,"11í¤ í":316,"11í¤ í ëì¥":317,"11í¤ í ëë(ëì¥í¬í¨)":318,"11í¤ í ë¦¬íí¸":319,"14í¤ í":320,"14í¤ í ëì¥":321,"14í¤ í ëë(ëì¥í¬í¨)":322,"14í¤ í ë¦¬íí¸":323,"18í¤ í":324,"18í¤ í ëì¥":325,"18í¤ í ëë(ëì¥í¬í¨)":326,"18í¤ í ë¦¬íí¸":327,"22í¤ í":328,"22í¤ í ëì¥":329,"22í¤ í ëë(ëì¥í¬í¨)":330,"22í¤ í ë¦¬íí¸":331,"25í¤ í":332,"25í¤ í ëì¥":333,"25í¤ í ëë(ëì¥í¬í¨)":334,"25í¤ í ë¦¬íí¸":335,"18í¤ ë°©íµì°¨":336,"22í¤ ë°©íµì°¨":337,"25í¤ ë°©íµì°¨":338,"18í¤ í¸ë ì¼ë¬":339,"18í¤ í¸ë ì¼ë¬ ëì¥":340,"18í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":341,"18í¤ í¸ë ì¼ë¬ ë¦¬íí¸":342,"22í¤ í¸ë ì¼ë¬":343,"22í¤ í¸ë ì¼ë¬ ëì¥":344,"22í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":345,"22í¤ í¸ë ì¼ë¬ ë¦¬íí¸":346,"25í¤ í¸ë ì¼ë¬":347,"25í¤ í¸ë ì¼ë¬ ëì¥":348,"25í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":349,"25í¤ í¸ë ì¼ë¬ ë¦¬íí¸":350,"20ft í¸ë ì¼ë¬":351,"20ft í¸ë ì¼ë¬ ëì¥":352,"20ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":353,"20ft í¸ë ì¼ë¬ ë¦¬íí¸":354,"40ft í¸ë ì¼ë¬":355,"40ft í¸ë ì¼ë¬ ëì¥":356,"40ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":357,"40ft í¸ë ì¼ë¬ ë¦¬íí¸":358};
+/* TMS 코드 맵: unit → code (숫자 or null) */
+/* TMS 코드 맵 — LOMAS 단가표 기준 165~358 사전 입력 */
+let tmsCodeMap = {"0.3톤 다마스":165,"0.5톤 라보":166,"0.5톤 라보 리프트":167,"1톤 카고/윙":168,"1톤 카고/윙 리프트":169,"1.4톤 카고/윙":170,"1.4톤 카고/윙 리프트":171,"2.5톤 카고/윙":172,"2.5톤 카고/윙 리프트":173,"3.5톤 카고/윙":174,"3.5톤 카고/윙 리프트":175,"5톤 카고/윙":176,"5톤 카고/윙 리프트":177,"5톤플러스 카고/윙":178,"5톤플러스 카고/윙 리프트":179,"5톤축 카고/윙":180,"5톤축 카고/윙 리프트":181,"8톤 카고/윙":182,"8톤 카고/윙 리프트":183,"9.5톤 카고/윙":184,"9.5톤 카고/윙 리프트":185,"11톤 카고/윙":186,"11톤 카고/윙 리프트":187,"14톤 카고/윙":188,"14톤 카고/윙 리프트":189,"18톤 카고/윙":190,"18톤 카고/윙 리프트":191,"22톤 카고/윙":192,"22톤 카고/윙 리프트":193,"25톤 카고/윙":194,"25톤 카고/윙 리프트":195,"1톤 카고":196,"1톤 카고 리프트":197,"1.4톤 카고":198,"1.4톤 카고 리프트":199,"2.5톤 카고":200,"2.5톤 카고 리프트":201,"3.5톤 카고":202,"3.5톤 카고 리프트":203,"5톤 카고":204,"5톤 카고 리프트":205,"5톤플러스 카고":206,"5톤플러스 카고 리프트":207,"5톤축 카고":208,"5톤축 카고 리프트":209,"8톤 카고":210,"8톤 카고 리프트":211,"9.5톤 카고":212,"9.5톤 카고 리프트":213,"11톤 카고":214,"11톤 카고 리프트":215,"14톤 카고":216,"14톤 카고 리프트":217,"18톤 카고":218,"18톤 카고 리프트":219,"22톤 카고":220,"22톤 카고 리프트":221,"25톤 카고":222,"25톤 카고 리프트":223,"1톤 윙바디":224,"1톤 윙바디 냉장":225,"1톤 윙바디 냉동(냉장포함)":226,"1톤 윙바디 리프트":227,"1.4톤 윙바디":228,"1.4톤 윙바디 냉장":229,"1.4톤 윙바디 냉동(냉장포함)":230,"1.4톤 윙바디 리프트":231,"2.5톤 윙바디":232,"2.5톤 윙바디 냉장":233,"2.5톤 윙바디 냉동(냉장포함)":234,"2.5톤 윙바디 리프트":235,"3.5톤 윙바디":236,"3.5톤 윙바디 냉장":237,"3.5톤 윙바디 냉동(냉장포함)":238,"3.5톤 윙바디 리프트":239,"5톤 윙바디":240,"5톤 윙바디 냉장":241,"5톤 윙바디 냉동(냉장포함)":242,"5톤 윙바디 리프트":243,"5톤플러스 윙바디":244,"5톤플러스 윙바디 냉장":245,"5톤플러스 윙바디 냉동(냉장포함)":246,"5톤플러스 윙바디 리프트":247,"5톤축 윙바디":248,"5톤축 윙바디 냉장":249,"5톤축 윙바디 냉동(냉장포함)":250,"5톤축 윙바디 리프트":251,"8톤 윙바디":252,"8톤 윙바디 냉장":253,"8톤 윙바디 냉동(냉장포함)":254,"8톤 윙바디 리프트":255,"9.5톤 윙바디":256,"9.5톤 윙바디 냉장":257,"9.5톤 윙바디 냉동(냉장포함)":258,"9.5톤 윙바디 리프트":259,"11톤 윙바디":260,"11톤 윙바디 냉장":261,"11톤 윙바디 냉동(냉장포함)":262,"11톤 윙바디 리프트":263,"14톤 윙바디":264,"14톤 윙바디 냉장":265,"14톤 윙바디 냉동(냉장포함)":266,"14톤 윙바디 리프트":267,"18톤 윙바디":268,"18톤 윙바디 냉장":269,"18톤 윙바디 냉동(냉장포함)":270,"18톤 윙바디 리프트":271,"22톤 윙바디":272,"22톤 윙바디 냉장":273,"22톤 윙바디 냉동(냉장포함)":274,"22톤 윙바디 리프트":275,"25톤 윙바디":276,"25톤 윙바디 냉장":277,"25톤 윙바디 냉동(냉장포함)":278,"25톤 윙바디 리프트":279,"1톤 탑":280,"1톤 탑 냉장":281,"1톤 탑 냉동(냉장포함)":282,"1톤 탑 리프트":283,"1.4톤 탑":284,"1.4톤 탑 냉장":285,"1.4톤 탑 냉동(냉장포함)":286,"1.4톤 탑 리프트":287,"2.5톤 탑":288,"2.5톤 탑 냉장":289,"2.5톤 탑 냉동(냉장포함)":290,"2.5톤 탑 리프트":291,"3.5톤 탑":292,"3.5톤 탑 냉장":293,"3.5톤 탑 냉동(냉장포함)":294,"3.5톤 탑 리프트":295,"5톤 탑":296,"5톤 탑 냉장":297,"5톤 탑 냉동(냉장포함)":298,"5톤 탑 리프트":299,"5톤플러스 탑":300,"5톤플러스 탑 냉장":301,"5톤플러스 탑 냉동(냉장포함)":302,"5톤플러스 탑 리프트":303,"5톤축 탑":304,"5톤축 탑 냉장":305,"5톤축 탑 냉동(냉장포함)":306,"5톤축 탑 리프트":307,"8톤 탑":308,"8톤 탑 냉장":309,"8톤 탑 냉동(냉장포함)":310,"8톤 탑 리프트":311,"9.5톤 탑":312,"9.5톤 탑 냉장":313,"9.5톤 탑 냉동(냉장포함)":314,"9.5톤 탑 리프트":315,"11톤 탑":316,"11톤 탑 냉장":317,"11톤 탑 냉동(냉장포함)":318,"11톤 탑 리프트":319,"14톤 탑":320,"14톤 탑 냉장":321,"14톤 탑 냉동(냉장포함)":322,"14톤 탑 리프트":323,"18톤 탑":324,"18톤 탑 냉장":325,"18톤 탑 냉동(냉장포함)":326,"18톤 탑 리프트":327,"22톤 탑":328,"22톤 탑 냉장":329,"22톤 탑 냉동(냉장포함)":330,"22톤 탑 리프트":331,"25톤 탑":332,"25톤 탑 냉장":333,"25톤 탑 냉동(냉장포함)":334,"25톤 탑 리프트":335,"18톤 방통차":336,"22톤 방통차":337,"25톤 방통차":338,"18톤 트레일러":339,"18톤 트레일러 냉장":340,"18톤 트레일러 냉동(냉장포함)":341,"18톤 트레일러 리프트":342,"22톤 트레일러":343,"22톤 트레일러 냉장":344,"22톤 트레일러 냉동(냉장포함)":345,"22톤 트레일러 리프트":346,"25톤 트레일러":347,"25톤 트레일러 냉장":348,"25톤 트레일러 냉동(냉장포함)":349,"25톤 트레일러 리프트":350,"20ft 트레일러":351,"20ft 트레일러 냉장":352,"20ft 트레일러 냉동(냉장포함)":353,"20ft 트레일러 리프트":354,"40ft 트레일러":355,"40ft 트레일러 냉장":356,"40ft 트레일러 냉동(냉장포함)":357,"40ft 트레일러 리프트":358};
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ì± ìí
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   앱 상태
+════════════════════════════════════ */
 let appState = { pickup:null, dropoffs:[], vehicles:[], fareMap:{} };
 let dm = { tab:'sigungu', selectedSido:null, checkedSigungu:new Set(), pendingList:[] };
 let vm = { pendingList:[], checkedTons:new Set(), checkedSpecs:new Set() };
 let openDropdownId = null;
 
-/* ââââââââââââââââââââââââââââââââââââ
-   íì´ì§ ì í
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   페이지 전환
+════════════════════════════════════ */
 function switchPage(page) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
@@ -482,9 +482,9 @@ function switchPage(page) {
   if(page==='code') renderMappingTable();
 }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ì°¨ë ì½ë ë§µí íì´ì§
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   차량 코드 맵핑 페이지
+════════════════════════════════════ */
 (function initMappingFilters(){
   const sel = document.getElementById('filter-type');
   const types = [...new Set(TMS_UNITS.map(u=>u.type))];
@@ -508,12 +508,12 @@ function renderMappingTable(){
 
   const mappedTotal = TMS_UNITS.filter(u=>tmsCodeMap[u.unit]!=null && tmsCodeMap[u.unit]!=='').length;
   document.getElementById('mapped-count-label').innerHTML =
-    `ì´ ${TMS_UNITS.length}ê° ì¤ <span>${mappedTotal}ê°</span> ì½ë ìë ¥ë¨`;
+    `총 ${TMS_UNITS.length}개 중 <span>${mappedTotal}개</span> 코드 입력됨`;
 
   const tbody = document.getElementById('mapping-tbody');
   tbody.innerHTML = '';
   if(filtered.length===0){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">ì¡°ê±´ì ë§ë í­ëª©ì´ ììµëë¤.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">조건에 맞는 항목이 없습니다.</td></tr>';
     return;
   }
   filtered.forEach((u, idx)=>{
@@ -525,11 +525,11 @@ function renderMappingTable(){
       <td style="font-weight:500">${u.unit}</td>
       <td style="color:#555">${u.type}</td>
       <td style="color:#555">${u.ton}</td>
-      <td><span class="badge ${u.spec==='ìì¨'?'badge-empty':'badge-mapped'}">${u.spec}</span></td>
+      <td><span class="badge ${u.spec==='상온'?'badge-empty':'badge-mapped'}">${u.spec}</span></td>
       <td class="center">
         <input class="code-input ${hasVal?'has-value':''}" type="number" min="0"
           value="${hasVal?code:''}"
-          placeholder="ì«ì"
+          placeholder="숫자"
           data-unit="${u.unit}"
           onchange="onCodeChange(this)"
           oninput="onCodeInput(this)">
@@ -546,22 +546,22 @@ function onCodeChange(input){
   const val = input.value.trim();
   if(val==='') delete tmsCodeMap[unit];
   else tmsCodeMap[unit] = Number(val);
-  // ì½ë ì¹´ì´í¸ ê°±ì 
+  // 코드 카운트 갱신
   const mappedTotal = TMS_UNITS.filter(u=>tmsCodeMap[u.unit]!=null && tmsCodeMap[u.unit]!=='').length;
   document.getElementById('mapped-count-label').innerHTML =
-    `ì´ ${TMS_UNITS.length}ê° ì¤ <span>${mappedTotal}ê°</span> ì½ë ìë ¥ë¨`;
+    `총 ${TMS_UNITS.length}개 중 <span>${mappedTotal}개</span> 코드 입력됨`;
 }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   JSON ì°¨ëë¨ì ë¶ë¬ì¤ê¸°
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   JSON 차량단위 불러오기
+════════════════════════════════════ */
 function loadVehicleJson(input) {
   const file = input.files[0];
   if (!file) return;
   const reader = new FileReader();
   reader.onload = e => parseVehicleJson(e.target.result, file.name);
   reader.readAsText(file);
-  input.value = ''; // ê°ì íì¼ ì¬ìë¡ë íì©
+  input.value = ''; // 같은 파일 재업로드 허용
 }
 
 function handleJsonDrop(event) {
@@ -571,7 +571,7 @@ function handleJsonDrop(event) {
   dz.style.background = '';
   const file = event.dataTransfer.files[0];
   if (!file || !file.name.endsWith('.json')) {
-    alert('JSON íì¼ë§ ìë¡ë ê°ë¥í©ëë¤.');
+    alert('JSON 파일만 업로드 가능합니다.');
     return;
   }
   const reader = new FileReader();
@@ -582,12 +582,12 @@ function handleJsonDrop(event) {
 function parseVehicleJson(text, fileName) {
   try {
     const data = JSON.parse(text);
-    if (!Array.isArray(data)) throw new Error('ë°°ì´ íìì´ ìëëë¤.');
+    if (!Array.isArray(data)) throw new Error('배열 형식이 아닙니다.');
 
     let updated = 0, added = 0, skipped = 0;
 
     data.forEach(item => {
-      // íì© íì: {unitName, code} ëë {unit, code} ëë {name, tmsCode}
+      // 허용 형식: {unitName, code} 또는 {unit, code} 또는 {name, tmsCode}
       const unitName = item.unitName || item.unit || item.name;
       const code = item.code ?? item.tmsCode ?? item.tms_code;
       if (!unitName || code == null) { skipped++; return; }
@@ -601,59 +601,59 @@ function parseVehicleJson(text, fileName) {
     });
 
     renderMappingTable();
-    alert(`â JSON ë¶ë¬ì¤ê¸° ìë£\n\níì¼: ${fileName}\nê°±ì : ${updated}ê° / ì ê·: ${added}ê° / ê±´ëë: ${skipped}ê°`);
+    alert(`✅ JSON 불러오기 완료\n\n파일: ${fileName}\n갱신: ${updated}개 / 신규: ${added}개 / 건너뜀: ${skipped}개`);
   } catch (e) {
-    alert(`â JSON íì± ì¤ë¥\n\n${e.message}\n\níìì íì¸í´ì£¼ì¸ì.\nì: [{"unitName":"1í¤ ì¹´ê³ /ì","code":168}, ...]`);
+    alert(`❌ JSON 파싱 오류\n\n${e.message}\n\n형식을 확인해주세요.\n예: [{"unitName":"1톤 카고/윙","code":168}, ...]`);
   }
 }
 
 function clearAllCodes(){
-  if(!confirm('ìë ¥ë ëª¨ë  TMS ì½ëë¥¼ ì´ê¸°ííìê² ìµëê¹?')) return;
+  if(!confirm('입력된 모든 TMS 코드를 초기화하시겠습니까?')) return;
   tmsCodeMap = {};
   renderMappingTable();
 }
 
 function saveCodesAlert(){
   const count = Object.keys(tmsCodeMap).length;
-  alert(`${count}ê° ì½ëê° ì ì¥ëììµëë¤.\n(ê³ì½ì´ìíì ì°¨ë í¤ëì ìë ë°ìë©ëë¤)`);
+  alert(`${count}개 코드가 저장되었습니다.\n(계약운임표의 차량 헤더에 자동 반영됩니다)`);
 }
 
-/* ââ LOMAS ë¨ê°í ì°¨ëì½ë ë§¤í (ë¨ìëª â LOMAS ì½ëëª) ââ */
-const LOMAS_MAP = {"0.3í¤ ë¤ë§ì¤":"0.3í¤ ë¤ë§ì¤[165]","0.5í¤ ë¼ë³´":"0.5í¤ ë¼ë³´[166]","0.5í¤ ë¼ë³´ ë¦¬íí¸":"0.5í¤ ë¼ë³´ ë¦¬íí¸[167]","1í¤ ì¹´ê³ /ì":"1í¤ ì¹´ê³ /ì[168]","1í¤ ì¹´ê³ /ì ë¦¬íí¸":"1í¤ ì¹´ê³ /ì ë¦¬íí¸[169]","1.4í¤ ì¹´ê³ /ì":"1.4í¤ ì¹´ê³ /ì[170]","1.4í¤ ì¹´ê³ /ì ë¦¬íí¸":"1.4í¤ ì¹´ê³ /ì ë¦¬íí¸[171]","2.5í¤ ì¹´ê³ /ì":"2.5í¤ ì¹´ê³ /ì[172]","2.5í¤ ì¹´ê³ /ì ë¦¬íí¸":"2.5í¤ ì¹´ê³ /ì ë¦¬íí¸[173]","3.5í¤ ì¹´ê³ /ì":"3.5í¤ ì¹´ê³ /ì[174]","3.5í¤ ì¹´ê³ /ì ë¦¬íí¸":"3.5í¤ ì¹´ê³ /ì ë¦¬íí¸[175]","5í¤ ì¹´ê³ /ì":"5í¤ ì¹´ê³ /ì[176]","5í¤ ì¹´ê³ /ì ë¦¬íí¸":"5í¤ ì¹´ê³ /ì ë¦¬íí¸[177]","5í¤íë¬ì¤ ì¹´ê³ /ì":"5í¤íë¬ì¤ ì¹´ê³ /ì[178]","5í¤íë¬ì¤ ì¹´ê³ /ì ë¦¬íí¸":"5í¤íë¬ì¤ ì¹´ê³ /ì ë¦¬íí¸[179]","5í¤ì¶ ì¹´ê³ /ì":"5í¤ì¶ ì¹´ê³ /ì[180]","5í¤ì¶ ì¹´ê³ /ì ë¦¬íí¸":"5í¤ì¶ ì¹´ê³ /ì ë¦¬íí¸[181]","8í¤ ì¹´ê³ /ì":"8í¤ ì¹´ê³ /ì[182]","8í¤ ì¹´ê³ /ì ë¦¬íí¸":"8í¤ ì¹´ê³ /ì ë¦¬íí¸[183]","9.5í¤ ì¹´ê³ /ì":"9.5í¤ ì¹´ê³ /ì[184]","9.5í¤ ì¹´ê³ /ì ë¦¬íí¸":"9.5í¤ ì¹´ê³ /ì ë¦¬íí¸[185]","11í¤ ì¹´ê³ /ì":"11í¤ ì¹´ê³ /ì[186]","11í¤ ì¹´ê³ /ì ë¦¬íí¸":"11í¤ ì¹´ê³ /ì ë¦¬íí¸[187]","14í¤ ì¹´ê³ /ì":"14í¤ ì¹´ê³ /ì[188]","14í¤ ì¹´ê³ /ì ë¦¬íí¸":"14í¤ ì¹´ê³ /ì ë¦¬íí¸[189]","18í¤ ì¹´ê³ /ì":"18í¤ ì¹´ê³ /ì[190]","18í¤ ì¹´ê³ /ì ë¦¬íí¸":"18í¤ ì¹´ê³ /ì ë¦¬íí¸[191]","22í¤ ì¹´ê³ /ì":"22í¤ ì¹´ê³ /ì[192]","22í¤ ì¹´ê³ /ì ë¦¬íí¸":"22í¤ ì¹´ê³ /ì ë¦¬íí¸[193]","25í¤ ì¹´ê³ /ì":"25í¤ ì¹´ê³ /ì[194]","25í¤ ì¹´ê³ /ì ë¦¬íí¸":"25í¤ ì¹´ê³ /ì ë¦¬íí¸[195]","1í¤ ì¹´ê³ ":"1í¤ ì¹´ê³ [196]","1í¤ ì¹´ê³  ë¦¬íí¸":"1í¤ ì¹´ê³  ë¦¬íí¸[197]","1.4í¤ ì¹´ê³ ":"1.4í¤ ì¹´ê³ [198]","1.4í¤ ì¹´ê³  ë¦¬íí¸":"1.4í¤ ì¹´ê³  ë¦¬íí¸[199]","2.5í¤ ì¹´ê³ ":"2.5í¤ ì¹´ê³ [200]","2.5í¤ ì¹´ê³  ë¦¬íí¸":"2.5í¤ ì¹´ê³  ë¦¬íí¸[201]","3.5í¤ ì¹´ê³ ":"3.5í¤ ì¹´ê³ [202]","3.5í¤ ì¹´ê³  ë¦¬íí¸":"3.5í¤ ì¹´ê³  ë¦¬íí¸[203]","5í¤ ì¹´ê³ ":"5í¤ ì¹´ê³ [204]","5í¤ ì¹´ê³  ë¦¬íí¸":"5í¤ ì¹´ê³  ë¦¬íí¸[205]","5í¤íë¬ì¤ ì¹´ê³ ":"5í¤íë¬ì¤ ì¹´ê³ [206]","5í¤íë¬ì¤ ì¹´ê³  ë¦¬íí¸":"5í¤íë¬ì¤ ì¹´ê³  ë¦¬íí¸[207]","5í¤ì¶ ì¹´ê³ ":"5í¤ì¶ ì¹´ê³ [208]","5í¤ì¶ ì¹´ê³  ë¦¬íí¸":"5í¤ì¶ ì¹´ê³  ë¦¬íí¸[209]","8í¤ ì¹´ê³ ":"8í¤ ì¹´ê³ [210]","8í¤ ì¹´ê³  ë¦¬íí¸":"8í¤ ì¹´ê³  ë¦¬íí¸[211]","9.5í¤ ì¹´ê³ ":"9.5í¤ ì¹´ê³ [212]","9.5í¤ ì¹´ê³  ë¦¬íí¸":"9.5í¤ ì¹´ê³  ë¦¬íí¸[213]","11í¤ ì¹´ê³ ":"11í¤ ì¹´ê³ [214]","11í¤ ì¹´ê³  ë¦¬íí¸":"11í¤ ì¹´ê³  ë¦¬íí¸[215]","14í¤ ì¹´ê³ ":"14í¤ ì¹´ê³ [216]","14í¤ ì¹´ê³  ë¦¬íí¸":"14í¤ ì¹´ê³  ë¦¬íí¸[217]","18í¤ ì¹´ê³ ":"18í¤ ì¹´ê³ [218]","18í¤ ì¹´ê³  ë¦¬íí¸":"18í¤ ì¹´ê³  ë¦¬íí¸[219]","22í¤ ì¹´ê³ ":"22í¤ ì¹´ê³ [220]","22í¤ ì¹´ê³  ë¦¬íí¸":"22í¤ ì¹´ê³  ë¦¬íí¸[221]","25í¤ ì¹´ê³ ":"25í¤ ì¹´ê³ [222]","25í¤ ì¹´ê³  ë¦¬íí¸":"25í¤ ì¹´ê³  ë¦¬íí¸[223]","1í¤ ìë°ë":"1í¤ ìë°ë[224]","1í¤ ìë°ë ëì¥":"1í¤ ìë°ë ëì¥[225]","1í¤ ìë°ë ëë(ëì¥í¬í¨)":"1í¤ ìë°ë ëë(ëì¥í¬í¨)[226]","1í¤ ìë°ë ë¦¬íí¸":"1í¤ ìë°ë ë¦¬íí¸[227]","1.4í¤ ìë°ë":"1.4í¤ ìë°ë[228]","1.4í¤ ìë°ë ëì¥":"1.4í¤ ìë°ë ëì¥[229]","1.4í¤ ìë°ë ëë(ëì¥í¬í¨)":"1.4í¤ ìë°ë ëë(ëì¥í¬í¨)[230]","1.4í¤ ìë°ë ë¦¬íí¸":"1.4í¤ ìë°ë ë¦¬íí¸[231]","2.5í¤ ìë°ë":"2.5í¤ ìë°ë[232]","2.5í¤ ìë°ë ëì¥":"2.5í¤ ìë°ë ëì¥[233]","2.5í¤ ìë°ë ëë(ëì¥í¬í¨)":"2.5í¤ ìë°ë ëë(ëì¥í¬í¨)[234]","2.5í¤ ìë°ë ë¦¬íí¸":"2.5í¤ ìë°ë ë¦¬íí¸[235]","3.5í¤ ìë°ë":"3.5í¤ ìë°ë[236]","3.5í¤ ìë°ë ëì¥":"3.5í¤ ìë°ë ëì¥[237]","3.5í¤ ìë°ë ëë(ëì¥í¬í¨)":"3.5í¤ ìë°ë ëë(ëì¥í¬í¨)[238]","3.5í¤ ìë°ë ë¦¬íí¸":"3.5í¤ ìë°ë ë¦¬íí¸[239]","5í¤ ìë°ë":"5í¤ ìë°ë[240]","5í¤ ìë°ë ëì¥":"5í¤ ìë°ë ëì¥[241]","5í¤ ìë°ë ëë(ëì¥í¬í¨)":"5í¤ ìë°ë ëë(ëì¥í¬í¨)[242]","5í¤ ìë°ë ë¦¬íí¸":"5í¤ ìë°ë ë¦¬íí¸[243]","5í¤íë¬ì¤ ìë°ë":"5í¤íë¬ì¤ ìë°ë[244]","5í¤íë¬ì¤ ìë°ë ëì¥":"5í¤íë¬ì¤ ìë°ë ëì¥[245]","5í¤íë¬ì¤ ìë°ë ëë(ëì¥í¬í¨)":"5í¤íë¬ì¤ ìë°ë ëë(ëì¥í¬í¨)[246]","5í¤íë¬ì¤ ìë°ë ë¦¬íí¸":"5í¤íë¬ì¤ ìë°ë ë¦¬íí¸[247]","5í¤ì¶ ìë°ë":"5í¤ì¶ ìë°ë[248]","5í¤ì¶ ìë°ë ëì¥":"5í¤ì¶ ìë°ë ëì¥[249]","5í¤ì¶ ìë°ë ëë(ëì¥í¬í¨)":"5í¤ì¶ ìë°ë ëë(ëì¥í¬í¨)[250]","5í¤ì¶ ìë°ë ë¦¬íí¸":"5í¤ì¶ ìë°ë ë¦¬íí¸[251]","8í¤ ìë°ë":"8í¤ ìë°ë[252]","8í¤ ìë°ë ëì¥":"8í¤ ìë°ë ëì¥[253]","8í¤ ìë°ë ëë(ëì¥í¬í¨)":"8í¤ ìë°ë ëë(ëì¥í¬í¨)[254]","8í¤ ìë°ë ë¦¬íí¸":"8í¤ ìë°ë ë¦¬íí¸[255]","9.5í¤ ìë°ë":"9.5í¤ ìë°ë[256]","9.5í¤ ìë°ë ëì¥":"9.5í¤ ìë°ë ëì¥[257]","9.5í¤ ìë°ë ëë(ëì¥í¬í¨)":"9.5í¤ ìë°ë ëë(ëì¥í¬í¨)[258]","9.5í¤ ìë°ë ë¦¬íí¸":"9.5í¤ ìë°ë ë¦¬íí¸[259]","11í¤ ìë°ë":"11í¤ ìë°ë[260]","11í¤ ìë°ë ëì¥":"11í¤ ìë°ë ëì¥[261]","11í¤ ìë°ë ëë(ëì¥í¬í¨)":"11í¤ ìë°ë ëë(ëì¥í¬í¨)[262]","11í¤ ìë°ë ë¦¬íí¸":"11í¤ ìë°ë ë¦¬íí¸[263]","14í¤ ìë°ë":"14í¤ ìë°ë[264]","14í¤ ìë°ë ëì¥":"14í¤ ìë°ë ëì¥[265]","14í¤ ìë°ë ëë(ëì¥í¬í¨)":"14í¤ ìë°ë ëë(ëì¥í¬í¨)[266]","14í¤ ìë°ë ë¦¬íí¸":"14í¤ ìë°ë ë¦¬íí¸[267]","18í¤ ìë°ë":"18í¤ ìë°ë[268]","18í¤ ìë°ë ëì¥":"18í¤ ìë°ë ëì¥[269]","18í¤ ìë°ë ëë(ëì¥í¬í¨)":"18í¤ ìë°ë ëë(ëì¥í¬í¨)[270]","18í¤ ìë°ë ë¦¬íí¸":"18í¤ ìë°ë ë¦¬íí¸[271]","22í¤ ìë°ë":"22í¤ ìë°ë[272]","22í¤ ìë°ë ëì¥":"22í¤ ìë°ë ëì¥[273]","22í¤ ìë°ë ëë(ëì¥í¬í¨)":"22í¤ ìë°ë ëë(ëì¥í¬í¨)[274]","22í¤ ìë°ë ë¦¬íí¸":"22í¤ ìë°ë ë¦¬íí¸[275]","25í¤ ìë°ë":"25í¤ ìë°ë[276]","25í¤ ìë°ë ëì¥":"25í¤ ìë°ë ëì¥[277]","25í¤ ìë°ë ëë(ëì¥í¬í¨)":"25í¤ ìë°ë ëë(ëì¥í¬í¨)[278]","25í¤ ìë°ë ë¦¬íí¸":"25í¤ ìë°ë ë¦¬íí¸[279]","1í¤ í":"1í¤ í[280]","1í¤ í ëì¥":"1í¤ í ëì¥[281]","1í¤ í ëë(ëì¥í¬í¨)":"1í¤ í ëë(ëì¥í¬í¨)[282]","1í¤ í ë¦¬íí¸":"1í¤ í ë¦¬íí¸[283]","1.4í¤ í":"1.4í¤ í[284]","1.4í¤ í ëì¥":"1.4í¤ í ëì¥[285]","1.4í¤ í ëë(ëì¥í¬í¨)":"1.4í¤ í ëë(ëì¥í¬í¨)[286]","1.4í¤ í ë¦¬íí¸":"1.4í¤ í ë¦¬íí¸[287]","2.5í¤ í":"2.5í¤ í[288]","2.5í¤ í ëì¥":"2.5í¤ í ëì¥[289]","2.5í¤ í ëë(ëì¥í¬í¨)":"2.5í¤ í ëë(ëì¥í¬í¨)[290]","2.5í¤ í ë¦¬íí¸":"2.5í¤ í ë¦¬íí¸[291]","3.5í¤ í":"3.5í¤ í[292]","3.5í¤ í ëì¥":"3.5í¤ í ëì¥[293]","3.5í¤ í ëë(ëì¥í¬í¨)":"3.5í¤ í ëë(ëì¥í¬í¨)[294]","3.5í¤ í ë¦¬íí¸":"3.5í¤ í ë¦¬íí¸[295]","5í¤ í":"5í¤ í[296]","5í¤ í ëì¥":"5í¤ í ëì¥[297]","5í¤ í ëë(ëì¥í¬í¨)":"5í¤ í ëë(ëì¥í¬í¨)[298]","5í¤ í ë¦¬íí¸":"5í¤ í ë¦¬íí¸[299]","5í¤íë¬ì¤ í":"5í¤íë¬ì¤ í[300]","5í¤íë¬ì¤ í ëì¥":"5í¤íë¬ì¤ í ëì¥[301]","5í¤íë¬ì¤ í ëë(ëì¥í¬í¨)":"5í¤íë¬ì¤ í ëë(ëì¥í¬í¨)[302]","5í¤íë¬ì¤ í ë¦¬íí¸":"5í¤íë¬ì¤ í ë¦¬íí¸[303]","5í¤ì¶ í":"5í¤ì¶ í[304]","5í¤ì¶ í ëì¥":"5í¤ì¶ í ëì¥[305]","5í¤ì¶ í ëë(ëì¥í¬í¨)":"5í¤ì¶ í ëë(ëì¥í¬í¨)[306]","5í¤ì¶ í ë¦¬íí¸":"5í¤ì¶ í ë¦¬íí¸[307]","8í¤ í":"8í¤ í[308]","8í¤ í ëì¥":"8í¤ í ëì¥[309]","8í¤ í ëë(ëì¥í¬í¨)":"8í¤ í ëë(ëì¥í¬í¨)[310]","8í¤ í ë¦¬íí¸":"8í¤ í ë¦¬íí¸[311]","9.5í¤ í":"9.5í¤ í[312]","9.5í¤ í ëì¥":"9.5í¤ í ëì¥[313]","9.5í¤ í ëë(ëì¥í¬í¨)":"9.5í¤ í ëë(ëì¥í¬í¨)[314]","9.5í¤ í ë¦¬íí¸":"9.5í¤ í ë¦¬íí¸[315]","11í¤ í":"11í¤ í[316]","11í¤ í ëì¥":"11í¤ í ëì¥[317]","11í¤ í ëë(ëì¥í¬í¨)":"11í¤ í ëë(ëì¥í¬í¨)[318]","11í¤ í ë¦¬íí¸":"11í¤ í ë¦¬íí¸[319]","14í¤ í":"14í¤ í[320]","14í¤ í ëì¥":"14í¤ í ëì¥[321]","14í¤ í ëë(ëì¥í¬í¨)":"14í¤ í ëë(ëì¥í¬í¨)[322]","14í¤ í ë¦¬íí¸":"14í¤ í ë¦¬íí¸[323]","18í¤ í":"18í¤ í[324]","18í¤ í ëì¥":"18í¤ í ëì¥[325]","18í¤ í ëë(ëì¥í¬í¨)":"18í¤ í ëë(ëì¥í¬í¨)[326]","18í¤ í ë¦¬íí¸":"18í¤ í ë¦¬íí¸[327]","22í¤ í":"22í¤ í[328]","22í¤ í ëì¥":"22í¤ í ëì¥[329]","22í¤ í ëë(ëì¥í¬í¨)":"22í¤ í ëë(ëì¥í¬í¨)[330]","22í¤ í ë¦¬íí¸":"22í¤ í ë¦¬íí¸[331]","25í¤ í":"25í¤ í[332]","25í¤ í ëì¥":"25í¤ í ëì¥[333]","25í¤ í ëë(ëì¥í¬í¨)":"25í¤ í ëë(ëì¥í¬í¨)[334]","25í¤ í ë¦¬íí¸":"25í¤ í ë¦¬íí¸[335]","18í¤ ë°©íµì°¨":"18í¤ ë°©íµì°¨[336]","22í¤ ë°©íµì°¨":"22í¤ ë°©íµì°¨[337]","25í¤ ë°©íµì°¨":"25í¤ ë°©íµì°¨[338]","18í¤ í¸ë ì¼ë¬":"18í¤ í¸ë ì¼ë¬[339]","18í¤ í¸ë ì¼ë¬ ëì¥":"18í¤ í¸ë ì¼ë¬ ëì¥[340]","18í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":"18í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)[341]","18í¤ í¸ë ì¼ë¬ ë¦¬íí¸":"18í¤ í¸ë ì¼ë¬ ë¦¬íí¸[342]","22í¤ í¸ë ì¼ë¬":"22í¤ í¸ë ì¼ë¬[343]","22í¤ í¸ë ì¼ë¬ ëì¥":"22í¤ í¸ë ì¼ë¬ ëì¥[344]","22í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":"22í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)[345]","22í¤ í¸ë ì¼ë¬ ë¦¬íí¸":"22í¤ í¸ë ì¼ë¬ ë¦¬íí¸[346]","25í¤ í¸ë ì¼ë¬":"25í¤ í¸ë ì¼ë¬[347]","25í¤ í¸ë ì¼ë¬ ëì¥":"25í¤ í¸ë ì¼ë¬ ëì¥[348]","25í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":"25í¤ í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)[349]","25í¤ í¸ë ì¼ë¬ ë¦¬íí¸":"25í¤ í¸ë ì¼ë¬ ë¦¬íí¸[350]","20ft í¸ë ì¼ë¬":"20ft í¸ë ì¼ë¬[351]","20ft í¸ë ì¼ë¬ ëì¥":"20ft í¸ë ì¼ë¬ ëì¥[352]","20ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":"20ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)[353]","20ft í¸ë ì¼ë¬ ë¦¬íí¸":"20ft í¸ë ì¼ë¬ ë¦¬íí¸[354]","40ft í¸ë ì¼ë¬":"40ft í¸ë ì¼ë¬[355]","40ft í¸ë ì¼ë¬ ëì¥":"40ft í¸ë ì¼ë¬ ëì¥[356]","40ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)":"40ft í¸ë ì¼ë¬ ëë(ëì¥í¬í¨)[357]","40ft í¸ë ì¼ë¬ ë¦¬íí¸":"40ft í¸ë ì¼ë¬ ë¦¬íí¸[358]"};
+/* ── LOMAS 단가표 차량코드 매핑 (단위명 → LOMAS 코드명) ── */
+const LOMAS_MAP = {"0.3톤 다마스":"0.3톤 다마스[165]","0.5톤 라보":"0.5톤 라보[166]","0.5톤 라보 리프트":"0.5톤 라보 리프트[167]","1톤 카고/윙":"1톤 카고/윙[168]","1톤 카고/윙 리프트":"1톤 카고/윙 리프트[169]","1.4톤 카고/윙":"1.4톤 카고/윙[170]","1.4톤 카고/윙 리프트":"1.4톤 카고/윙 리프트[171]","2.5톤 카고/윙":"2.5톤 카고/윙[172]","2.5톤 카고/윙 리프트":"2.5톤 카고/윙 리프트[173]","3.5톤 카고/윙":"3.5톤 카고/윙[174]","3.5톤 카고/윙 리프트":"3.5톤 카고/윙 리프트[175]","5톤 카고/윙":"5톤 카고/윙[176]","5톤 카고/윙 리프트":"5톤 카고/윙 리프트[177]","5톤플러스 카고/윙":"5톤플러스 카고/윙[178]","5톤플러스 카고/윙 리프트":"5톤플러스 카고/윙 리프트[179]","5톤축 카고/윙":"5톤축 카고/윙[180]","5톤축 카고/윙 리프트":"5톤축 카고/윙 리프트[181]","8톤 카고/윙":"8톤 카고/윙[182]","8톤 카고/윙 리프트":"8톤 카고/윙 리프트[183]","9.5톤 카고/윙":"9.5톤 카고/윙[184]","9.5톤 카고/윙 리프트":"9.5톤 카고/윙 리프트[185]","11톤 카고/윙":"11톤 카고/윙[186]","11톤 카고/윙 리프트":"11톤 카고/윙 리프트[187]","14톤 카고/윙":"14톤 카고/윙[188]","14톤 카고/윙 리프트":"14톤 카고/윙 리프트[189]","18톤 카고/윙":"18톤 카고/윙[190]","18톤 카고/윙 리프트":"18톤 카고/윙 리프트[191]","22톤 카고/윙":"22톤 카고/윙[192]","22톤 카고/윙 리프트":"22톤 카고/윙 리프트[193]","25톤 카고/윙":"25톤 카고/윙[194]","25톤 카고/윙 리프트":"25톤 카고/윙 리프트[195]","1톤 카고":"1톤 카고[196]","1톤 카고 리프트":"1톤 카고 리프트[197]","1.4톤 카고":"1.4톤 카고[198]","1.4톤 카고 리프트":"1.4톤 카고 리프트[199]","2.5톤 카고":"2.5톤 카고[200]","2.5톤 카고 리프트":"2.5톤 카고 리프트[201]","3.5톤 카고":"3.5톤 카고[202]","3.5톤 카고 리프트":"3.5톤 카고 리프트[203]","5톤 카고":"5톤 카고[204]","5톤 카고 리프트":"5톤 카고 리프트[205]","5톤플러스 카고":"5톤플러스 카고[206]","5톤플러스 카고 리프트":"5톤플러스 카고 리프트[207]","5톤축 카고":"5톤축 카고[208]","5톤축 카고 리프트":"5톤축 카고 리프트[209]","8톤 카고":"8톤 카고[210]","8톤 카고 리프트":"8톤 카고 리프트[211]","9.5톤 카고":"9.5톤 카고[212]","9.5톤 카고 리프트":"9.5톤 카고 리프트[213]","11톤 카고":"11톤 카고[214]","11톤 카고 리프트":"11톤 카고 리프트[215]","14톤 카고":"14톤 카고[216]","14톤 카고 리프트":"14톤 카고 리프트[217]","18톤 카고":"18톤 카고[218]","18톤 카고 리프트":"18톤 카고 리프트[219]","22톤 카고":"22톤 카고[220]","22톤 카고 리프트":"22톤 카고 리프트[221]","25톤 카고":"25톤 카고[222]","25톤 카고 리프트":"25톤 카고 리프트[223]","1톤 윙바디":"1톤 윙바디[224]","1톤 윙바디 냉장":"1톤 윙바디 냉장[225]","1톤 윙바디 냉동(냉장포함)":"1톤 윙바디 냉동(냉장포함)[226]","1톤 윙바디 리프트":"1톤 윙바디 리프트[227]","1.4톤 윙바디":"1.4톤 윙바디[228]","1.4톤 윙바디 냉장":"1.4톤 윙바디 냉장[229]","1.4톤 윙바디 냉동(냉장포함)":"1.4톤 윙바디 냉동(냉장포함)[230]","1.4톤 윙바디 리프트":"1.4톤 윙바디 리프트[231]","2.5톤 윙바디":"2.5톤 윙바디[232]","2.5톤 윙바디 냉장":"2.5톤 윙바디 냉장[233]","2.5톤 윙바디 냉동(냉장포함)":"2.5톤 윙바디 냉동(냉장포함)[234]","2.5톤 윙바디 리프트":"2.5톤 윙바디 리프트[235]","3.5톤 윙바디":"3.5톤 윙바디[236]","3.5톤 윙바디 냉장":"3.5톤 윙바디 냉장[237]","3.5톤 윙바디 냉동(냉장포함)":"3.5톤 윙바디 냉동(냉장포함)[238]","3.5톤 윙바디 리프트":"3.5톤 윙바디 리프트[239]","5톤 윙바디":"5톤 윙바디[240]","5톤 윙바디 냉장":"5톤 윙바디 냉장[241]","5톤 윙바디 냉동(냉장포함)":"5톤 윙바디 냉동(냉장포함)[242]","5톤 윙바디 리프트":"5톤 윙바디 리프트[243]","5톤플러스 윙바디":"5톤플러스 윙바디[244]","5톤플러스 윙바디 냉장":"5톤플러스 윙바디 냉장[245]","5톤플러스 윙바디 냉동(냉장포함)":"5톤플러스 윙바디 냉동(냉장포함)[246]","5톤플러스 윙바디 리프트":"5톤플러스 윙바디 리프트[247]","5톤축 윙바디":"5톤축 윙바디[248]","5톤축 윙바디 냉장":"5톤축 윙바디 냉장[249]","5톤축 윙바디 냉동(냉장포함)":"5톤축 윙바디 냉동(냉장포함)[250]","5톤축 윙바디 리프트":"5톤축 윙바디 리프트[251]","8톤 윙바디":"8톤 윙바디[252]","8톤 윙바디 냉장":"8톤 윙바디 냉장[253]","8톤 윙바디 냉동(냉장포함)":"8톤 윙바디 냉동(냉장포함)[254]","8톤 윙바디 리프트":"8톤 윙바디 리프트[255]","9.5톤 윙바디":"9.5톤 윙바디[256]","9.5톤 윙바디 냉장":"9.5톤 윙바디 냉장[257]","9.5톤 윙바디 냉동(냉장포함)":"9.5톤 윙바디 냉동(냉장포함)[258]","9.5톤 윙바디 리프트":"9.5톤 윙바디 리프트[259]","11톤 윙바디":"11톤 윙바디[260]","11톤 윙바디 냉장":"11톤 윙바디 냉장[261]","11톤 윙바디 냉동(냉장포함)":"11톤 윙바디 냉동(냉장포함)[262]","11톤 윙바디 리프트":"11톤 윙바디 리프트[263]","14톤 윙바디":"14톤 윙바디[264]","14톤 윙바디 냉장":"14톤 윙바디 냉장[265]","14톤 윙바디 냉동(냉장포함)":"14톤 윙바디 냉동(냉장포함)[266]","14톤 윙바디 리프트":"14톤 윙바디 리프트[267]","18톤 윙바디":"18톤 윙바디[268]","18톤 윙바디 냉장":"18톤 윙바디 냉장[269]","18톤 윙바디 냉동(냉장포함)":"18톤 윙바디 냉동(냉장포함)[270]","18톤 윙바디 리프트":"18톤 윙바디 리프트[271]","22톤 윙바디":"22톤 윙바디[272]","22톤 윙바디 냉장":"22톤 윙바디 냉장[273]","22톤 윙바디 냉동(냉장포함)":"22톤 윙바디 냉동(냉장포함)[274]","22톤 윙바디 리프트":"22톤 윙바디 리프트[275]","25톤 윙바디":"25톤 윙바디[276]","25톤 윙바디 냉장":"25톤 윙바디 냉장[277]","25톤 윙바디 냉동(냉장포함)":"25톤 윙바디 냉동(냉장포함)[278]","25톤 윙바디 리프트":"25톤 윙바디 리프트[279]","1톤 탑":"1톤 탑[280]","1톤 탑 냉장":"1톤 탑 냉장[281]","1톤 탑 냉동(냉장포함)":"1톤 탑 냉동(냉장포함)[282]","1톤 탑 리프트":"1톤 탑 리프트[283]","1.4톤 탑":"1.4톤 탑[284]","1.4톤 탑 냉장":"1.4톤 탑 냉장[285]","1.4톤 탑 냉동(냉장포함)":"1.4톤 탑 냉동(냉장포함)[286]","1.4톤 탑 리프트":"1.4톤 탑 리프트[287]","2.5톤 탑":"2.5톤 탑[288]","2.5톤 탑 냉장":"2.5톤 탑 냉장[289]","2.5톤 탑 냉동(냉장포함)":"2.5톤 탑 냉동(냉장포함)[290]","2.5톤 탑 리프트":"2.5톤 탑 리프트[291]","3.5톤 탑":"3.5톤 탑[292]","3.5톤 탑 냉장":"3.5톤 탑 냉장[293]","3.5톤 탑 냉동(냉장포함)":"3.5톤 탑 냉동(냉장포함)[294]","3.5톤 탑 리프트":"3.5톤 탑 리프트[295]","5톤 탑":"5톤 탑[296]","5톤 탑 냉장":"5톤 탑 냉장[297]","5톤 탑 냉동(냉장포함)":"5톤 탑 냉동(냉장포함)[298]","5톤 탑 리프트":"5톤 탑 리프트[299]","5톤플러스 탑":"5톤플러스 탑[300]","5톤플러스 탑 냉장":"5톤플러스 탑 냉장[301]","5톤플러스 탑 냉동(냉장포함)":"5톤플러스 탑 냉동(냉장포함)[302]","5톤플러스 탑 리프트":"5톤플러스 탑 리프트[303]","5톤축 탑":"5톤축 탑[304]","5톤축 탑 냉장":"5톤축 탑 냉장[305]","5톤축 탑 냉동(냉장포함)":"5톤축 탑 냉동(냉장포함)[306]","5톤축 탑 리프트":"5톤축 탑 리프트[307]","8톤 탑":"8톤 탑[308]","8톤 탑 냉장":"8톤 탑 냉장[309]","8톤 탑 냉동(냉장포함)":"8톤 탑 냉동(냉장포함)[310]","8톤 탑 리프트":"8톤 탑 리프트[311]","9.5톤 탑":"9.5톤 탑[312]","9.5톤 탑 냉장":"9.5톤 탑 냉장[313]","9.5톤 탑 냉동(냉장포함)":"9.5톤 탑 냉동(냉장포함)[314]","9.5톤 탑 리프트":"9.5톤 탑 리프트[315]","11톤 탑":"11톤 탑[316]","11톤 탑 냉장":"11톤 탑 냉장[317]","11톤 탑 냉동(냉장포함)":"11톤 탑 냉동(냉장포함)[318]","11톤 탑 리프트":"11톤 탑 리프트[319]","14톤 탑":"14톤 탑[320]","14톤 탑 냉장":"14톤 탑 냉장[321]","14톤 탑 냉동(냉장포함)":"14톤 탑 냉동(냉장포함)[322]","14톤 탑 리프트":"14톤 탑 리프트[323]","18톤 탑":"18톤 탑[324]","18톤 탑 냉장":"18톤 탑 냉장[325]","18톤 탑 냉동(냉장포함)":"18톤 탑 냉동(냉장포함)[326]","18톤 탑 리프트":"18톤 탑 리프트[327]","22톤 탑":"22톤 탑[328]","22톤 탑 냉장":"22톤 탑 냉장[329]","22톤 탑 냉동(냉장포함)":"22톤 탑 냉동(냉장포함)[330]","22톤 탑 리프트":"22톤 탑 리프트[331]","25톤 탑":"25톤 탑[332]","25톤 탑 냉장":"25톤 탑 냉장[333]","25톤 탑 냉동(냉장포함)":"25톤 탑 냉동(냉장포함)[334]","25톤 탑 리프트":"25톤 탑 리프트[335]","18톤 방통차":"18톤 방통차[336]","22톤 방통차":"22톤 방통차[337]","25톤 방통차":"25톤 방통차[338]","18톤 트레일러":"18톤 트레일러[339]","18톤 트레일러 냉장":"18톤 트레일러 냉장[340]","18톤 트레일러 냉동(냉장포함)":"18톤 트레일러 냉동(냉장포함)[341]","18톤 트레일러 리프트":"18톤 트레일러 리프트[342]","22톤 트레일러":"22톤 트레일러[343]","22톤 트레일러 냉장":"22톤 트레일러 냉장[344]","22톤 트레일러 냉동(냉장포함)":"22톤 트레일러 냉동(냉장포함)[345]","22톤 트레일러 리프트":"22톤 트레일러 리프트[346]","25톤 트레일러":"25톤 트레일러[347]","25톤 트레일러 냉장":"25톤 트레일러 냉장[348]","25톤 트레일러 냉동(냉장포함)":"25톤 트레일러 냉동(냉장포함)[349]","25톤 트레일러 리프트":"25톤 트레일러 리프트[350]","20ft 트레일러":"20ft 트레일러[351]","20ft 트레일러 냉장":"20ft 트레일러 냉장[352]","20ft 트레일러 냉동(냉장포함)":"20ft 트레일러 냉동(냉장포함)[353]","20ft 트레일러 리프트":"20ft 트레일러 리프트[354]","40ft 트레일러":"40ft 트레일러[355]","40ft 트레일러 냉장":"40ft 트레일러 냉장[356]","40ft 트레일러 냉동(냉장포함)":"40ft 트레일러 냉동(냉장포함)[357]","40ft 트레일러 리프트":"40ft 트레일러 리프트[358]"};
 
-/* displayName("ì¹´ê³ /ì / 1í¤ / ë¦¬íí¸") â TMS ë¨ìëª("1í¤ ì¹´ê³ /ì ë¦¬íí¸") ë³í */
+/* displayName("카고/윙 / 1톤 / 리프트") → TMS 단위명("1톤 카고/윙 리프트") 변환 */
 function displayNameToUnit(displayName) {
   const parts = displayName.split(' / ').map(s => s.trim());
-  // parts[0]=ì°¨ì¢, parts[1]=í¤ì, parts[2]=í¹ì±(ììë)
+  // parts[0]=차종, parts[1]=톤수, parts[2]=특성(있을때)
   const type = parts[0];
   const ton  = parts[1];
   const spec = parts[2] || null;
-  // TMS ë¨ìëª íì: "í¤ì ì°¨ì¢" ëë "í¤ì ì°¨ì¢ í¹ì±"
+  // TMS 단위명 형식: "톤수 차종" 또는 "톤수 차종 특성"
   return spec ? `${ton} ${type} ${spec}` : `${ton} ${type}`;
 }
 
-/* displayName â LOMAS ì½ëëª ì¡°í */
+/* displayName → LOMAS 코드명 조회 */
 function getLomasHeader(displayName) {
   const unitName = displayNameToUnit(displayName);
   return LOMAS_MAP[unitName] || null;
 }
 
 function unitToDisplayName(u){
-  const specLabel = (u.spec && u.spec!=='ìì¨') ? u.spec : '';
+  const specLabel = (u.spec && u.spec!=='상온') ? u.spec : '';
   return specLabel ? `${u.type} / ${u.ton} / ${specLabel}` : `${u.type} / ${u.ton}`;
 }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ìì°¨ì§
-ââââââââââââââââââââââââââââââââââââ */
-/* ì§ì­ íë¤ì ì¡°í© â REGION í¤ê° ì´ë¯¸ TMS íë¤ì */
+/* ════════════════════════════════════
+   상차지
+════════════════════════════════════ */
+/* 지역 풀네임 조합 — REGION 키가 이미 TMS 풀네임 */
 function fullRegionName(sido, sigungu) {
   return sigungu ? `${sido} ${sigungu}` : sido;
 }
 
 function resetPickup(){
   document.getElementById('pickup-sido').value = '';
-  document.getElementById('pickup-sigungu').innerHTML = '<option value="">ì í</option>';
+  document.getElementById('pickup-sigungu').innerHTML = '<option value="">선택</option>';
   appState.pickup = null;
   document.getElementById('pickup-result').style.display = 'none';
   renderGrid();
@@ -673,7 +673,7 @@ function resetDropoff(){
 function onPickupSido(){
   const sido=document.getElementById('pickup-sido').value;
   const sg=document.getElementById('pickup-sigungu');
-  sg.innerHTML='<option value="">ì í</option>';
+  sg.innerHTML='<option value="">선택</option>';
   if(sido) REGION[sido].forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; sg.appendChild(o); });
   appState.pickup=null;
   document.getElementById('pickup-result').style.display='none';
@@ -688,9 +688,9 @@ function onPickupSigungu(){
   renderGrid();
 }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ì»¤ì¤í ëë¡­ë¤ì´
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   커스텀 드롭다운
+════════════════════════════════════ */
 function toggleDropdown(id){
   const panel=document.getElementById(id+'-panel');
   const isOpen=panel.classList.contains('open');
@@ -701,21 +701,21 @@ function openDropdown(id){ document.getElementById(id+'-trigger').classList.add(
 function closeDropdown(id){ document.getElementById(id+'-trigger').classList.remove('open'); document.getElementById(id+'-panel').classList.remove('open'); if(openDropdownId===id) openDropdownId=null; }
 document.addEventListener('click',e=>{ if(openDropdownId){ const d=document.getElementById(openDropdownId+'-dropdown'); if(d&&!d.contains(e.target)) closeDropdown(openDropdownId); } });
 
-function updateTonLabel(){ const n=vm.checkedTons.size; const l=document.getElementById('ton-label'); if(n===0){l.textContent='ì°¨ë í¤ì ì í';l.className='placeholder';}else{l.textContent=`${n}ê° ì íë¨`;l.className='';} updateVSelectBtn(); }
-function updateSpecLabel(){ const n=vm.checkedSpecs.size; const l=document.getElementById('spec-label'); if(n===0){l.textContent='ì°¨ë í¹ì± ì í';l.className='placeholder';}else{l.textContent=`${n}ê° ì íë¨`;l.className='';} }
+function updateTonLabel(){ const n=vm.checkedTons.size; const l=document.getElementById('ton-label'); if(n===0){l.textContent='차량 톤수 선택';l.className='placeholder';}else{l.textContent=`${n}개 선택됨`;l.className='';} updateVSelectBtn(); }
+function updateSpecLabel(){ const n=vm.checkedSpecs.size; const l=document.getElementById('spec-label'); if(n===0){l.textContent='차량 특성 선택';l.className='placeholder';}else{l.textContent=`${n}개 선택됨`;l.className='';} }
 function toggleAllTons(checked){ const type=document.getElementById('v-type').value; if(!type) return; if(checked) VEHICLE_SPECS[type].tons.forEach(t=>vm.checkedTons.add(t)); else vm.checkedTons.clear(); renderTonList(type); updateTonLabel(); }
-function renderTonList(type){ const list=document.getElementById('ton-list'); list.innerHTML=''; if(!type){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">ì°¨ì¢ì ë¨¼ì  ì ííì¸ì</div>';return;} VEHICLE_SPECS[type].tons.forEach(ton=>{ const label=document.createElement('label'); label.className='dp-chk-label'; const chk=document.createElement('input'); chk.type='checkbox'; chk.value=ton; chk.checked=vm.checkedTons.has(ton); chk.onchange=()=>{ if(chk.checked) vm.checkedTons.add(ton); else vm.checkedTons.delete(ton); updateTonAllChk(type); updateTonLabel(); }; label.appendChild(chk); label.appendChild(document.createTextNode(ton)); list.appendChild(label); }); updateTonAllChk(type); }
+function renderTonList(type){ const list=document.getElementById('ton-list'); list.innerHTML=''; if(!type){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">차종을 먼저 선택하세요</div>';return;} VEHICLE_SPECS[type].tons.forEach(ton=>{ const label=document.createElement('label'); label.className='dp-chk-label'; const chk=document.createElement('input'); chk.type='checkbox'; chk.value=ton; chk.checked=vm.checkedTons.has(ton); chk.onchange=()=>{ if(chk.checked) vm.checkedTons.add(ton); else vm.checkedTons.delete(ton); updateTonAllChk(type); updateTonLabel(); }; label.appendChild(chk); label.appendChild(document.createTextNode(ton)); list.appendChild(label); }); updateTonAllChk(type); }
 function updateTonAllChk(type){ const tons=VEHICLE_SPECS[type].tons; document.getElementById('ton-all-chk').checked=tons.length>0&&tons.every(t=>vm.checkedTons.has(t)); }
-function renderSpecList(type){ const list=document.getElementById('spec-list'); list.innerHTML=''; if(!type){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">ì°¨ì¢ì ë¨¼ì  ì ííì¸ì</div>';return;} const specs=VEHICLE_SPECS[type].specs; if(specs.length===0){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">í´ë¹ ì°¨ì¢ì í¹ì±ì´ ììµëë¤</div>';return;} specs.forEach(spec=>{ const label=document.createElement('label'); label.className='dp-chk-label'; const chk=document.createElement('input'); chk.type='checkbox'; chk.value=spec; chk.checked=vm.checkedSpecs.has(spec); chk.onchange=()=>{ if(chk.checked) vm.checkedSpecs.add(spec); else vm.checkedSpecs.delete(spec); updateSpecLabel(); }; label.appendChild(chk); label.appendChild(document.createTextNode(spec)); list.appendChild(label); }); }
+function renderSpecList(type){ const list=document.getElementById('spec-list'); list.innerHTML=''; if(!type){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">차종을 먼저 선택하세요</div>';return;} const specs=VEHICLE_SPECS[type].specs; if(specs.length===0){list.innerHTML='<div style="padding:10px 14px;color:#aaa;font-size:13px">해당 차종은 특성이 없습니다</div>';return;} specs.forEach(spec=>{ const label=document.createElement('label'); label.className='dp-chk-label'; const chk=document.createElement('input'); chk.type='checkbox'; chk.value=spec; chk.checked=vm.checkedSpecs.has(spec); chk.onchange=()=>{ if(chk.checked) vm.checkedSpecs.add(spec); else vm.checkedSpecs.delete(spec); updateSpecLabel(); }; label.appendChild(chk); label.appendChild(document.createTextNode(spec)); list.appendChild(label); }); }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ì°¨ë ëª¨ë¬
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   차량 모달
+════════════════════════════════════ */
 function openVehicleModal(){
   vm.pendingList=[...appState.vehicles.map(v=>({...v}))];
   vm.checkedTons=new Set(); vm.checkedSpecs=new Set();
   const vtype=document.getElementById('v-type');
-  vtype.innerHTML='<option value="">ì í</option>';
+  vtype.innerHTML='<option value="">선택</option>';
   Object.keys(VEHICLE_SPECS).forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; vtype.appendChild(o); });
   renderTonList(''); renderSpecList(''); updateTonLabel(); updateSpecLabel(); updateVSelectBtn();
   renderVSelectedList();
@@ -726,16 +726,16 @@ function onVehicleTypeChange(){ vm.checkedTons=new Set(); vm.checkedSpecs=new Se
 function updateVSelectBtn(){ document.getElementById('v-select-btn').disabled=vm.checkedTons.size===0; }
 function vehicleDisplayName(type,ton,spec){ return spec?`${type} / ${ton} / ${spec}`:`${type} / ${ton}`; }
 function addToVehicleSelected(){ const type=document.getElementById('v-type').value; if(!type||vm.checkedTons.size===0) return; const specs=vm.checkedSpecs.size>0?[...vm.checkedSpecs]:[null]; vm.checkedTons.forEach(ton=>{ specs.forEach(spec=>{ const dn=vehicleDisplayName(type,ton,spec||''); if(!vm.pendingList.find(v=>v.displayName===dn)) vm.pendingList.push({displayName:dn,tmsCode:null}); }); }); vm.checkedTons=new Set(); vm.checkedSpecs=new Set(); renderTonList(type); renderSpecList(type); updateTonLabel(); updateSpecLabel(); updateVSelectBtn(); renderVSelectedList(); }
-function renderVSelectedList(){ const list=document.getElementById('v-selected-list'); const ce=document.getElementById('v-sel-count'); const total=vm.pendingList.length; ce.textContent=total>0?`${total}`:''; if(total===0){list.innerHTML='<div class="empty-state-right"><div class="empty-icon">ð</div>ì íë ì°¨ëì´ ììµëë¤.</div>';document.getElementById('v-sel-all-chk').checked=false;return;} list.innerHTML=''; vm.pendingList.forEach((item,i)=>{ const div=document.createElement('div'); div.className='selected-item'; const chk=document.createElement('input'); chk.type='checkbox'; chk.dataset.idx=i; const span=document.createElement('span'); span.className='item-label'; span.textContent=item.displayName; div.appendChild(chk); div.appendChild(span); list.appendChild(div); }); }
+function renderVSelectedList(){ const list=document.getElementById('v-selected-list'); const ce=document.getElementById('v-sel-count'); const total=vm.pendingList.length; ce.textContent=total>0?`${total}`:''; if(total===0){list.innerHTML='<div class="empty-state-right"><div class="empty-icon">🚛</div>선택된 차량이 없습니다.</div>';document.getElementById('v-sel-all-chk').checked=false;return;} list.innerHTML=''; vm.pendingList.forEach((item,i)=>{ const div=document.createElement('div'); div.className='selected-item'; const chk=document.createElement('input'); chk.type='checkbox'; chk.dataset.idx=i; const span=document.createElement('span'); span.className='item-label'; span.textContent=item.displayName; div.appendChild(chk); div.appendChild(span); list.appendChild(div); }); }
 function toggleSelAllVehicle(checked){ document.querySelectorAll('#v-selected-list input[type=checkbox]').forEach(c=>c.checked=checked); }
 function deleteCheckedVehicle(){ const chks=[...document.querySelectorAll('#v-selected-list input[type=checkbox]')]; const toDelete=new Set(chks.filter(c=>c.checked).map(c=>Number(c.dataset.idx))); vm.pendingList=vm.pendingList.filter((_,i)=>!toDelete.has(i)); renderVSelectedList(); }
 function confirmVehicle(){ appState.vehicles=vm.pendingList.map(v=>({...v})); Object.keys(appState.fareMap).forEach(k=>{ const vk=k.split('__')[1]; if(!appState.vehicles.find(v=>v.displayName===vk)) delete appState.fareMap[k]; }); renderVehicleTags(); renderGrid(); closeVehicleModal(); }
-function renderVehicleTags(){ const wrap=document.getElementById('vehicle-tags'); wrap.innerHTML=''; appState.vehicles.forEach(v=>{ const tag=document.createElement('span'); tag.className='tag'; tag.innerHTML=`${v.displayName} <span class="tag-rm" onclick="removeVehicle('${v.displayName.replace(/'/g,"\\'")}')">â</span>`; wrap.appendChild(tag); }); }
+function renderVehicleTags(){ const wrap=document.getElementById('vehicle-tags'); wrap.innerHTML=''; appState.vehicles.forEach(v=>{ const tag=document.createElement('span'); tag.className='tag'; tag.innerHTML=`${v.displayName} <span class="tag-rm" onclick="removeVehicle('${v.displayName.replace(/'/g,"\\'")}')">✕</span>`; wrap.appendChild(tag); }); }
 function removeVehicle(dn){ appState.vehicles=appState.vehicles.filter(v=>v.displayName!==dn); Object.keys(appState.fareMap).forEach(k=>{if(k.endsWith('__'+dn))delete appState.fareMap[k];}); renderVehicleTags(); renderGrid(); }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   íì°¨ì§ ëª¨ë¬
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   하차지 모달
+════════════════════════════════════ */
 function openDropoffModal(){ dm={tab:'sigungu',selectedSido:null,checkedSigungu:new Set(),pendingList:[...appState.dropoffs.map(d=>({...d}))]}; document.getElementById('dropoff-modal').classList.add('open'); setDropoffTab('sigungu'); renderDSelectedList(); }
 function closeDropoffModal(){ document.getElementById('dropoff-modal').classList.remove('open'); }
 function setDropoffTab(tab){ dm.tab=tab; dm.selectedSido=null; dm.checkedSigungu=new Set(); ['sido','sigungu','eupmyeong'].forEach(t=>{ document.getElementById('dtab-'+t).classList.toggle('active',t===tab); }); renderDLeft(); updateDSelectBtn(); }
@@ -743,37 +743,37 @@ function renderDLeft(){
   const sidoList=document.getElementById('d-sido-list'); const sigunguAll=document.getElementById('d-sigungu-all-row'); const sigunguList=document.getElementById('d-sigungu-list'); const breadcrumb=document.getElementById('d-breadcrumb');
   if(dm.tab==='sido'){
     breadcrumb.style.display='none'; sidoList.style.display='grid'; sigunguAll.style.display='none'; sigunguList.style.display='none'; sidoList.innerHTML='';
-    Object.keys(REGION).forEach(sido=>{ const isChk=dm.checkedSigungu.has(sido); const div=document.createElement('div'); div.className='sido-item'+(dm.selectedSido===sido?' active':''); div.innerHTML=`${sido} ${isChk?'<span class="check-icon">â</span>':''}`; div.onclick=()=>{ if(dm.checkedSigungu.has(sido)) dm.checkedSigungu.delete(sido); else dm.checkedSigungu.add(sido); renderDLeft(); updateDSelectBtn(); }; sidoList.appendChild(div); });
+    Object.keys(REGION).forEach(sido=>{ const isChk=dm.checkedSigungu.has(sido); const div=document.createElement('div'); div.className='sido-item'+(dm.selectedSido===sido?' active':''); div.innerHTML=`${sido} ${isChk?'<span class="check-icon">✓</span>':''}`; div.onclick=()=>{ if(dm.checkedSigungu.has(sido)) dm.checkedSigungu.delete(sido); else dm.checkedSigungu.add(sido); renderDLeft(); updateDSelectBtn(); }; sidoList.appendChild(div); });
   } else if(dm.tab==='sigungu'){
     if(!dm.selectedSido){
       breadcrumb.style.display='none'; sidoList.style.display='grid'; sigunguAll.style.display='none'; sigunguList.style.display='none'; sidoList.innerHTML='';
       Object.keys(REGION).forEach(sido=>{ const div=document.createElement('div'); div.className='sido-item'; div.textContent=sido; div.onclick=()=>{ dm.selectedSido=sido; dm.checkedSigungu=new Set(); renderDLeft(); updateDSelectBtn(); }; sidoList.appendChild(div); });
     } else {
-      breadcrumb.style.display='flex'; breadcrumb.innerHTML=`<span class="bc-link" onclick="dm.selectedSido=null;dm.checkedSigungu=new Set();renderDLeft();updateDSelectBtn()">${dm.selectedSido}</span><span style="color:#ccc"> âº </span><span>ì/êµ°/êµ¬</span>`;
+      breadcrumb.style.display='flex'; breadcrumb.innerHTML=`<span class="bc-link" onclick="dm.selectedSido=null;dm.checkedSigungu=new Set();renderDLeft();updateDSelectBtn()">${dm.selectedSido}</span><span style="color:#ccc"> › </span><span>시/군/구</span>`;
       sidoList.style.display='none'; sigunguAll.style.display='block'; sigunguList.style.display='grid';
       const sgs=REGION[dm.selectedSido]; document.getElementById('d-sigungu-all-chk').checked=sgs.every(s=>dm.checkedSigungu.has(s));
       sigunguList.innerHTML=''; sgs.forEach(sg=>{ const isChk=dm.checkedSigungu.has(sg); const label=document.createElement('label'); label.className='chk-label'+(isChk?' checked':''); const chk=document.createElement('input'); chk.type='checkbox'; chk.checked=isChk; chk.onchange=()=>{ if(chk.checked) dm.checkedSigungu.add(sg); else dm.checkedSigungu.delete(sg); renderDLeft(); updateDSelectBtn(); }; label.appendChild(chk); label.appendChild(document.createTextNode(sg)); sigunguList.appendChild(label); });
     }
   } else {
     breadcrumb.style.display='none'; sidoList.style.display='grid'; sigunguAll.style.display='none'; sigunguList.style.display='none';
-    sidoList.innerHTML='<div style="padding:20px;color:#aaa;font-size:13px;grid-column:1/-1">ì/ë©´/ë ë¨ì ë°ì´í°ë ì¤ë¹ ì¤ìëë¤.</div>';
+    sidoList.innerHTML='<div style="padding:20px;color:#aaa;font-size:13px;grid-column:1/-1">읍/면/동 단위 데이터는 준비 중입니다.</div>';
   }
 }
 function toggleAllSigungu(checked){ if(!dm.selectedSido) return; const sgs=REGION[dm.selectedSido]; if(checked) sgs.forEach(s=>dm.checkedSigungu.add(s)); else dm.checkedSigungu.clear(); renderDLeft(); updateDSelectBtn(); }
 function updateDSelectBtn(){ document.getElementById('d-select-btn').disabled=dm.checkedSigungu.size===0; }
 function addToDropoffSelected(){ if(dm.tab==='sido'){ dm.checkedSigungu.forEach(sido=>{ const display=fullRegionName(sido,null); if(!dm.pendingList.find(p=>p.display===display)) dm.pendingList.push({display}); }); } else if(dm.tab==='sigungu'&&dm.selectedSido){ dm.checkedSigungu.forEach(sg=>{ const display=fullRegionName(dm.selectedSido,sg); if(!dm.pendingList.find(p=>p.display===display)) dm.pendingList.push({display}); }); } dm.checkedSigungu=new Set(); renderDLeft(); renderDSelectedList(); updateDSelectBtn(); }
-function renderDSelectedList(){ const list=document.getElementById('d-selected-list'); const ce=document.getElementById('d-sel-count'); const total=dm.pendingList.length; ce.textContent=total>0?`${total}`:''; if(total===0){list.innerHTML='<div class="empty-state-right"><div class="empty-icon">ð</div>ì íë íì°¨ì§ê° ììµëë¤.</div>';document.getElementById('d-sel-all-chk').checked=false;return;} list.innerHTML=''; dm.pendingList.forEach((item,i)=>{ const div=document.createElement('div'); div.className='selected-item'; const chk=document.createElement('input'); chk.type='checkbox'; chk.dataset.idx=i; const span=document.createElement('span'); span.className='item-label'; span.textContent=item.display; div.appendChild(chk); div.appendChild(span); list.appendChild(div); }); }
+function renderDSelectedList(){ const list=document.getElementById('d-selected-list'); const ce=document.getElementById('d-sel-count'); const total=dm.pendingList.length; ce.textContent=total>0?`${total}`:''; if(total===0){list.innerHTML='<div class="empty-state-right"><div class="empty-icon">🔍</div>선택된 하차지가 없습니다.</div>';document.getElementById('d-sel-all-chk').checked=false;return;} list.innerHTML=''; dm.pendingList.forEach((item,i)=>{ const div=document.createElement('div'); div.className='selected-item'; const chk=document.createElement('input'); chk.type='checkbox'; chk.dataset.idx=i; const span=document.createElement('span'); span.className='item-label'; span.textContent=item.display; div.appendChild(chk); div.appendChild(span); list.appendChild(div); }); }
 function toggleSelAllDropoff(checked){ document.querySelectorAll('#d-selected-list input[type=checkbox]').forEach(c=>c.checked=checked); }
 function deleteCheckedDropoff(){ const chks=[...document.querySelectorAll('#d-selected-list input[type=checkbox]')]; const toDelete=new Set(chks.filter(c=>c.checked).map(c=>Number(c.dataset.idx))); dm.pendingList=dm.pendingList.filter((_,i)=>!toDelete.has(i)); renderDSelectedList(); }
 function confirmDropoff(){ appState.dropoffs=dm.pendingList.map(p=>({display:p.display})); Object.keys(appState.fareMap).forEach(k=>{ const dk=k.split('__')[0]; if(!appState.dropoffs.find(d=>d.display===dk)) delete appState.fareMap[k]; }); renderDropoffTags(); renderGrid(); closeDropoffModal(); }
-function renderDropoffTags(){ const wrap=document.getElementById('dropoff-tags'); wrap.innerHTML=''; appState.dropoffs.forEach(d=>{ const tag=document.createElement('span'); tag.className='tag'; tag.innerHTML=`${d.display} <span class="tag-rm" onclick="removeDropoff('${d.display.replace(/'/g,"\\'")}')">â</span>`; wrap.appendChild(tag); }); }
+function renderDropoffTags(){ const wrap=document.getElementById('dropoff-tags'); wrap.innerHTML=''; appState.dropoffs.forEach(d=>{ const tag=document.createElement('span'); tag.className='tag'; tag.innerHTML=`${d.display} <span class="tag-rm" onclick="removeDropoff('${d.display.replace(/'/g,"\\'")}')">✕</span>`; wrap.appendChild(tag); }); }
 function removeDropoff(display){ appState.dropoffs=appState.dropoffs.filter(d=>d.display!==display); Object.keys(appState.fareMap).forEach(k=>{if(k.startsWith(display+'__'))delete appState.fareMap[k];}); renderDropoffTags(); renderGrid(); }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ì´ì ê·¸ë¦¬ë (ì´: ìì°¨ì§ì­ 1ì´, íì°¨ì§ì­ 2ì´)
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   운임 그리드 (열: 상차지역 1열, 하차지역 2열)
+════════════════════════════════════ */
 function fareKey(d,v){ return `${d}__${v}`; }
-/* TMS ì½ë ê¸°ì¤ ì¤ë¦ì°¨ì ì ë ¬ë ì°¨ë ë°°ì´ ë°í */
+/* TMS 코드 기준 오름차순 정렬된 차량 배열 반환 */
 function sortedVehicles(){
   return [...appState.vehicles].sort((a, b) => {
     const codeA = tmsCodeMap[displayNameToUnit(a.displayName)] ?? 99999;
@@ -784,13 +784,13 @@ function sortedVehicles(){
 
 function renderGrid(){
   const area=document.getElementById('grid-area');
-  if(!appState.pickup||appState.dropoffs.length===0||appState.vehicles.length===0){ area.innerHTML='<div class="empty-grid">ìì°¨ì§ Â· íì°¨ì§ Â· ì°¨ëì ì ííë©´ ì´ìíê° ìì±ë©ëë¤.</div>'; return; }
+  if(!appState.pickup||appState.dropoffs.length===0||appState.vehicles.length===0){ area.innerHTML='<div class="empty-grid">상차지 · 하차지 · 차량을 선택하면 운임표가 생성됩니다.</div>'; return; }
   const vehicles = sortedVehicles();
   let html='<div class="table-wrap"><table class="fare-table"><thead><tr>';
-  html+='<th class="left">ìì°¨ì§ì­</th><th class="left">íì°¨ì§ì­</th>';
+  html+='<th class="left">상차지역</th><th class="left">하차지역</th>';
   vehicles.forEach(v=>{
     const lomas = getLomasHeader(v.displayName);
-    // ì: "1í¤ ì¹´ê³ [196]" â "1í¤ ì¹´ê³ <br>[196]"
+    // 예: "1톤 카고[196]" → "1톤 카고<br>[196]"
     const thLabel = lomas ? lomas.replace(/(\[)/, '<br>[$1'.slice(0,5)) : v.displayName;
     const thLabelFinal = lomas ? lomas.replace(/\[(\d+)\]/, '<br>[$1]') : v.displayName;
     html+=`<th>${thLabelFinal}</th>`;
@@ -806,18 +806,18 @@ function renderGrid(){
 }
 function onFareChange(input){ const key=input.dataset.key; const val=input.value.trim(); if(val==='') delete appState.fareMap[key]; else appState.fareMap[key]=Number(val); }
 
-/* ââââââââââââââââââââââââââââââââââââ
-   ìì ë¤ì´ë¡ë (1ì´:ìì°¨ì§ì­, 2ì´:íì°¨ì§ì­)
-ââââââââââââââââââââââââââââââââââââ */
+/* ════════════════════════════════════
+   엑셀 다운로드 (1열:상차지역, 2열:하차지역)
+════════════════════════════════════ */
 function downloadExcel(){
-  if(!appState.pickup){alert('ìì°¨ì§ë¥¼ ì ííì¸ì.');return;}
-  if(!appState.dropoffs.length){alert('íì°¨ì§ë¥¼ ì¶ê°íì¸ì.');return;}
-  if(!appState.vehicles.length){alert('ì°¨ëì ì¶ê°íì¸ì.');return;}
-  const header=['ìì°¨ì§ì­','íì°¨ì§ì­'];
+  if(!appState.pickup){alert('상차지를 선택하세요.');return;}
+  if(!appState.dropoffs.length){alert('하차지를 추가하세요.');return;}
+  if(!appState.vehicles.length){alert('차량을 추가하세요.');return;}
+  const header=['상차지역','하차지역'];
   const vehicles = sortedVehicles();
   vehicles.forEach(v=>{
     const lomas = getLomasHeader(v.displayName);
-    // ì: "1í¤ ì¹´ê³ [196]" â "1í¤ ì¹´ê³ \n[196]"
+    // 예: "1톤 카고[196]" → "1톤 카고\n[196]"
     const excelHeader = lomas ? lomas.replace(/\[(\d+)\]/, '\n[$1]') : v.displayName;
     header.push(excelHeader);
   });
@@ -829,23 +829,23 @@ function downloadExcel(){
   });
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws['!cols']=[{wch:18},{wch:18},...vehicles.map(()=>({wch:24}))];
-  // í¤ë í ì¤ë°ê¿(wrap text) ì ì©
-  ws['!rows'] = [{hpt:30}]; // í¤ë í ëì´
+  // 헤더 행 줄바꿈(wrap text) 적용
+  ws['!rows'] = [{hpt:30}]; // 헤더 행 높이
   const headerLen = 2 + vehicles.length;
   for(let c=2; c<headerLen; c++){
     const cellAddr = XLSX.utils.encode_cell({r:0, c});
     if(ws[cellAddr]) ws[cellAddr].s = { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' } };
   }
-  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'ì´ìë¨ê°');
+  const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,'운임단가');
   const wbout=XLSX.write(wb,{bookType:'xlsx',type:'array'});
   const blob=new Blob([wbout],{type:'application/octet-stream'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url;
-  a.download=`ê³ì½ì´ìí_${appState.pickup.display.replace(/\s/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`;
+  a.download=`계약운임표_${appState.pickup.display.replace(/\s/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
-/* ëª¨ë¬ ì¸ë¶ í´ë¦­ ë«ê¸° */
+/* 모달 외부 클릭 닫기 */
 document.getElementById('dropoff-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDropoffModal();});
 document.getElementById('vehicle-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeVehicleModal();});
 </script>
