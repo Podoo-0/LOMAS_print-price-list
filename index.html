@@ -198,6 +198,10 @@ input.form-input:focus { border-color: #025F68; }
     <button class="nav-tab active" id="nav-fare" onclick="switchPage('fare')">계약운임표 생성</button>
     <button class="nav-tab" id="nav-code" onclick="switchPage('code')">차량 코드 맵핑</button>
   </nav>
+  <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+    <span id="update-status" style="font-size:11px;color:rgba(255,255,255,0.65);"></span>
+    <button onclick="updateFromSheets()" id="btn-update" style="background:#2ecc71;color:#fff;border:none;padding:5px 13px;border-radius:4px;cursor:pointer;font-size:12px;font-family:inherit;font-weight:500;">🔄 차량 업데이트</button>
+  </div>
 </header>
 
 <!-- ════════════════════════════════════
@@ -848,6 +852,59 @@ function downloadExcel(){
 /* 모달 외부 클릭 닫기 */
 document.getElementById('dropoff-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDropoffModal();});
 document.getElementById('vehicle-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeVehicleModal();});
+
+/* ════════════════════════════════════
+   Google Sheets 차량 업데이트
+════════════════════════════════════ */
+const SHEETS_ID = '1nn1FLy57tBRcjYWZUII5XgBZ0vPHF3yk-5pOCVaQCEI';
+
+async function updateFromSheets() {
+  const btn = document.getElementById('btn-update');
+  const status = document.getElementById('update-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ 로딩 중...';
+  status.textContent = '';
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:json`;
+    const res = await fetch(url);
+    const text = await res.text();
+    const match = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);?\s*$/);
+    if (!match) throw new Error('응답 파싱 실패');
+    const data = JSON.parse(match[1]);
+    const rows = data.table.rows;
+    const TYPE_MAP = {DAMAS:'다마스',LABO:'라보',CARGO_WING:'카고/윙',CARGO:'카고',WING:'윙바디',TOP:'탑',BANGTONG:'방통차',TRAILER:'트레일러'};
+    const TON_MAP = {T0_3:'0.3톤',T0_5:'0.5톤',T1_0:'1톤',T1_4:'1.4톤',T2_5:'2.5톤',T3_5:'3.5톤',T5_0:'5톤',T5_0P:'5톤플러스',T5_0S:'5톤축',T8_0:'8톤',T9_5:'9.5톤',T11_0:'11톤',T14_0:'14톤',T18_0:'18톤',T22_0:'22톤',T25_0:'25톤',T20FT:'20ft',T40FT:'40ft'};
+    const TEMP_MAP = {AMBIENT:'상온',COLD:'냉장',FROZEN:'냉동(냉장포함)',LIFT:'리프트'};
+    let updated = 0;
+    rows.forEach(row => {
+      const cl = row.c;
+      const unitName = cl[1]?.v ?? '';
+      const vTypeRaw = cl[2]?.v ?? '';
+      const tonRaw   = cl[3]?.v ?? '';
+      const tempRaw  = cl[4]?.v ?? '';
+      const tmsCode  = cl[7]?.v ?? '';
+      if (!unitName || !tmsCode) return;
+      tmsCodeMap[unitName] = Number(tmsCode);
+      const vType = TYPE_MAP[vTypeRaw] || vTypeRaw;
+      const ton   = TON_MAP[tonRaw]   || tonRaw;
+      const temp  = TEMP_MAP[tempRaw] || tempRaw;
+      const label = (temp && temp !== '상온') ? `${ton} ${vType} ${temp}[${tmsCode}]` : `${ton} ${vType}[${tmsCode}]`;
+      LOMAS_MAP[unitName] = label;
+      updated++;
+    });
+    const now = new Date().toLocaleString('ko-KR');
+    status.textContent = `✅ ${updated}건 (${now})`;
+    renderGrid();
+    renderMappingTable();
+  } catch(e) {
+    status.textContent = '❌ 실패: ' + e.message;
+    alert('차량 데이터 로드 실패: ' + e.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔄 차량 업데이트';
+  }
+}
+
 </script>
 </body>
 </html>
