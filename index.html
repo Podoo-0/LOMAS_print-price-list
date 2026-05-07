@@ -308,6 +308,7 @@ input.form-input:focus { border-color: #025F68; }
             <th style="width:80px">톤수</th>
             <th style="width:100px">특성</th>
             <th style="width:100px" class="center">TMS 코드</th>
+            <th style="min-width:120px">설명</th>
           </tr>
         </thead>
         <tbody id="mapping-tbody"></tbody>
@@ -518,7 +519,7 @@ function renderMappingTable(){
   const tbody = document.getElementById('mapping-tbody');
   tbody.innerHTML = '';
   if(filtered.length===0){
-    tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:30px;color:#aaa">조건에 맞는 항목이 없습니다.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:30px;color:#aaa">조건에 맞는 항목이 없습니다.</td></tr>';
     return;
   }
   filtered.forEach((u, idx)=>{
@@ -538,7 +539,8 @@ function renderMappingTable(){
           data-unit="${u.unit}"
           onchange="onCodeChange(this)"
           oninput="onCodeInput(this)">
-      </td>`;
+      </td>
+      <td style="color:#888;font-size:12px">${descriptionMap[u.unit]||''}</td>`;
     tbody.appendChild(tr);
   });
 }
@@ -863,6 +865,7 @@ async function updateFromSheets() {
   const btn = document.getElementById('btn-update');
   const status = document.getElementById('update-status');
   btn.disabled = true;
+  descriptionMap = {};
   btn.textContent = '⏳ 로딩 중...';
   status.textContent = '';
   try {
@@ -884,8 +887,10 @@ async function updateFromSheets() {
       const tonRaw   = cl[3]?.v ?? '';
       const tempRaw  = cl[4]?.v ?? '';
       const tmsCode  = cl[7]?.v ?? '';
+      const desc     = cl[5]?.v ?? '';
       if (!unitName || !tmsCode) return;
       tmsCodeMap[unitName] = Number(tmsCode);
+      if (desc) descriptionMap[unitName] = desc;
       const vType = TYPE_MAP[vTypeRaw] || vTypeRaw;
       const ton   = TON_MAP[tonRaw]   || tonRaw;
       const temp  = TEMP_MAP[tempRaw] || tempRaw;
