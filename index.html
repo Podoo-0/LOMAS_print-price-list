@@ -934,8 +934,6 @@ async function updateFromSheets() {
       if (!unitName || !tmsCode) return;
       tmsCodeMap[unitName] = Number(tmsCode);
       if (desc) descriptionMap[unitName] = desc;
-let descriptionMap = {};
-let exceptionList = [];
       const isException = cl[8]?.v === '예외';
       if (isException) exceptionList.push({ unit: unitName, tmsCode: Number(tmsCode), desc: desc });
       const vType = TYPE_MAP[vTypeRaw] || vTypeRaw;
