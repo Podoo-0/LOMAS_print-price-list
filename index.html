@@ -660,7 +660,10 @@ function displayNameToUnit(displayName) {
 /* displayName → LOMAS 코드명 조회 */
 function getLomasHeader(displayName) {
   const unitName = displayNameToUnit(displayName);
-  return LOMAS_MAP[unitName] || null;
+  if (LOMAS_MAP[unitName]) return LOMAS_MAP[unitName];
+  const code = tmsCodeMap[unitName] || tmsCodeMap[displayName];
+  if (code) return `${displayName} [${code}]`;
+  return null;
 }
 
 function unitToDisplayName(u){
