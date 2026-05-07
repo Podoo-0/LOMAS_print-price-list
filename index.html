@@ -372,7 +372,7 @@ input.form-input:focus { border-color: #025F68; }
 
 <!-- ══ 차량 모달 ══ -->
 <div class="modal-overlay" id="vehicle-modal">
-  <div class="modal-box" style="height:540px">
+  <div class="modal-box" style="height:600px">
     <div class="modal-head"><h2>차량 추가</h2><button class="modal-close-btn" onclick="closeVehicleModal()">✕</button></div>
     <div class="modal-body">
       <div class="modal-left" style="overflow:visible;position:relative">
@@ -403,13 +403,13 @@ input.form-input:focus { border-color: #025F68; }
               <div class="dropdown-panel" id="spec-panel"><div id="spec-list"></div></div>
             </div>
           </div>
-        </div>
-        <div id="exception-section" style="margin-top:12px;display:none">
+          <div id="exception-section" style="margin-top:12px;display:none">
             <div class="vf-label" style="margin-bottom:6px">예외 차량</div>
             <div id="exception-list" style="max-height:120px;overflow-y:auto;border:1px solid #ddd;border-radius:4px;padding:6px 8px;background:#fafafa;font-size:12px"></div>
             <div style="margin-top:6px"><button class="btn-select" id="exc-select-btn" onclick="addExceptionVehicles()" disabled>예외 차량 선택하기</button></div>
           </div>
-          <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
+        </div>
+        <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
       </div>
       <div class="modal-right">
         <div class="modal-section-title">선택된 차량</div>
