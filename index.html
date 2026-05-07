@@ -896,6 +896,10 @@ async function updateFromSheets() {
       const temp  = TEMP_MAP[tempRaw] || tempRaw;
       const label = (temp && temp !== '상온') ? `${ton} ${vType} ${temp}[${tmsCode}]` : `${ton} ${vType}[${tmsCode}]`;
       LOMAS_MAP[unitName] = label;
+      // 기존 TMS_UNITS에 없는 항목은 추가
+      if (!TMS_UNITS.find(u => u.unit === unitName)) {
+        TMS_UNITS.push({ unit: unitName, type: vType, ton: ton, spec: temp || '상온' });
+      }
       updated++;
     });
     const now = new Date().toLocaleString('ko-KR');
