@@ -662,7 +662,7 @@ function getLomasHeader(displayName) {
   const unitName = displayNameToUnit(displayName);
   if (LOMAS_MAP[unitName]) return LOMAS_MAP[unitName];
   const code = tmsCodeMap[unitName] || tmsCodeMap[displayName];
-  if (code) return `${displayName} [${code}]`;
+  if (code) return `${displayName}\n[${code}]`;
   return null;
 }
 
