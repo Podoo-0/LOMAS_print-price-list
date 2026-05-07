@@ -923,6 +923,7 @@ async function updateFromSheets() {
   btn.disabled = true;
   descriptionMap = {};
   exceptionList = [];
+  TMS_UNITS.splice(0);
   btn.textContent = '⏳ 로딩 중...';
   status.textContent = '';
   try {
