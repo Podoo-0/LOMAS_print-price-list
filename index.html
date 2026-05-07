@@ -404,7 +404,12 @@ input.form-input:focus { border-color: #025F68; }
             </div>
           </div>
         </div>
-        <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
+        <div id="exception-section" style="margin-top:12px;display:none">
+            <div class="vf-label" style="margin-bottom:6px">예외 차량</div>
+            <div id="exception-list" style="max-height:120px;overflow-y:auto;border:1px solid #ddd;border-radius:4px;padding:6px 8px;background:#fafafa;font-size:12px"></div>
+            <div style="margin-top:6px"><button class="btn-select" id="exc-select-btn" onclick="addExceptionVehicles()" disabled>예외 차량 선택하기</button></div>
+          </div>
+          <div class="select-btn-area"><button class="btn-select" id="v-select-btn" onclick="addToVehicleSelected()" disabled>선택하기</button></div>
       </div>
       <div class="modal-right">
         <div class="modal-section-title">선택된 차량</div>
@@ -726,7 +731,42 @@ function openVehicleModal(){
   Object.keys(VEHICLE_SPECS).forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; vtype.appendChild(o); });
   renderTonList(''); renderSpecList(''); updateTonLabel(); updateSpecLabel(); updateVSelectBtn();
   renderVSelectedList();
-  document.getElementById('vehicle-modal').classList.add('open');
+  // 예외 차량 섹션 렌더링
+  renderExceptionSection();
+    document.getElementById('vehicle-modal').classList.add('open');
+}
+function renderExceptionSection(){
+  const sec = document.getElementById('exception-section');
+  const list = document.getElementById('exception-list');
+  const btn = document.getElementById('exc-select-btn');
+  if(!exceptionList || exceptionList.length===0){ sec.style.display='none'; return; }
+  sec.style.display='';
+  list.innerHTML = exceptionList.map((ex,i)=>
+    `<label style="display:flex;align-items:center;gap:6px;padding:2px 0;cursor:pointer">
+      <input type="checkbox" class="exc-chk" data-idx="${i}" onchange="onExcChkChange()">
+      <span>${ex.unit}</span><span style="color:#aaa;margin-left:4px">[${ex.tmsCode}]</span>
+      ${ex.desc?'<span style="color:#888;font-size:11px;margin-left:4px">'+ex.desc+'</span>':''}
+    </label>`
+  ).join('');
+  btn.disabled = true;
+}
+function onExcChkChange(){
+  const any = document.querySelectorAll('.exc-chk:checked').length > 0;
+  document.getElementById('exc-select-btn').disabled = !any;
+}
+function addExceptionVehicles(){
+  document.querySelectorAll('.exc-chk:checked').forEach(chk=>{
+    const ex = exceptionList[Number(chk.dataset.idx)];
+    if(!ex) return;
+    const dn = ex.unit;
+    if(!vm.pendingList.find(v=>v.displayName===dn))
+      vm.pendingList.push({ displayName: dn, tmsCode: ex.tmsCode });
+  });
+  // 체크 해제
+  document.querySelectorAll('.exc-chk').forEach(c=>c.checked=false);
+  document.getElementById('exc-select-btn').disabled = true;
+  renderVSelectedList();
+  updateVSelectBtn();
 }
 function closeVehicleModal(){ if(openDropdownId) closeDropdown(openDropdownId); document.getElementById('vehicle-modal').classList.remove('open'); }
 function onVehicleTypeChange(){ vm.checkedTons=new Set(); vm.checkedSpecs=new Set(); const type=document.getElementById('v-type').value; renderTonList(type); renderSpecList(type); updateTonLabel(); updateSpecLabel(); updateVSelectBtn(); }
@@ -866,6 +906,7 @@ async function updateFromSheets() {
   const status = document.getElementById('update-status');
   btn.disabled = true;
   descriptionMap = {};
+  exceptionList = [];
   btn.textContent = '⏳ 로딩 중...';
   status.textContent = '';
   try {
@@ -891,6 +932,10 @@ async function updateFromSheets() {
       if (!unitName || !tmsCode) return;
       tmsCodeMap[unitName] = Number(tmsCode);
       if (desc) descriptionMap[unitName] = desc;
+let descriptionMap = {};
+let exceptionList = [];
+      const isException = cl[8]?.v === '예외';
+      if (isException) exceptionList.push({ unit: unitName, tmsCode: Number(tmsCode), desc: desc });
       const vType = TYPE_MAP[vTypeRaw] || vTypeRaw;
       const ton   = TON_MAP[tonRaw]   || tonRaw;
       const temp  = TEMP_MAP[tempRaw] || tempRaw;
@@ -915,6 +960,12 @@ async function updateFromSheets() {
   }
 }
 
+</script>
+<button id="scroll-top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="맨 위로" style="display:none;position:fixed;bottom:24px;right:24px;z-index:9999;width:40px;height:40px;border-radius:50%;background:#025F68;color:#fff;border:none;font-size:18px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.2);line-height:1">↑</button>
+<script>
+window.addEventListener('scroll',function(){
+  document.getElementById('scroll-top-btn').style.display = window.scrollY>200?'':'none';
+});
 </script>
 </body>
 </html>
