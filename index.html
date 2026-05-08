@@ -206,57 +206,124 @@ input.form-input:focus { border-color: #025F68; }
 </header>
 
 <!-- ════════════════════════════════════
+
      PAGE 1: 계약운임표 생성
+
 ════════════════════════════════════ -->
+
 <div class="page active" id="page-fare">
+
 <div class="container">
+
   <div class="top-row">
+
     <!-- 상차지 -->
+
     <div class="card" style="flex:0 0 auto; min-width:240px">
+
       <div class="card-title">상차지 <button class="btn-reset" onclick="resetPickup()" title="초기화">↺ 초기화</button></div>
+
       <div class="form-row">
+
         <label class="form-label">시/도</label>
+
         <select class="form-select" id="pickup-sido" style="width:115px" onchange="onPickupSido()"><option value="">선택</option></select>
+
       </div>
+
       <div class="form-row">
+
         <label class="form-label">시/군/구</label>
+
         <select class="form-select" id="pickup-sigungu" style="width:130px" onchange="onPickupSigungu()"><option value="">선택</option></select>
+
       </div>
+
       <div id="pickup-result" style="display:none; margin-top:6px">
+
         <span style="display:inline-flex;align-items:center;gap:6px;background:#e0f0f1;border:1px solid #80bec3;border-radius:4px;padding:4px 10px;font-size:13px;color:#025F68;font-weight:500">
+
           <span id="pickup-text"></span>
+
         </span>
+
       </div>
+
     </div>
+
     <!-- 하차지 -->
+
     <div class="card" style="flex:1; min-width:260px">
+
       <div class="card-title">하차지 <button class="btn-reset" onclick="resetDropoff()" title="초기화">↺ 초기화</button></div>
+
       <div class="form-row">
+
         <button class="btn btn-primary" onclick="openDropoffModal()">+ 하차지 추가</button>
+
       </div>
+
       <div id="dropoff-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
+
     </div>
+
     <!-- 차량 -->
+
     <div class="card" style="flex:1; min-width:260px">
+
       <div class="card-title">차량</div>
+
       <div class="form-row">
+
         <button class="btn btn-primary" onclick="openVehicleModal()">+ 차량 추가</button>
+
       </div>
+
       <div id="vehicle-tags" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px"></div>
+
     </div>
+
   </div>
 
   <!-- 운임표 -->
+
   <div class="card">
+
     <div class="card-title">
+
       운임표
-      <button class="btn btn-success btn-sm" onclick="downloadExcel()">↓ 엑셀 다운로드</button>
+
+      <button class="btn btn-success btn-sm" onclick="openFilenameModal()">↓ 엑셀 다운로드</button>
+
     </div>
+
     <div id="grid-area">
+
       <div class="empty-grid">상차지 · 하차지 · 차량을 선택하면 운임표가 생성됩니다.</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<!-- ════════════════════════════════════
+     파일명 입력 모달
+════════════════════════════════════ -->
+<div id="filenameModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); z-index:9999; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:10px; padding:28px 24px; width:440px; box-shadow:0 4px 24px rgba(0,0,0,0.15);">
+    <div style="font-size:16px; font-weight:600; margin-bottom:16px;">📥 엑셀 파일 다운로드</div>
+    <label style="font-size:13px; color:#555; display:block; margin-bottom:6px;">파일명</label>
+    <input id="filenameInput" type="text"
+      style="width:100%; box-sizing:border-box; padding:8px 10px; border:1px solid #ccc; border-radius:6px; font-size:14px; margin-bottom:16px;"
+      onkeydown="if(event.key==='Enter') confirmDownload()"/>
+    <div style="display:flex; justify-content:flex-end; gap:8px;">
+      <button onclick="closeFilenameModal()" style="padding:8px 18px; border:1px solid #ccc; background:#fff; border-radius:6px; cursor:pointer; font-size:14px;">취소</button>
+      <button onclick="confirmDownload()" style="padding:8px 18px; background:#1a73e8; color:#fff; border:none; border-radius:6px; cursor:pointer; font-size:14px;">다운로드</button>
     </div>
   </div>
-</div>
 </div>
 
 <!-- ════════════════════════════════════
@@ -872,7 +939,31 @@ function onFareChange(input){ const key=input.dataset.key; const val=input.value
 /* ════════════════════════════════════
    엑셀 다운로드 (1열:상차지역, 2열:하차지역)
 ════════════════════════════════════ */
-function downloadExcel(){
+function openFilenameModal() {
+  const today = new Date();
+  const yy = String(today.getFullYear()).slice(2);
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dateStr = `${yy}${mm}${dd}`;
+
+  const originText = appState.pickup ? appState.pickup.display : '상차지미정';
+  const defaultName = `프로젝트명_00년_${originText}상차_${dateStr}`;
+
+  document.getElementById('filenameInput').value = defaultName;
+  document.getElementById('filenameModal').style.display = 'flex';
+  setTimeout(() => document.getElementById('filenameInput').select(), 50);
+}
+
+function closeFilenameModal() {
+  document.getElementById('filenameModal').style.display = 'none';
+}
+
+function confirmDownload() {
+  const filename = document.getElementById('filenameInput').value.trim() || '운임표';
+  closeFilenameModal();
+  downloadExcel(filename);
+}
+function downloadExcel(filename = '운임표'){
   if(!appState.pickup){alert('상차지를 선택하세요.');return;}
   if(!appState.dropoffs.length){alert('하차지를 추가하세요.');return;}
   if(!appState.vehicles.length){alert('차량을 추가하세요.');return;}
@@ -904,7 +995,7 @@ function downloadExcel(){
   const blob=new Blob([wbout],{type:'application/octet-stream'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url;
-  a.download=`계약운임표_${appState.pickup.display.replace(/\s/g,'_')}_${new Date().toISOString().slice(0,10)}.xlsx`;
+  a.download=`${filename}.xlsx`;
   document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);
 }
 
